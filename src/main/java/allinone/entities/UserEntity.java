@@ -1,6 +1,9 @@
 package allinone.entities;
 
+import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,13 +12,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.GrantedAuthority;
 
 
 @Entity
@@ -50,7 +54,12 @@ public class UserEntity {
 	@ManyToOne
 	private UserEntity modifiedBy;
 	
-	
+
+    @Column(name = "lastLoginDate", nullable = true)
+    private ZonedDateTime lastLoginDate;
+    
+    @Transient
+    private Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 	
 	
 	@Override
@@ -120,6 +129,9 @@ public class UserEntity {
         return serialVersionUID;
     }
 
+    public void setLastLoginDate(ZonedDateTime lastLoginDate) {
+        this.lastLoginDate = lastLoginDate;
+    }
 	
 	
 }

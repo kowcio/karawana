@@ -1,8 +1,11 @@
 package allinone.service;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
+
 import static org.fest.assertions.Assertions.assertThat;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +56,7 @@ public class UserService implements UserDetailsService {
         
         user.ifPresent(u -> {
             u.setLastLoginDate(ZonedDateTime.now());
-            userRepository.save(u);
+            repo.save(u);
         });
     }
 }
