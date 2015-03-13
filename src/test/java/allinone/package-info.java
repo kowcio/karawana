@@ -3,4 +3,4 @@
  *
  * @author pkowalski
  */
-package allinone.tests;
+package allinone;

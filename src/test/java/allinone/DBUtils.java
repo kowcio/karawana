@@ -1,7 +1,4 @@
-/*
- * 
- */
-package rlhd.hd.base;
+package allinone;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

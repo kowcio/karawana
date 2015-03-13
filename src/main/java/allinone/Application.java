@@ -1,8 +1,15 @@
-import org.apache.log4j.spi.LoggerFactory;
-import org.hsqldb.Server;
+package allinone;
+
+import org.h2.tools.Server;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -11,7 +18,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 
 @Configuration
-@ComponentScan("skele")
+@ComponentScan("allinone")
 @EnableAutoConfiguration
 @EnableWebSecurity
 @EnableTransactionManagement
@@ -40,7 +47,7 @@ public class Application extends WebMvcConfigurerAdapter {
 
 	@Bean
 	org.h2.tools.Server h2Server() {
-		Server server = new Server();
+	    org.h2.tools.Server server = new Server();
 		try {
 			server.runTool("-tcp");
 			server.runTool("-tcpAllowOthers");

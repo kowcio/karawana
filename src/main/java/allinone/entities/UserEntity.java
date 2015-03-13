@@ -1,4 +1,4 @@
-package skele.entities;
+package allinone.entities;
 
 import java.util.Date;
 
@@ -20,7 +20,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="user")
-public class User {
+public class UserEntity {
 
 	private static final long serialVersionUID = 1L;
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -48,7 +48,7 @@ public class User {
 	
 	@LastModifiedBy
 	@ManyToOne
-	private User modifiedBy;
+	private UserEntity modifiedBy;
 	
 	
 	
@@ -108,11 +108,11 @@ public class User {
         this.modifiedDate = modifiedDate;
     }
 
-    public User getModifiedBy() {
+    public UserEntity getModifiedBy() {
         return modifiedBy;
     }
 
-    public void setModifiedBy(User modifiedBy) {
+    public void setModifiedBy(UserEntity modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 

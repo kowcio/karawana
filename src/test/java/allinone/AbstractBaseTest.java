@@ -1,7 +1,7 @@
 /*
  * 
  */
-package rlhd.hd.base;
+package allinone;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.*;
@@ -37,7 +37,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 
-import rlhd.b2b.pages.B2BDashboardPage;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
@@ -92,7 +91,7 @@ public abstract class AbstractBaseTest {
     public static final String       TEST_DEPARTMENT_NAME        = "Bardzo Dobra Placówka I";
     
     // FOR ALL
-    public static final String       PASSWORD                    = "!@#qweasd";
+    public static final String       PASSWORD                    = "TODO";
     public static final int          CODE_FAIL                   = 400;
     public static final int          CODE_SUCCESS                = 200;
     public static final List<String> CITIES                      = Arrays.asList("Sopot", "Gdynia", "Warszawa",
@@ -235,38 +234,7 @@ public abstract class AbstractBaseTest {
         log.info("Logged in as " + user.toString());
     }
     
-    /**
-     * 
-     * @param user
-     * @param args
-     */
-    public B2BDashboardPage loginB2BWith(String user, String... args) {
-        
-        if (user.equals("admin")) {
-            open(URL_B2B_TEST + "/admin/");
-            $(By.id("id_username")).sendKeys(user);
-            $(By.id("id_password")).sendKeys("test");
-            clickSubmitByTypeEqSubmit();
-            
-        } else if (user.equals("bardzodobrafirma")) {
-            open(URL_B2B_TEST + "/konto/zaloguj/");
-            $(By.id("id_username")).sendKeys(user);
-            $(By.id("id_password")).sendKeys("test");
-            clickSubmitByTypeEqSubmit();
-            assertThat($(".page-header").text().toString().contains("Dashboard"));
-            
-        } else {
-            open(URL_B2B_TEST + "/konto/zaloguj/");
-            $(By.id("id_username")).sendKeys(user);
-            $(By.id("id_password")).sendKeys(PASSWORD);
-            clickSubmitByTypeEqSubmit();
-            assertThat($(".page-header").text().toString().contains("Dashboard"));
-            
-        }
-        log.info("Logged in as " + user.toString());
-        return new B2BDashboardPage();
-    }
-    
+   
     public void clickSubmitBtnByTypeEqSubmit() {
         $(By.xpath(".//button[@type='submit']")).shouldBe(visible).click();
     }

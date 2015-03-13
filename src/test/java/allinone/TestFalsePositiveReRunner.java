@@ -1,7 +1,7 @@
 /*
  * 
  */
-package rlhd.hd.base;
+package allinone;
 
 import org.apache.log4j.Logger;
 import org.testng.IRetryAnalyzer;

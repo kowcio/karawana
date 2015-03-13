@@ -1,20 +1,13 @@
 /*
  * 
  */
-package rlhd.test;
+package allinone.tests;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.by;
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.sleep;
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Paths;
 import java.util.Random;
 
 import org.openqa.selenium.By;
@@ -26,14 +19,11 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
-import rlhd.hd.base.AbstractBaseTest;
-import rlhd.hd.base.BrowserEnum;
-import rlhd.hd.base.GeneratorPeselDowod;
-import rlhd.hd.base.TestFalsePositiveReRunner;
-import rlhd.hd.pages.other.GmailPage;
-import rlhd.rl.pages.front.RLMainPage;
-import rlhd.rl.pages.front.RLProfileDoctorPage;
-import rlhd.rl.pages.front.RLSearchPage;
+import allinone.AbstractBaseTest;
+import allinone.BrowserEnum;
+import allinone.GeneratorPeselDowod;
+import allinone.TestFalsePositiveReRunner;
+import allinone.pages.RLMainPage;
 
 /**
  * Testy weryfkujące poprawnośc działania strony głównej / frontu.
@@ -71,67 +61,7 @@ public class RLMainPageTest extends AbstractBaseTest {
         
     }
     
-    /**
-     * Sprawdzenie wyników wyszukiwania dla losowego miasta (czy wyszukane
-     * obiekty zawierają odpowiednie miasto).
-     */
-    @Test(invocationCount = INVOCATION_COUNT, retryAnalyzer = TestFalsePositiveReRunner.class, enabled = false)
-    public void checkSearchPageForDoctorAndDepartment() {
-        
-        RLMainPage mainPage = new RLMainPage(URL_TEST_RL);
-        closePopover();
-        String city = getRandomCity();
-        RLSearchPage sp = mainPage.searchDoctor(city);
-        log.info("Search doc page. {}", city);
-        sp.isSearchResultPresent(city);
-        testLinksOnCurrentPage();
-        sp.clickDepartmentSearchTab();
-        sp.isSearchResultPresent(city);
-        testLinksOnCurrentPage();
-        
-    }
-    
-    /**
-     * Test wyświetlania się reklam.
-     */
-    @Test(invocationCount = INVOCATION_COUNT, retryAnalyzer = TestFalsePositiveReRunner.class, enabled = true)
-    public void checkAdsOnSearchAndProfiles() {
-        
-        RLSearchPage sp = new RLSearchPage(URL_TEST_RL + "/lekarze/warszawa");
-        closePopover();
-        sp.isAdPresent();
-        
-        RLProfileDoctorPage pp = new RLProfileDoctorPage(getRandomNormalDepartmentUrl());
-        pp.isAdPresent();
-        
-    }
-    
-    /**
-     * Sprawdzenie widgetu z danymi wyszukiwania.
-     */
-    @Test(invocationCount = INVOCATION_COUNT, retryAnalyzer = TestFalsePositiveReRunner.class, enabled = true)
-    public void checkSideBarSearchTermsTest() {
-        
-        String randomCity = getRandomCity();
-        RLSearchPage sp = new RLSearchPage(URL_TEST_RL + "/lekarze/chirurg-ogolny/" + randomCity + "/");
-        String searchTerm = sp.getSearchTerm();
-        assertThat(("chirurg ogólny " + randomCity).equals(searchTerm));
-        
-    }
-    
-    /**
-     * Test rejestacji pacjenta
-     */
-    @Test(invocationCount = INVOCATION_COUNT, retryAnalyzer = TestFalsePositiveReRunner.class, enabled = true)
-    public void registerRLPatientTest() {
-        
-        RLMainPage rl = new RLMainPage("http://rl.test.mijasoftware.com/");
-        closePopover();
-        setCookiesPopoverOn1ForRLTest("rl.test.mijasoftware.com");
-        String username = rl.registerPatientGetEmail();
-        GmailPage gmail = new GmailPage();
-        gmail.checkEmailForEmailReceipmentAndTitleString(username, "Rejestracja w serwisie rankinglekarzy");
-    }
+   
     
     /**
      * Test rejestracji lekarza. TODO - test wyłączony

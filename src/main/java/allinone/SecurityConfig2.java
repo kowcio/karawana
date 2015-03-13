@@ -1,4 +1,4 @@
-package skele;
+package allinone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -9,7 +9,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
-import skele.service.UserService;
+import allinone.service.UserService;
+
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @Configuration 

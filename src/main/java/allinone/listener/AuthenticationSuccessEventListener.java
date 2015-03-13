@@ -1,7 +1,7 @@
-package com.mijasoftware.bluemedia.charon.listener;
+package allinone.listener;
 
-import com.mijasoftware.bluemedia.charon.entity.UserEntity;
-import com.mijasoftware.bluemedia.charon.service.UserService;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,8 @@ import org.springframework.security.authentication.event.AuthenticationSuccessEv
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
+import allinone.entities.UserEntity;
+import allinone.service.UserService;
 
 @Component
 public class AuthenticationSuccessEventListener implements ApplicationListener<AuthenticationSuccessEvent> {

@@ -1,7 +1,7 @@
 /*
  * 
  */
-package rlhd.rl.pages.front;
+package allinone.pages;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -14,8 +14,8 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
-import rlhd.hd.base.AbstractBaseTest;
-import rlhd.hd.base.GeneratorPeselDowod;
+import allinone.AbstractBaseTest;
+import allinone.GeneratorPeselDowod;
 
 public class RLMainPage extends AbstractBaseTest {
     
@@ -24,12 +24,6 @@ public class RLMainPage extends AbstractBaseTest {
     
     public RLMainPage(String url) {
         open(url);
-    }
-    
-    public RLSearchPage searchDoctor(String docName) {
-        $(By.name("q")).sendKeys(docName + Keys.ENTER);
-        log.info("Searched for doc = {}", docName);
-        return new RLSearchPage();
     }
     
     public RLMainPage registerPatient() {

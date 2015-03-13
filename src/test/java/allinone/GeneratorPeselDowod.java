@@ -1,7 +1,5 @@
-/*
- * 
- */
-package rlhd.hd.base;
+
+package allinone;
 
 import java.util.Random;
 

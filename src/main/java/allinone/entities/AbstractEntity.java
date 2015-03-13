@@ -1,4 +1,4 @@
-package skele.entities;
+package allinone.entities;
 
 public class AbstractEntity {
 
