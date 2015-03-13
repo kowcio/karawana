@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+
+    
+<head th:replace="fragments/fragments :: head(title = 'Main Page')"></head>
+
+<body>
+
+<div th:replace="fragments/fragments :: social"></div>
+
+<div th:replace="fragments/fragments :: top"></div>
+
+
+<div layout:fragment="content"></div>
+
+
+<div th:replace="fragments/fragments :: footer"></div>
+
+
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8" />
+
+<head>
+<title>GROW Coaching</title>
+
+<meta name="author" content="Piotr Kowalski" />
+<meta name="keywords"
+	content="Grow, Coaching, G.R.O.W., Psychologia, Dzialanie, Rozwój własny, Growcoachng" />
+<meta name="description"
+	content="Strona pozwalająca na wykorzystanie metodyki G.R.O.W. w osiąganiu własnych celów. " />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!--  Analytics Verify -->
+<meta name="google-site-verification"
+	content="b5zlt27ykabiFZ2b8XQRw7tV34WeFtPlXXVMv4FFw0o" />
+
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+
+
+<link
+	href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,300italic,300,700,700italic|Open+Sans+Condensed:300,700'
+	rel="stylesheet" type='text/css' />
+
+<!-- ADD -->
+<link href="<c:url value=" /css/style.css"/>
+" rel="stylesheet" type="text/css" media="all" />
+<link href="<c:url value=" /css/popovers.css"/>
+" rel="stylesheet" type="text/css" media="all" />
+
+
+
+<script type="text/javascript" src="<c:url value=" /js/jquery-1.7.2.min.js"/>
+">
+</script>
+<script type="text/javascript" src="<c:url value=" /js/ddsmoothmenu.js"/>
+">
+</script>
+<script type="text/javascript" src="<c:url value=" /js/retina.js"/>
+">
+</script>
+<script type="text/javascript" src="<c:url value=" /js/selectnav.js"/>
+">
+</script>
+<script type="text/javascript" src="<c:url value=" /js/jquery.masonry.min.js"/>
+">
+</script>
+<script type="text/javascript" src="<c:url value=" /js/jquery.fitvids.js"/>
+">
+</script>
+<script type="text/javascript" src="<c:url value=" /js/jquery.backstretch.min.js"/>
+">
+</script>
+<script type="text/javascript" src="<c:url value=" /js/mediaelement.min.js"/>
+">
+</script>
+<script type="text/javascript" src="<c:url value=" /js/mediaelementplayer.min.js"/>
+">
+</script>
+<script type="text/javascript" src="<c:url value=" /js/jquery.dcflickr.1.0.js"/>
+">
+</script>
+<script type="text/javascript" src="<c:url value=" /js/twitter.min.js"/>
+">
+</script>
+<script type="text/javascript" src="<c:url value=" /js/jquery.cookie.js"/>
+">
+</script>
+<script type="text/javascript" src="<c:url value=" /js/jspdf.js"/>
+">
+</script>
+<!-- 
+<script type="text/javascript" src="<c:url value="/js/pdfmake.js"/>"></script>
+ -->
+<script type="text/javascript" src="<c:url value=" /js/vfs_fonts.js"/>
+">
+</script>
+<script type="text/javascript" src="<c:url value=" /js/jspdf.plugin.addimage.js"/>
+">
+</script>
+<script type="text/javascript" src="<c:url value=" /js/jspdf.plugin.split_text_to_size.js"/>
+">
+</script>
+
+<script type="text/javascript" src="<c:url value=" /js/jspdf.plugin.from_html.js"/>
+">
+</script>
+<script type="text/javascript" src="<c:url value=" /js/jspdf.plugin.standard_fonts_metrics.js"/>
+">
+</script>
+
+<!-- test Java Script -->
+<script type="text/javascript" src="<c:url value=" /js/cookiesInfo.js"/>
+">
+</script>
+<script type="text/javascript" src="<c:url value=" /js/jquery.sharre.js"/>
+">
+</script>
+<!--  global wars for some data in js and etc  -->
+<script type="text/javascript" src="<c:url value=" /js/globalVars.js"/>
+">
+</script>
+
+
+<script type="text/javascript">
+	var ctx = "${pageContext.request.contextPath}"
+	$.backstretch(ctx + "/css/style/images/bg/7.jpg");
+</script>
+<!-- End Footer -->
+<script type="text/javascript" src="<c:url value=" /js/scripts.js"/>
+">
+</script>
+
+<!--  ADD -->
+<script type="text/javascript" src="<c:url value=" /js/skrypty.js"/>
+">
+</script>
+
+<!-- 
+<script type="text/javascript" src="<c:url value="/js/analytics.js"/>"></script>
+ -->
+
+<script>
+	var _gaq = _gaq || [];
+	_gaq.push([ '_setAccount', 'UA-49363543-2' ]);
+	_gaq.push([ '_trackPageview' ]);
+	(function() {
+		var ga = document.createElement('script');
+		ga.type = 'text/javascript';
+		ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl'
+				: 'http://www')
+				+ '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0];
+		s.parentNode.insertBefore(ga, s);
+	})();
+</script>
+
+
+</head>
+<body>
+
+
+	<!--  AJAX indicator -->
+	<div class="alert-success alert" id="richAlert"></div>
+
+
+	<div id="share-wrapper">
+		<ul class="share-inner-wrp">
+			<!-- Facebook -->
+			<li class="facebook button-wrap"><a class="facebook href="#">Facebook</a></li>
+
+			<!-- Twitter -->
+			<li class="twitter button-wrap"><a href="#">Tweet</a></li>
+
+			<!-- Digg -->
+			<li class="digg button-wrap"><a href="#">Digg it</a></li>
+
+			<!-- Stumbleupon -->
+			<li class="stumbleupon button-wrap"><a href="#">Stumbleupon</a></li>
+
+			<!-- Delicious -->
+			<li class="delicious button-wrap"><a href="#">Delicious</a></li>
+
+			<!-- Google -->
+			<li class="google button-wrap"><a href="#">Plus Share</a></li>
+			<!-- Mail -->
+			<li class="email button-wrap"><a
+				href="http://potrzebujemotywacji.pl" target="_blank">Motivation!</a></li>
+		</ul>
+	</div>
+
+
+	<div class="scanlines"></div>
+
+	<!-- Begin Header -->
+	<div class="header-wrapper opacity">
+		<div class="header">
+			<!-- Begin Logo -->
+			<div class="logo">
+				<a href="/">
+					<h1>GROWcoaching.eu</h1>
+				</a>
+			</div>
+			<!-- End Logo -->
+			<!-- Begin Menu -->
+			<div id="menu-wrapper">
+				<div id="menu" class="menu">
+					<ul id="tiny">
+
+						<li class="active"><a href="/about">About</a>
+							<ul>
+								<li><a href="/about">About the site</a></li>
+							</ul></li>
+
+						<li><a href="/contact">Contact</a>
+							<ul>
+								<li><a href="/contact">Contact</a></li>
+							</ul></li>
+
+						<li><a href="/suggestion">Sugesstion / LogBook</a>
+							<ul>
+								<li><a href="/suggestion">Leave an idea !!</a></li>
+							</ul></li>
+
+					</ul>
+				</div>
+			</div>
+			<div class="clear"></div>
+			<!-- End Menu -->
+		</div>
+	</div>
+	<!-- End Header -->
+
+
+
+
+
+</body>
+</html>

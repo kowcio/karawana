@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+<meta charset="UTF-8" />
+</head>
+<body>
+
+
+
+
+	<head th:fragment="head(title)"><meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<title th:text="${title}">GROW COACHING</title>
+
+
+	<!--  MAIN -->
+
+	<meta name="author" content="Piotr Kowalski" />
+	<meta name="keywords"
+		content="Grow, Coaching, G.R.O.W., Psychologia, Dzialanie, Rozwój własny, Growcoaching" />
+	<meta name="description"
+		content="Strona pozwalająca na wykorzystanie metodyki G.R.O.W. w osiąganiu własnych celów. " />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<!--  Analytics Verify -->
+	<meta name="google-site-verification"
+		content="b5zlt27ykabiFZ2b8XQRw7tV34WeFtPlXXVMv4FFw0o" />
+	<meta name="viewport"
+		content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+
+
+	<link
+		href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,300italic,300,700,700italic|Open+Sans+Condensed:300,700'
+		rel="stylesheet" type='text/css' />
+
+
+
+	<!--  CSS  -->
+	
+	<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css"
+		media="all" />
+	<link th:href="@{/css/popovers.css}" rel="stylesheet" type="text/css"
+		media="all" />
+
+
+
+	<!--  JS  -->
+
+	<script type="text/javascript" th:src="@{/js/jquery-1.7.2.min.js}"></script>
+
+
+
+	<script type="text/javascript" th:src="@{/js/ddsmoothmenu.js}"></script>
+	<script type="text/javascript" th:src="@{/js/retina.js}"></script>
+	<script type="text/javascript" th:src="@{/js/selectnav.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery.masonry.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery.fitvids.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/js/jquery.backstretch.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/mediaelement.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery.dcflickr.1.0.js}"></script>
+	<script type="text/javascript" th:src="@{/js/twitter.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery.cookie.js}"></script>
+
+	<script type="text/javascript" th:src="@{/js/jspdf.js}"></script>
+	<script type="text/javascript" th:src="@{/js/vfs_fonts.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jspdf.plugin.addimage.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/js/jspdf.plugin.split_text_to_size.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/js/jspdf.plugin.from_html.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/js/jspdf.plugin.standard_fonts_metrics.js}"></script>
+	<script type="text/javascript" th:src="@{/js/cookiesInfo.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery.sharre.js}"></script>
+
+
+	<script type="text/javascript" th:src="@{/js/globalVars.js}"></script>
+	<script type="text/javascript" th:src="@{/js/skryptyForms.js}"></script>
+
+<script th:inline="javascript">
+function getCtx(){
+	return /*[[${#httpServletRequest.getContextPath()}]]*/ '';
+	}
+	var bg  =  getCtx() + "/css/style/images/bg/7.jpg";
+	$.backstretch(bg);
+    
+</script>
+
+<!-- 
+	<script type="text/javascript">
+		var ctx = "${pageContext.request.contextPath}";
+	</script> -->
+
+	<script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+	<script type="text/javascript" th:src="@{/js/skrypty.js}"></script>
+
+
+	<script>
+		var _gaq = _gaq || [];
+		_gaq.push([ '_setAccount', 'UA-49363543-2' ]);
+		_gaq.push([ '_trackPageview' ]);
+		(function() {
+			var ga = document.createElement('script');
+			ga.type = 'text/javascript';
+			ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl'
+					: 'http://www')
+					+ '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+
+
+
+</head>
+
+<div th:fragment="social">
+
+	<div id="share-wrapper">
+		<ul class="share-inner-wrp">
+			<!-- Facebook -->
+			<li class="facebook button-wrap"><a class="facebook" href="#">Facebook</a></li>
+
+			<!-- Twitter -->
+			<li class="twitter button-wrap"><a href="#">Tweet</a></li>
+
+			<!-- Digg -->
+			<li class="digg button-wrap"><a href="#">Digg it</a></li>
+
+			<!-- Stumbleupon -->
+			<li class="stumbleupon button-wrap"><a href="#">Stumbleupon</a></li>
+
+			<!-- Delicious -->
+			<li class="delicious button-wrap"><a href="#">Delicious</a></li>
+
+			<!-- Google -->
+			<li class="google button-wrap"><a href="#">Plus Share</a></li>
+			<!-- Mail -->
+			<li class="email button-wrap"><a
+				href="http://potrzebujemotywacji.pl" target="_blank">Motivation!</a></li>
+		</ul>
+	</div>
+
+
+</div>
+
+
+
+<div th:fragment="top">
+
+
+
+	<!--  AJAX indicator -->
+	<div class="alert-success alert" id="richAlert"></div>
+
+
+
+
+
+	<div class="scanlines"></div>
+
+	<!-- Begin Header -->
+	<div class="header-wrapper opacity">
+		<div class="header">
+			<!-- Begin Logo -->
+			<div class="logo">
+				<a href="/">
+					<h1>G.R.O.W. coaching.eu</h1>
+				</a>
+			</div>
+			<!-- End Logo -->
+			<!-- Begin Menu -->
+			<div id="menu-wrapper">
+				<div id="menu" class="menu">
+					<ul id="tiny">
+
+						<li class="active"><a href="/about">About</a>
+							<ul>
+								<li><a href="/about">About the site</a></li>
+							</ul></li>
+
+						<li><a href="/contact">Contact</a>
+							<ul>
+								<li><a href="/contact">Contact or send a suggestion</a></li>
+							</ul></li>
+
+						<li><a href="/logBook">Log Book</a>
+							<ul>
+								<li><a href="/logBook">Comment here You can</a></li>
+							</ul></li>
+
+					</ul>
+				</div>
+			</div>
+			<div class="clear"></div>
+			<!-- End Menu -->
+		</div>
+	</div>
+	<!-- End Header -->
+
+
+
+
+</div>
+
+
+
+<div th:fragment="pagination" th:remove="tag">pagination part</div>
+
+
+
+<div th:fragment="confirmationModal">
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Potwierdzenie
+						operacji</h4>
+				</div>
+				<div class="modal-body">Czy na pewno chcesz wykonać operację ?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal"
+						id="confirmOperation">Tak</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal"
+						id="cancelOperation">Nie</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+
+<div th:fragment="footer">
+
+
+
+	<!-- Begin Footer -->
+	<div class="footer-wrapper">
+		<div id="footer" class="four">
+
+
+
+			<div id="first" class="widget-area">
+				<div id="example-widget-3" class="widget example">
+					<h3 class="widget-title">Popular GROWs</h3>
+					<ul class="post-list">
+						<li>
+							<div class="frame">
+								<a href="#"><img th:src="@{/css/style/images/art/s1.jpg}" /></a>
+							</div>
+							<div class="meta">
+								<h6>
+									<a href="#">Interval Running</a>
+								</h6>
+								<em>28th Sep 2012</em>
+							</div>
+						</li>
+						<li>
+							<div class="frame">
+
+
+								<a href="#"><img th:src="@{/css/style/images/art/s2.jpg}" /></a>
+
+							</div>
+							<div class="meta">
+								<h6>
+									<a href="#">Trickling Stream</a>
+								</h6>
+								<em>5th Sep 2012</em>
+							</div>
+						</li>
+						<li>
+							<div class="frame">
+								<a href="#"><img th:src="@{/css/style/images/art/s3.jpg}" /></a>
+							</div>
+							<div class="meta">
+								<h6>
+									<a href="#">Morning Glory</a>
+								</h6>
+								<em>26th Sep 2012</em>
+							</div>
+						</li>
+					</ul>
+
+				</div>
+			</div>
+
+
+			<div id="third" class="widget-area">
+				<div class="widget">
+					<h3 class="widget-title">Mots from potrzebujemotywacji.pl</h3>
+					<ul class="flickr-feed"></ul>
+
+				</div>
+			</div>
+
+			<div id="second" class="widget-area">
+				<div class="widget">
+					<h3 class="widget-title">HITS</h3>
+					<a href="http://info.flagcounter.com/0ZPf"> <img
+						src="http://s06.flagcounter.com/count/0ZPf/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_12/viewers_0/labels_0/pageviews_0/flags_0/"
+						alt="Flag Counter" border="0" />
+					</a> <a href="http://www.freecounterstat.com" target="_Blank"
+						title="hit counter">hit counter</a>
+					<script type="text/javascript"
+						src="http://counter6.statcounterfree.com/private/counter.js?c=301f3b2d55771d106bdf86cb5e1f509a"></script>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<div class="site-generator-wrapper">
+		<div class="site-generator">
+			Copyright Obscura 2012. Design by <a href="http://elemisfreebies.com">elemis</a>.
+			All rights reserved.
+		</div>
+	</div>
+
+
+
+</div>
+
+
+
+
+
+
+</body>
+</html>

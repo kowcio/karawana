@@ -1,0 +1,190 @@
+    
+    
+    /* tooltip / POPOVER  and GRowDescription class */
+    
+#popHelp{
+	position:relative;
+   top:155px!important;
+	margin:-1150px 0px 0px 0px;
+	width:50%;
+	max-width:50%;
+}
+
+
+.popHelp .popover-title{
+}
+    .popHelp .popover-inner{
+    position:relative;
+    top :0%;
+    left:0%;
+    margin: 0px 0px 0px 0px;
+    padding : 0px 0px 0px 0px; 
+}
+
+/* for non logged users */
+#popHelpNoLogin{
+	position:absolute;
+	z-index:12000;
+    top:5%!important;
+    width:60%;
+    max-width:60%;
+    overflow:visible;
+    left:3%!important;
+    margin:0px 0px 0px 0px !important;  
+    opacity:0.9;  
+}
+
+/* for g to show lower*/
+#popHelpNoLoginG{
+	top:15%!important;
+}
+#popHelpNoLogin .popover-content .popover-inner{
+    z-index:1200;
+    right:10%!important;
+}
+
+/* dialog checking */
+
+.growTextArea{
+
+width:100%;
+min-height:150px;
+z-index:1;
+
+}
+
+
+.tooltip table tbody tr td{
+padding-left:10px;
+}
+
+
+
+.popover center{
+    font-size:16;
+    font-weight:bold;
+}
+.popover table{
+        line-height:125%;
+        mar gin-left:5%;
+}
+.popover td{
+	margin-left:5%;
+    padding-right:15px;
+    padding-left:15px;
+    font-weight:bold;
+    border-bottom:thin solid black;
+}
+
+
+
+/* for the main page 4 everybody fixed side btns */
+#popHelpMain{
+    position:relative;
+    width:50%;
+    max-width:50%;
+}
+
+
+/*	richAlert */
+
+
+#richAlert{
+	position:fixed;
+	font-weight:800;
+	background:black;
+	
+	font-size:15px;
+	border:solid grey 2px;
+	border-radius:10px;
+	padding:1%;
+	top:1%;
+	right:45%;
+	min-width:4%;
+	min-height:4%;
+	display:none;
+	z-index:2;
+	}
+
+
+
+
+
+
+
+/**  SHARRE */
+
+
+/* outer wrapper, fixed to left */
+#share-wrapper {
+    margin-top: 100px;
+    position:fixed;
+    left: 0;
+}
+
+/* inner wrapper */
+#share-wrapper ul.share-inner-wrp{
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+/* the list */
+#share-wrapper li.button-wrap {
+    background: #e3dee0;
+    padding: 0px 0px 0px 10px;
+    display: block;
+    width: 140px;
+    margin: 0px 0px 1px -120px;
+}
+
+/* share link */
+#share-wrapper li.button-wrap > a {
+    padding-right: 60px;
+    height: 32px;
+    display: block;
+    line-height: 32px;
+    font-weight: bold;
+    color: #444;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+}
+
+/* regular css */
+.class a{
+    font-size:20px;
+}
+
+/* change font-size of class if screen size goes below 700px */
+@media all and (max-width: 699px) {
+    .class a{
+        font-size:13px;
+    }
+}
+
+
+#share-wrapper .facebook > a {
+    background: url("/css/style/buttons/facebook.jpg") no-repeat scroll right center rgba(0, 0, 0, 0);
+}
+#share-wrapper .twitter > a {
+    background: url("/css/style/buttons/twitter.jpg") no-repeat scroll right center rgba(0, 0, 0, 0);
+}
+#share-wrapper .digg > a {
+    background: url("/css/style/buttons/digg.jpg") no-repeat scroll right center rgba(0, 0, 0, 0);
+}
+.stumbleupon > a {
+    background: url("/css/style/buttons/stumbleupon.jpg") no-repeat scroll right center rgba(0, 0, 0, 0);
+}
+#share-wrapper .delicious > a {
+    background: url("/css/style/buttons/delicious.jpg") no-repeat scroll right center rgba(0, 0, 0, 0);
+}	
+#share-wrapper .google > a {
+    background: url("/css/style/buttons/google.jpg") no-repeat scroll right center rgba(0, 0, 0, 0);
+}
+#share-wrapper li.email {
+background-color: gold ;
+}
+
+
+    
