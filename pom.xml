@@ -193,6 +193,11 @@
             <artifactId>quartz</artifactId>
             <version>2.2.1</version>
         </dependency>
+        <!-- logging logback -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
 
 
 
