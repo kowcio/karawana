@@ -1,4 +1,4 @@
-package allinone.controller;
+package allinone.web.controller;
 
 import javax.validation.Valid;
 

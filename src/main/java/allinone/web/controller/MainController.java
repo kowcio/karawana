@@ -1,4 +1,4 @@
-package allinone.controller;
+package allinone.web.controller;
 
 import javax.validation.Valid;
 
@@ -11,9 +11,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class MainController {
 
 	@RequestMapping ( value = "/", method = RequestMethod.GET)
-	public String permissionGroupAdd() {
+	public String mainPage() {
 
 		return "/pages/main";
 	}
 
+	@RequestMapping ( value = "/login", method = RequestMethod.GET)
+	public String login() {
+
+		return "/pages/login";
+	}
+	
 }

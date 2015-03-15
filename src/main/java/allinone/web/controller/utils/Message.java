@@ -1,4 +1,4 @@
-package allinone.controller.utils;
+package allinone.web.controller.utils;
 
 import static org.fest.assertions.Assertions.assertThat;
 
