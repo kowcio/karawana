@@ -15,7 +15,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
 
-@ComponentScan("skele")
+@ComponentScan("allinone")
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
  class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 	@Override

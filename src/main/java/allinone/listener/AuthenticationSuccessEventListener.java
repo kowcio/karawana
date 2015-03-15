@@ -36,6 +36,6 @@ public class AuthenticationSuccessEventListener implements ApplicationListener<A
 
         logger.debug("Update last login date for user {}", userEntity);
 
-        userService.updateLastLoginDate(userEntity);
+       // userService.updateLastLoginDate(userEntity);
     }
 }

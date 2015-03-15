@@ -22,12 +22,8 @@ import allinone.repositories.UserRepository;
 @Service
 public class UserService implements UserDetailsService {
     
+	@Autowired
     private UserRepository repo;
-    
-    @Autowired
-    public UserService(UserRepository repo) {
-        this.repo = repo;
-    }
     
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -49,7 +45,7 @@ public class UserService implements UserDetailsService {
      *
      * @param user
      */
-    @Transactional
+/*    @Transactional
     public void updateLastLoginDate(Optional<UserEntity> user) {
         
         assertThat(user).isNotNull();
@@ -58,5 +54,5 @@ public class UserService implements UserDetailsService {
             u.setLastLoginDate(ZonedDateTime.now());
             repo.save(u);
         });
-    }
+    }*/
 }

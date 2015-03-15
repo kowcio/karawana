@@ -16,14 +16,14 @@ import allinone.service.UserService;
 @Configuration 
 @ComponentScan
 
-public class SecurityConfig2 extends GlobalAuthenticationConfigurerAdapter {
+public class Config extends GlobalAuthenticationConfigurerAdapter {
 
-	@Autowired
-	private UserService userService;
+	//@Autowired
+	//private UserService userService;
 
 	@Override
 	public void init(AuthenticationManagerBuilder auth) throws Exception {
 		System.err.println("INIT in Authentication manager ! ");
-		auth.userDetailsService(userService);
+		//auth.userDetailsService(userService);
 	}
 }

@@ -18,14 +18,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 
 @Configuration
-@ComponentScan("allinone")
+@ComponentScan("allinone.*")
 @EnableAutoConfiguration
 @EnableWebSecurity
 @EnableTransactionManagement
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = false)
 public class Application extends WebMvcConfigurerAdapter {
 
-	private Logger log = LoggerFactory.getLogger(getClass());
+	private Logger log = LoggerFactory.getLogger(Application.class);
 
 	public static void main(String[] args) {
 
@@ -41,18 +41,17 @@ public class Application extends WebMvcConfigurerAdapter {
 	}
 
 	// login controller
-	@Override
+/*	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 	}
-
+*/
 	@Bean
 	org.h2.tools.Server h2Server() {
+		log.info("Loading h2 server.");
 	    org.h2.tools.Server server = new Server();
 		try {
 			server.runTool("-tcp");
 			server.runTool("-tcpAllowOthers");
-			// http://www.programcreek.com/java-api-examples/index.php?api=org.h2.tools.Server
-			// server.runTool("-tcpPort,8082");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
