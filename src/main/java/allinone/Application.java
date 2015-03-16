@@ -28,7 +28,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @EnableConfigurationProperties
 @EnableJpaAuditing
 @EnableScheduling
-@ComponentScan
+@ComponentScan("allinone.*")
 public class Application extends WebMvcConfigurerAdapter {
     
     private Logger log = LoggerFactory.getLogger(Application.class);

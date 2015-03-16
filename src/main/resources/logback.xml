@@ -2,7 +2,7 @@
 <Configuration status="INFO">
 
     <Loggers>
-        <Root level="TRACE">
+        <Root level="INFO">
             <AppenderRef ref="Console" />
         </Root>
     </Loggers>
