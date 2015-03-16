@@ -12,5 +12,5 @@ ALTER TABLE PUBLIC.USER ADD CONSTRAINT PUBLIC.CONSTRAINT_2 PRIMARY KEY(ID);
 INSERT INTO PUBLIC.USER(ID, NAME, PASSWORD) VALUES
 (1, 'user', 'user'),
 (2, 'admin', 'admin'),
-(3, 'insert 6  import.sql from resurces .sql', 'insert.sql');
+(3, 'v1_2_start.sql', 'insert.sql');
 ALTER TABLE PUBLIC.USER ADD CONSTRAINT PUBLIC.UK_GJ2FY3DCIX7PH7K8684GKA40C UNIQUE(NAME);

@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="INFO">
+
+
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+
 	<Appenders>
 		<Console name="Console" target="SYSTEM_OUT">
 			<PatternLayout
 				pattern="%d{HH:mm:ss,SSS} # %p # %10C{1}.%.20M{1}.%L ### %m #(%r ms)%n" />
 		</Console>
+        
+        
+        
 	</Appenders>
 	<Loggers>
 		<Root level="INFO">
 			<AppenderRef ref="Console" />
 		</Root>
+        
+        <logger name="org.springsource.loaded.GlobalConfiguration" level="TRACE">
+        
+        
+        </logger> 
+        
 	</Loggers>
 </Configuration>

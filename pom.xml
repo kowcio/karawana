@@ -9,8 +9,8 @@
 
     <packaging>jar</packaging>
 
-    <name>CharonPanel</name>
-    <description>Charon Panel dla BlueMedia SA</description>
+    <name>All in one</name>
+    <description>--</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -198,36 +198,42 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
         </dependency>
+        <!--  connection pool -->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>springloaded</artifactId>
-        </dependency>
+    <groupId>com.zaxxer</groupId>
+    <artifactId>HikariCP</artifactId>
+</dependency>
+        
+
+</dependencies>
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.springframework</groupId>
+                            <artifactId>springloaded</artifactId>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+            </plugins>
+        </build>
 
 
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 
-
-
-    <reporting>
-        <excludeDefaults>true</excludeDefaults>
-        <plugins>
-            <plugin>
-                <groupId>ru.yandex.qatools.allure</groupId>
-                <artifactId>allure-maven-plugin</artifactId>
-                <version>1.4.0</version>
-            </plugin>
-        </plugins>
-    </reporting>
+        <reporting>
+            <excludeDefaults>true</excludeDefaults>
+            <plugins>
+                <plugin>
+                    <groupId>ru.yandex.qatools.allure</groupId>
+                    <artifactId>allure-maven-plugin</artifactId>
+                    <version>1.4.0</version>
+                </plugin>
+            </plugins>
+        </reporting>
 
 
 </project>

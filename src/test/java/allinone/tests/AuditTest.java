@@ -14,42 +14,33 @@ import allinone.Application;
 import allinone.entities.UserEntity;
 import allinone.repositories.UserRepository;
 
-@RunWith(SpringJUnit4ClassRunner.class)   // 1
-@SpringApplicationConfiguration(classes = Application.class)   // 2
-@WebAppConfiguration   // 3
-@IntegrationTest("server.port:8083")   // 4
-//http://www.jayway.com/2014/07/04/integration-testing-a-spring-boot-application/
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = Application.class)
+@IntegrationTest("server.port:8083")
 public class AuditTest {
-
+    
     @Autowired
     UserRepository ur;
-        
+    
     @Test
-    public void Audittest(){
+    public void Audittest() {
         System.out.println("TEST_wet2345 ");
-
         
-    UserEntity user = new UserEntity();
-    user.setName("name");
-
-    assertThat(null != user.getId());
-
-    
-    UserEntity user2 = ur.save(user);
-    
-    assertThat(user.getCreatedDate() != null);
-    assertThat("name".equals(   user2.getName() ));
-    assertThat(user.getCreatedDate() != null);
-    assertThat(user.getModifiedBy() != null);
-    
-    System.err.println(user2.toString());
-    System.err.println("END TEST ");
-
-    
-    
+        UserEntity user = new UserEntity();
+        user.setName("name");
+        
+        assertThat(null != user.getId());
+        
+        UserEntity user2 = ur.save(user);
+        
+        assertThat(user.getCreatedDate() != null);
+        assertThat("name".equals(user2.getName()));
+        assertThat(user.getCreatedDate() != null);
+        assertThat(user.getModifiedBy() != null);
+        
+        System.err.println(user2.toString());
+        System.err.println("END TEST ");
+        
     }
-    
-    
-    
     
 }
