@@ -26,12 +26,13 @@ import com.zaxxer.hikari.HikariDataSource;
 @Configuration
 @EnableAutoConfiguration
 @EnableConfigurationProperties
+@PropertySource("classpath:/application.properties")
 @EnableJpaAuditing
 @EnableScheduling
-@ComponentScan("allinone.*")
+@ComponentScan
 public class Application extends WebMvcConfigurerAdapter {
     
-    private Logger log = LoggerFactory.getLogger(Application.class);
+    private static final Logger log = LoggerFactory.getLogger(Application.class);
     
     public static void main(String[] args) {
         

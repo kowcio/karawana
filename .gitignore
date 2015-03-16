@@ -4,3 +4,4 @@
 /.classpath
 /test-output/
 /skeledb.trace.db
+/skeledb.mv.db

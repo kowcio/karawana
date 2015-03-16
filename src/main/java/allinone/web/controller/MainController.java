@@ -1,5 +1,6 @@
 package allinone.web.controller;
 
+import org.hibernate.engine.transaction.jta.platform.internal.SynchronizationRegistryBasedSynchronizationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -28,7 +29,8 @@ public class MainController {
     @ResponseBody
     @RequestMapping(value = "/login2", method = RequestMethod.GET)
     public String login2() {
-        
+        log.info("QWEASD");
+        System.out.println("---");
         return "404";
     }
 }

@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="INFO">
 
-    <Loggers>
-        <Root level="INFO">
-            <AppenderRef ref="Console" />
-        </Root>
-    </Loggers>
+<configuration debug="true">
 
-    <Appenders>
-        <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss,SSS} # %p # %10C{1}.%.20M{1}.%L ### %m #(%r ms)%n" />
-        </Console>
-    </Appenders>
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			
+			<!-- 
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern> -->
+			
+			<pattern>%d{HH:mm:ss,SSS} # %p # %10C{1}.%.20M{1}.%L ### %m #(%r ms)%n</pattern>
+			
+		</encoder>
+	</appender>
 
-</Configuration>
+	<root level="info">
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>
