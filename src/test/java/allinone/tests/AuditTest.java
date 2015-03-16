@@ -17,6 +17,8 @@ import allinone.repositories.UserRepository;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @IntegrationTest("server.port:8083")
+@WebAppConfiguration
+
 public class AuditTest {
     
     @Autowired

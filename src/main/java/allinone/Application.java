@@ -22,30 +22,20 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import com.zaxxer.hikari.HikariDataSource;
 
-
-//TODO check if all are needed
+//todo check those
 @Configuration
-@ComponentScan
+@EnableAutoConfiguration
 @EnableConfigurationProperties
 @EnableJpaAuditing
 @EnableScheduling
-@EnableAutoConfiguration
-@EnableWebSecurity
-@EnableTransactionManagement
-@EnableGlobalMethodSecurity(securedEnabled = false)
-@PropertySource("classpath:/application.properties")
+@ComponentScan
 public class Application extends WebMvcConfigurerAdapter {
     
     private Logger log = LoggerFactory.getLogger(Application.class);
     
     public static void main(String[] args) {
         
-        /*
-         * //put it in diff class Flyway flyway = new Flyway();
-         * flyway.setDataSource(dataSource()); flyway.setInitOnMigrate(false);
-         * flyway.setSqlMigrationPrefix("V");
-         * flyway.setSqlMigrationSuffix(".sql"); flyway.migrate();
-         */
+     
         SpringApplication.run(Application.class, args);
     }
     
@@ -82,7 +72,7 @@ public class Application extends WebMvcConfigurerAdapter {
         
         dataSource.setDriverClassName("org.h2.Driver");
         dataSource
-                .setJdbcUrl("jdbc:h2:./skeledb;AUTO_SERVER=FALSE;IFEXISTS=FALSE;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MVCC=FALSE");
+                .setJdbcUrl("jdbc:h2:./skeledb;AUTO_SERVER=FALSE;IFEXISTS=FALSE;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE");
         dataSource.setConnectionTestQuery("select 1");
         dataSource.setMaximumPoolSize(maxPoolSize);
         dataSource.setAutoCommit(isAutoCommit);

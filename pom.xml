@@ -161,6 +161,12 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2-mvstore</artifactId>
+            <version>1.4.186</version>
+        </dependency>
+
 
         <!-- selenium tests -->
         <dependency>
@@ -198,42 +204,50 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
         </dependency>
-        <!--  connection pool -->
+        <!-- connection pool -->
         <dependency>
-    <groupId>com.zaxxer</groupId>
-    <artifactId>HikariCP</artifactId>
-</dependency>
-        
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+        </dependency>
 
-</dependencies>
-        <build>
-            <plugins>
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.springframework</groupId>
-                            <artifactId>springloaded</artifactId>
-                        </dependency>
-                    </dependencies>
-                </plugin>
-            </plugins>
-        </build>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jta-atomikos</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+
+            </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>3.2</version>
+                <configuration>
+                    <user>SA</user>
+                    <password />
+                    <url>jdbc:h2:./skeledb</url>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 
 
 
-        <reporting>
-            <excludeDefaults>true</excludeDefaults>
-            <plugins>
-                <plugin>
-                    <groupId>ru.yandex.qatools.allure</groupId>
-                    <artifactId>allure-maven-plugin</artifactId>
-                    <version>1.4.0</version>
-                </plugin>
-            </plugins>
-        </reporting>
+    <reporting>
+        <excludeDefaults>true</excludeDefaults>
+        <plugins>
+            <plugin>
+                <groupId>ru.yandex.qatools.allure</groupId>
+                <artifactId>allure-maven-plugin</artifactId>
+                <version>1.4.0</version>
+            </plugin>
+        </plugins>
+    </reporting>
 
 
 </project>

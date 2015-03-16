@@ -38,7 +38,6 @@ public class UserEntity {
 	@Column(name="password")
 	private String password;
 	
-	
 	@Version
 	private Long version;
 	
