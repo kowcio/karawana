@@ -10,6 +10,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
 import lombok.Data;
+import lombok.Getter;
 
 import org.springframework.data.domain.Persistable;
 
@@ -20,7 +21,7 @@ public abstract class AbstractEntity implements Persistable<Long> {
     private static final long serialVersionUID = 1L;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     // , generator = "seq_generator")
     private Long              id;
     
@@ -37,4 +38,6 @@ public abstract class AbstractEntity implements Persistable<Long> {
     public boolean isNew() {
         return id != null ? true : false;
     }
+    
+    
 }

@@ -30,14 +30,14 @@ import com.zaxxer.hikari.HikariDataSource;
 @EnableJpaAuditing
 @EnableScheduling
 @ComponentScan
-public class Application extends WebMvcConfigurerAdapter {
+public class ApplicationTest extends WebMvcConfigurerAdapter {
     
-    private static final Logger log = LoggerFactory.getLogger(ApplicationTest.class);
+    private static final Logger log = LoggerFactory.getLogger(Application.class);
     
     public static void main(String[] args) {
         
      
-        SpringApplication.run(ApplicationTest.class, args);
+        SpringApplication.run(Application.class, args);
     }
     
     // login controller
@@ -73,7 +73,7 @@ public class Application extends WebMvcConfigurerAdapter {
         
         dataSource.setDriverClassName("org.h2.Driver");
         dataSource
-                .setJdbcUrl("jdbc:h2:./skeledb;AUTO_SERVER=FALSE;IFEXISTS=FALSE;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE");
+                .setJdbcUrl("jdbc:h2:./skeledbTest;AUTO_SERVER=FALSE;IFEXISTS=FALSE;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE");
         dataSource.setConnectionTestQuery("select 1");
         dataSource.setMaximumPoolSize(maxPoolSize);
         dataSource.setAutoCommit(isAutoCommit);

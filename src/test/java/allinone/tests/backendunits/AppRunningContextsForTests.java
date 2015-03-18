@@ -6,10 +6,10 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.testng.annotations.Test;
 
-import allinone.Application;
+import allinone.ApplicationTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringApplicationConfiguration(classes = ApplicationTest.class)
 @IntegrationTest("server.port:8083")
 public class AppRunningContextsForTests {
     

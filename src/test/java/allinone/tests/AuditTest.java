@@ -10,12 +10,12 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import allinone.Application;
+import allinone.ApplicationTest;
 import allinone.entities.UserEntity;
 import allinone.repositories.UserRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringApplicationConfiguration(classes = ApplicationTest.class)
 @IntegrationTest("server.port:8083")
 @WebAppConfiguration
 
