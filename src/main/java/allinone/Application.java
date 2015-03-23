@@ -12,12 +12,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.jdbc.datasource.SimpleDriverDataSource;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.zaxxer.hikari.HikariDataSource;
@@ -29,7 +25,8 @@ import com.zaxxer.hikari.HikariDataSource;
 @PropertySource("classpath:/application.properties")
 @EnableJpaAuditing
 @EnableScheduling
-@ComponentScan
+@EnableJpaRepositories(basePackages = "allinone.repositories.*")
+@ComponentScan("allinone.*")
 public class Application extends WebMvcConfigurerAdapter {
     
     private static final Logger log = LoggerFactory.getLogger(ApplicationTest.class);

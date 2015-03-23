@@ -12,13 +12,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.jdbc.datasource.SimpleDriverDataSource;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import allinone.repositories.TestEntityRepositoryImpl;
 
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -29,6 +27,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @PropertySource("classpath:/application.properties")
 @EnableJpaAuditing
 @EnableScheduling
+@EnableJpaRepositories
 @ComponentScan
 public class ApplicationTest extends WebMvcConfigurerAdapter {
     
@@ -36,15 +35,15 @@ public class ApplicationTest extends WebMvcConfigurerAdapter {
     
     public static void main(String[] args) {
         
-     
         SpringApplication.run(Application.class, args);
     }
     
-    // login controller
-    /*
-     * @Override public void addViewControllers(ViewControllerRegistry registry)
-     * { }
-     */
+    @Bean
+    public TestEntityRepositoryImpl testEntityRepositoryImpl() {
+        TestEntityRepositoryImpl repo = new TestEntityRepositoryImpl();
+        return repo;
+    }
+    
     @Bean
     org.h2.tools.Server h2Server() {
         log.info("Loading h2 server.");
