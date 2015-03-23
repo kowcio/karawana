@@ -38,7 +38,6 @@ public class AuditTest {
         assertThat(user.getCreatedDate() != null);
         assertThat("name".equals(user2.getName()));
         assertThat(user.getCreatedDate() != null);
-        assertThat(user.getModifiedBy() != null);
         
         System.err.println(user2.toString());
         System.err.println("END TEST ");
