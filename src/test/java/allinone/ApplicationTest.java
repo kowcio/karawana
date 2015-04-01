@@ -14,6 +14,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import allinone.repositories.TestEntityRepositoryImpl;
@@ -29,6 +30,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @EnableScheduling
 @EnableJpaRepositories
 @ComponentScan
+@EnableTransactionManagement
 public class ApplicationTest extends WebMvcConfigurerAdapter {
     
     private static final Logger log = LoggerFactory.getLogger(Application.class);

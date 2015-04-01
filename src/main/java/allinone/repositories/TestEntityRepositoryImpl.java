@@ -5,6 +5,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import allinone.entities.TestEntity;
 
@@ -15,19 +16,14 @@ public class TestEntityRepositoryImpl implements TestEntityRepositoryCustom {
     private EntityManager entityManager;
     
     @Override
-    public void update(TestEntity t) {
+    public TestEntity update(TestEntity t) {
+        System.out.println("Trying to merge");
         
         entityManager.merge(t);
+        entityManager.flush();
+        return t;
         
-        
-        //entityManager.close();
-        
-        
-    }
-    
-    @Override
-    public void update() {
-        // TODO Auto-generated method stub
+        // entityManager.close();
         
     }
     

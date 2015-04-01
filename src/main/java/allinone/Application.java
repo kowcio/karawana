@@ -14,6 +14,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.zaxxer.hikari.HikariDataSource;
@@ -27,6 +28,8 @@ import com.zaxxer.hikari.HikariDataSource;
 @EnableScheduling
 @EnableJpaRepositories(basePackages = "allinone.repositories.*")
 @ComponentScan("allinone.*")
+@EnableTransactionManagement
+
 public class Application extends WebMvcConfigurerAdapter {
     
     private static final Logger log = LoggerFactory.getLogger(ApplicationTest.class);

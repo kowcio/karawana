@@ -1,15 +1,12 @@
 package allinone.tests.backendunits;
 
-import javax.transaction.Transactional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.transaction.annotation.Transactional;
 import org.testng.annotations.Test;
 
 import uk.co.jemos.podam.api.PodamFactoryImpl;
@@ -24,7 +21,7 @@ import allinone.repositories.TestEntityRepositoryImpl;
 @IntegrationTest("server.port:8083")
 // @WebAppConfiguration
 // @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-//@DirtiesContext(classMode = ClassMode.AFTER_CLASS)
+// @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class RepoTests extends AbstractTestNGSpringContextTests {
     
     @Autowired
@@ -51,18 +48,13 @@ public class RepoTests extends AbstractTestNGSpringContextTests {
         }
         repo.findAll().forEach(c -> System.out.println("Get = " + c.toString()));
         TestEntity test = repo.findOne(3L);
-        test.setTestString("updated string");
-        log.info("updated 1 = {}", test);
+        test.setTestString("UPDATE");
+        repoImpl.update(test);
+        repo.flush();
+        
+        log.info("updated = {}", test);
         // updated = repo.findOne(repo.save(updated).getId());
         log.info("updated persisted= {}", repo.findOne(3L).toString());
-    }
-    
-    @Test
-    @Transactional
-    public void checkCOntext()  {
-        
-        log.info("updated persisted= {}", repo.findOne(3L).toString());
-        
     }
     
 }

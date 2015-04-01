@@ -9,11 +9,13 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import allinone.service.UserService;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @Configuration
+@EnableTransactionManagement
 public class Config extends GlobalAuthenticationConfigurerAdapter {
     
     // @Autowired

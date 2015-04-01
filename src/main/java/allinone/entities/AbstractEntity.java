@@ -28,12 +28,10 @@ public abstract class AbstractEntity implements Persistable<Long> {
 	@Column ( name = "version")
 	protected Integer	                  version;
 
-	@Override
 	public Long getId() {
 		return id;
 	}
 
-	@Override
 	public boolean isNew() {
 		return id != null ? true : false;
 	}
