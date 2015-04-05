@@ -8,31 +8,32 @@ import javax.persistence.PersistenceContextType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import allinone.entities.TestEntity;
 
 @Repository
+@Transactional
 public class TestEntityRepositoryImpl implements TestEntityRepositoryCustom {
 
-	@PersistenceContext ( type = PersistenceContextType.EXTENDED)
+	//@PersistenceContext ( type = PersistenceContextType.EXTENDED)
 	@Autowired
 	private EntityManager	entityManager;
-	
+	/*
 	@Autowired
 	private EntityManagerFactory	e;
-
+*/
 	@Override
 	public TestEntity update(TestEntity t) {
 
 
 		System.out.println("Trying to merge");
-		entityManager = e.createEntityManager();
-		entityManager.getTransaction().begin();
+		//entityManager = e.createEntityManager();
+		//entityManager.getTransaction().begin();
 		entityManager.merge(t);
-		entityManager.getTransaction().commit();
+		//entityManager.getTransaction().commit();
 		return t;
 
-		// entityManager.close();
 
 	}
 

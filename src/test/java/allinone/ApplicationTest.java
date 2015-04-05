@@ -50,8 +50,8 @@ public class ApplicationTest extends WebMvcConfigurerAdapter {
 
 	@Bean
 	public TestEntityRepositoryImpl testEntityRepositoryImpl() {
-		TestEntityRepositoryImpl repo = new TestEntityRepositoryImpl();
-		return repo;
+		TestEntityRepositoryImpl testEntityRepositoryImpl = new TestEntityRepositoryImpl();
+		return testEntityRepositoryImpl;
 	}
 	
 	

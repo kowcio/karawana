@@ -9,7 +9,7 @@
 			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
 			</pattern> -->
 			
-			<pattern>%n%d{HH:mm:ss,SSS} # %p # %10C{1}.%.20M{1}.%L ### %m #(%r ms)</pattern>
+			<pattern>%n%d{HH:mm:ss,SSS} # %p # %10C{1}.%.20M{1}.%L ### %m # %r ms)</pattern>
 			
 		</encoder>
 	</appender>
