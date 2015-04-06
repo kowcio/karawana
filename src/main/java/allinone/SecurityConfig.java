@@ -19,7 +19,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebMvcSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 
-@ComponentScan("allinone")
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
  class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 	@Override

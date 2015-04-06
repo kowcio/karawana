@@ -15,7 +15,6 @@ import allinone.service.UserService;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @Configuration
-@EnableTransactionManagement
 public class Config extends GlobalAuthenticationConfigurerAdapter {
     
     // @Autowired
