@@ -1,35 +1,12 @@
 /* imports */
+@import url("admin.css");
 
+@import url("top.css");
 
-   
-   @import url("bootstrap.css");
-   @import url("bootstrap-responsive.css");
-   
+@import url("main.css");
 
+@import url("footer.css");
 
-/* main body for diferent states */
+@import url("admin.css");
 
-   @import url("header.css");
-
-   @import url("main.css");
-   
-   @import url("footer.css");
-   
-   @import url("admin.css");
-   
-   
-   @import url("style.css");
-
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
+@import url("style.css");
