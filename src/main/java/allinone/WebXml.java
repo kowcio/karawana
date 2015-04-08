@@ -8,6 +8,6 @@ public class WebXml extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(ApplicationTest.class);
+        return application.sources(Application.class);
     }
 }

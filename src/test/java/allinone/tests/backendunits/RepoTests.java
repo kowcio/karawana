@@ -1,5 +1,7 @@
 package allinone.tests.backendunits;
 
+import java.util.function.Function;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +53,7 @@ public class RepoTests extends AbstractTestNGSpringContextTests {
         test.setTestString("UPDATE");
         repoImpl.update(test);
         repo.flush();
+        System.out.println(((Function<Integer, Integer>) x -> x / 100 * 100 + 10).apply(100));
         
         log.info("updated = {}", test);
         // updated = repo.findOne(repo.save(updated).getId());

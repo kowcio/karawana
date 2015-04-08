@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -20,24 +21,25 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import com.zaxxer.hikari.HikariDataSource;
 
 //todo check those
-@Configuration
-@EnableAutoConfiguration
+@SpringBootApplication //4 in 1
+//@Configuration
+//@EnableAutoConfiguration
+//@EnableWebMvc
+//@ComponentScan
+
 @EnableConfigurationProperties
 @PropertySource("classpath:/application.properties")
 @EnableJpaAuditing
 @EnableScheduling
-@EnableJpaRepositories(basePackages = "allinone.repositories.*")
-@ComponentScan("allinone.*")
+@EnableJpaRepositories
 @EnableTransactionManagement
-
 public class Application extends WebMvcConfigurerAdapter {
     
-    private static final Logger log = LoggerFactory.getLogger(ApplicationTest.class);
+    private static final Logger log = LoggerFactory.getLogger(Application.class);
     
     public static void main(String[] args) {
         
-     
-        SpringApplication.run(ApplicationTest.class, args);
+        SpringApplication.run(Application.class, args);
     }
     
     // login controller
