@@ -26,7 +26,7 @@ public class AuthenticationSuccessEventListener implements ApplicationListener<A
     public void onApplicationEvent(AuthenticationSuccessEvent event) {
         Optional<UserEntity> userEntity = Optional.empty();
 
-        logger.debug("Event {}", event);
+        logger.debug("Event - AuthenticationSuccessEventListener - > {}", event);
 
         Authentication auth = event.getAuthentication();
 

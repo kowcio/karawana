@@ -16,6 +16,7 @@ import allinone.ApplicationTest;
 import allinone.WebXml;
 import allinone.entities.TestEntity;
 import allinone.repositories.TestEntityRepository;
+import allinone.repositories.TestEntityRepositoryCustom;
 import allinone.repositories.TestEntityRepositoryImpl;
 
 //@RunWith(SpringJUnit4ClassRunner.class)
@@ -29,12 +30,13 @@ public class RepoTests extends AbstractTestNGSpringContextTests {
     @Autowired
     private TestEntityRepository     repo;
     @Autowired
-    private TestEntityRepositoryImpl repoImpl;
+    //the type is the repository but the name of variable (reference)
+//need to be that of the interface implemented 
+    private TestEntityRepositoryCustom testEntityRepositoryImpl;
     
     public final Logger              log = LoggerFactory.getLogger(getClass());
     
     @Test
-    @Transactional
     public void checkContextRunWithDBCreationAndMigrations() throws InterruptedException {
         
         PodamFactoryImpl f = new PodamFactoryImpl();
@@ -51,7 +53,7 @@ public class RepoTests extends AbstractTestNGSpringContextTests {
         repo.findAll().forEach(c -> System.out.println("Get = " + c.toString()));
         TestEntity test = repo.findOne(3L);
         test.setTestString("UPDATE");
-        repoImpl.update(test);
+        testEntityRepositoryImpl.update(test);
         repo.flush();
         System.out.println(((Function<Integer, Integer>) x -> x / 100 * 100 + 10).apply(100));
         
