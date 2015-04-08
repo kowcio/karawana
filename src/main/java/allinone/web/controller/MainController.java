@@ -15,7 +15,7 @@ public class MainController {
     
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String mainPage() {
-        System.out.println("weasdasdasd");
+        System.out.println("weasdqweasdasd");
         return "/pages/main";
     }
     
