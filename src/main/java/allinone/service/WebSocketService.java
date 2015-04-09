@@ -2,6 +2,8 @@ package allinone.service;
 
 import static org.fest.assertions.Assertions.assertThat;
 
+import java.time.LocalTime;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,7 @@ public class WebSocketService {
     public void broadcastTest() {
     	LOGGER.info("Broadcasting messages to users on /test.");
     	if (isBroadCastTestON)
-        messagingTemplate.convertAndSend("/test", "Broadcasting payload data.");
+        messagingTemplate.convertAndSend("/test", "Broadcasting payload data." + LocalTime.now()	);
     }
 
   
