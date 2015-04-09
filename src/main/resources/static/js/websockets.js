@@ -10,6 +10,7 @@
         function connect() {
             var socket = new SockJS('/hello');
             stompClient = Stomp.over(socket);
+            console.log("Connecting to server.");
             stompClient.connect({}, function(frame) {
                 setConnected(true);
                 console.log('Connected: ' + frame);

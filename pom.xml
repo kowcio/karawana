@@ -67,7 +67,7 @@
             <scope>test</scope>
         </dependency>
 
- <dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
@@ -75,7 +75,7 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-messaging</artifactId>
         </dependency>
-        
+
         <!-- Persistence -->
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -258,7 +258,7 @@
                     <url>jdbc:h2:./skeledb</url>
                 </configuration>
             </plugin>
-
+<!-- 
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -270,7 +270,7 @@
                     </dependency>
                 </dependencies>
             </plugin>
-
+ -->
 
         </plugins>
     </build>
