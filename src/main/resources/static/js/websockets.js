@@ -19,7 +19,18 @@
                 });
             });
         }
-
+        function connectTest() {
+            var socket = new SockJS('/test');
+            stompClient = Stomp.over(socket);
+            console.log("Connecting to server.");
+            stompClient.connect({}, function(frame) {
+                setConnected(true);
+                console.log('Connected: ' + frame);
+                stompClient.subscribe('/test', function(string){
+                    showGreeting(string.body);
+                });
+            });
+        }
         function disconnect() {
             if (stompClient != null) {
                 stompClient.disconnect();

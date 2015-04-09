@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
 import allinone.model.Greeting;
@@ -32,5 +33,10 @@ public class WebSocketController {
         
         return new Greeting("Hello, " + message.getName() + "! - " + LocalTime.now());
     }
+   
+    
+    //TODO  - TURN ON OR OFF broadcasting under a button - API 
+    
+    
 }
 //    
