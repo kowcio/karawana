@@ -1,20 +1,14 @@
 package allinone.web.controller;
 
-import javax.validation.Valid;
-
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 
 @Controller
+@Secured ( value = { "ROLE_ADMIN" })
 public class AdminController {
 
 	@RequestMapping ( value = "/adminPanel", method = RequestMethod.GET)
