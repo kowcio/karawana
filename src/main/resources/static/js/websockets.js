@@ -49,6 +49,7 @@
             var response = document.getElementById('response');
             var p = document.createElement('p');
             p.style.wordWrap = 'break-word';
-            p.insertBefore(document.createTextNode(message), $("#response").firstChild);
-            response.appendChild(p);
+            p.textContent=message;
+            response.insertBefore(p, response.firstChild);
+            //response.appendChild(p);
         }
