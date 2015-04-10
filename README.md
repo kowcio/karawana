@@ -8,6 +8,8 @@ App for learning and making code for those who do not have time nor enough energ
 
 * For putting together all the spring 4 + Java 8 stuff that we all can not search for code but to ctrl+c and v when we need to. Also a proof of concepts for ideas / problems.
 
+* REQUEST a tutorial sample code with functionalities in ISSUES.
+
 
 * [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
 
