@@ -18,7 +18,6 @@ public class ProffOfConceptClassFieldTestInterfaceImpl implements TestInterface 
 	@Test
 	public void POFInConsole() {
 		testIfField = new ProffOfConceptClassFieldTestInterfaceImpl();
-		
 	}
 
 	@Override
