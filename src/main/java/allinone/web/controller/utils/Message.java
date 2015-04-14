@@ -2,24 +2,16 @@ package allinone.web.controller.utils;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-/**
- * Klasa zawiera wiadomość wykorzystywaną przy przekierowaniach w kontrolerach.
- *
- * @author jbela
- */
 public class Message {
     
     public enum Type {
         INFO, SUCCESS, WARNING, DANGER
     }
     
-    // Typ wiadomości
     private Type   type;
     
-    // Treść wiadomości
     private String content;
     
-    // Jeśli ustawiono to automatycznie ukrywana wiadomość po wskazanym czasie
     private Long   autoHideMillis;
     
     private Message() {
