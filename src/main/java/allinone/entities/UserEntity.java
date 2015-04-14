@@ -1,16 +1,21 @@
 package allinone.entities;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
@@ -25,25 +30,16 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-@Table(name = "userEntity")
+@Table(name = "USER_ENTITY")
 @Data
 @EqualsAndHashCode(callSuper=false)
-public class UserEntity extends AbstractEntity implements UserDetails {
-    
-    private static final long     serialVersionUID   = 1L;
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Id
-    @Column(name = "id")
-    private Long                  id;
-    
+public class UserEntity extends AbstractAuditableEntity implements UserDetails {
+      
     @Column(unique = true)
     private String                name;
     
     @Column(name = "password")
     private String                password;
-    
-    @Version
-    private Long                  version;
     
     @DateTimeFormat(style = "M-")
     @CreatedDate
@@ -59,9 +55,8 @@ public class UserEntity extends AbstractEntity implements UserDetails {
     @Column(name = "lastLoginDate", nullable = true)
     private DateTime              lastLoginDate;
     
-    @ManyToOne
-    @JoinColumn(name = "grantedAuthorities", nullable = true)
-    private Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+    @OneToMany
+    private Set<Role> grantedAuthorities = new HashSet<>();
     
     @Override
     public String toString() {
