@@ -9,6 +9,7 @@ import allinone.entities.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 	User findByName(String name);
+	User findByNameAndPassword(String name,String password);
 }
 
 

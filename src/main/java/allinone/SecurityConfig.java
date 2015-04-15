@@ -45,6 +45,7 @@ class ApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/success", true).failureUrl("/login?error").and().logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).and().exceptionHandling()
                 .accessDeniedPage("/login?error")
+
         
         ;
         

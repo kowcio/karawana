@@ -33,6 +33,8 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository repo;
         
+    //the framework will authomaticaly check the user data os userDetails ilplementation methods
+    //for validating user, need to add ecnoder TODO
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("USERDETAILS LOADING name = {}", username);
@@ -40,8 +42,12 @@ public class UserService implements UserDetailsService {
         if (user == null) {
             return null;
         }
+        
         List<Role> auth = Arrays.asList(Role.builder().role("ROLE_USER").build());        
         String password = user.getPassword();
+        
+        //this is the user we are returning after checking the username rest does spring
+        
         return  User.getUser(username, password,  new HashSet<>(auth));
     }
     
