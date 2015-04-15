@@ -11,7 +11,7 @@ import org.springframework.security.authentication.event.AuthenticationSuccessEv
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import allinone.entities.UserEntity;
+import allinone.entities.User;
 import allinone.service.UserService;
 
 @Component
@@ -24,14 +24,14 @@ public class AuthenticationSuccessEventListener implements ApplicationListener<A
 
     @Override
     public void onApplicationEvent(AuthenticationSuccessEvent event) {
-        Optional<UserEntity> userEntity = Optional.empty();
+        Optional<User> userEntity = Optional.empty();
 
         logger.debug("Event - AuthenticationSuccessEventListener - > {}", event);
 
         Authentication auth = event.getAuthentication();
 
         if (auth != null && auth.isAuthenticated() && auth instanceof UsernamePasswordAuthenticationToken) {
-            userEntity = Optional.of((UserEntity) auth.getPrincipal());
+            userEntity = Optional.of((User) auth.getPrincipal());
         }
 
         logger.debug("Update last login date for user {}", userEntity);

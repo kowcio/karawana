@@ -88,13 +88,13 @@ public class Application extends WebMvcConfigurerAdapter {
         
         dataSource.setDriverClassName("org.h2.Driver");
         dataSource
-                .setJdbcUrl("jdbc:h2:./skeledb;AUTO_SERVER=FALSE;IFEXISTS=FALSE;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE");
+                .setJdbcUrl("jdbc:h2:./skeledb;AUTO_SERVER=TRUE;IFEXISTS=FALSE;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE");
         dataSource.setConnectionTestQuery("select 1");
         dataSource.setMaximumPoolSize(maxPoolSize);
         dataSource.setAutoCommit(isAutoCommit);
         dataSource.setUsername("sa");
         dataSource.setPassword("");
-        
+        log.info("Database launched ok.");
         return dataSource;
     }
     

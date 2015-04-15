@@ -9,12 +9,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import org.springframework.security.core.GrantedAuthority;
 
 @Data
+@Builder
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "authorities")

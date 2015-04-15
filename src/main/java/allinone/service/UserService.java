@@ -1,13 +1,18 @@
 package allinone.service;
 
 import java.time.ZonedDateTime;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.fest.assertions.Assertions.assertThat;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -16,28 +21,28 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import allinone.entities.UserEntity;
+import allinone.entities.Role;
+import allinone.entities.User;
 import allinone.repositories.UserRepository;
 
 @Service
 public class UserService implements UserDetailsService {
     
-	@Autowired
-    private UserRepository repo;
+    private static final Logger log = LoggerFactory.getLogger(UserService.class);
     
+    @Autowired
+    private UserRepository repo;
+        
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.err.println("USERDETAILS LOADING ");
-        UserEntity user = repo.findByName(username);
+        log.info("USERDETAILS LOADING name = {}", username);
+        User user = repo.findByName(username);
         if (user == null) {
             return null;
         }
-        List<GrantedAuthority> auth = AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER");
-        if (username.equals("admin")) {
-            auth = AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_ADMIN");
-        }
+        List<Role> auth = Arrays.asList(Role.builder().role("ROLE_USER").build());        
         String password = user.getPassword();
-        return new org.springframework.security.core.userdetails.User(username, password, auth);
+        return  User.getUser(username, password,  new HashSet<>(auth));
     }
     
     /**
@@ -45,14 +50,13 @@ public class UserService implements UserDetailsService {
      *
      * @param user
      */
-/*    @Transactional
-    public void updateLastLoginDate(Optional<UserEntity> user) {
-        
-        assertThat(user).isNotNull();
-        
-        user.ifPresent(u -> {
-            u.setLastLoginDate(ZonedDateTime.now());
-            repo.save(u);
-        });
-    }*/
+    /*
+     * @Transactional public void updateLastLoginDate(Optional<UserEntity> user)
+     * {
+     * 
+     * assertThat(user).isNotNull();
+     * 
+     * user.ifPresent(u -> { u.setLastLoginDate(ZonedDateTime.now());
+     * repo.save(u); }); }
+     */
 }

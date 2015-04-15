@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import allinone.ApplicationTest;
-import allinone.entities.UserEntity;
+import allinone.entities.User;
 import allinone.repositories.UserRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -28,12 +28,12 @@ public class AuditTest {
     public void Audittest() {
         System.out.println("TEST_wet2345 ");
         
-        UserEntity user = new UserEntity();
+        User user = new User();
         user.setName("name");
         
         assertThat(null != user.getId());
         
-        UserEntity user2 = ur.save(user);
+        User user2 = ur.save(user);
         
         assertThat(user.getCreatedDate() != null);
         assertThat("name".equals(user2.getName()));

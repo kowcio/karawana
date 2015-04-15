@@ -4,11 +4,11 @@ package allinone.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import allinone.entities.UserEntity;
+import allinone.entities.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
-	UserEntity findByName(String name);
+public interface UserRepository extends JpaRepository<User, Long> {
+	User findByName(String name);
 }
 
 
