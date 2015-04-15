@@ -8,6 +8,7 @@ import java.util.Set;
 import org.neo4j.cypher.internal.compiler.v2_1.ast.rewriters.distributeLawsRewriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
@@ -62,12 +63,21 @@ class ApplicationSecurity extends WebSecurityConfigurerAdapter {
      * ;//.passwordEncoder( new ShaPasswordEncoder() ); }
      */
     
+    
+    //http://docs.spring.io/autorepo/docs/spring-security/3.2.4.RELEASE/apidocs/org/springframework/security/crypto/bcrypt/BCrypt.html
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
     @Autowired
     UserService      userService;
     
+    
     @Autowired
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService)
+        
+        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder())
         
         ;
         
