@@ -46,7 +46,7 @@ public class GmailPage extends AbstractBaseTest {
     @Test
     public void test() {
         
-        String str = "Kodweryfikacyjny:8490.DziŕkujemyzaskorzystanieHaloDoktorze.pl";
+        String str = "";
         String reg = "[0-9]{4}";
         String reg2 = "/^(\\d{4}(,\\d{4})*)$/";
         
@@ -89,8 +89,8 @@ public class GmailPage extends AbstractBaseTest {
     public String getLatestEmailWithSMSCode() {
         
         String msg = "";
-        String user = "rankinglekarzy.dev@gmail.com";
-        String password = "RL150!rl";// change accordingly
+        String user = "";
+        String password = "";// change accordingly
         Properties props = setEmailPropertiesForGmailImapSSL(user, password);
         try {
             Session session = Session.getDefaultInstance(props, null);
@@ -153,8 +153,8 @@ public class GmailPage extends AbstractBaseTest {
     
     public String checkEmailForEmailReceipmentAndTitleString(String emailReceiver, String inTitle) {
         
-        String user = "testmija@gmail.com";
-        String password = "!@#qweasd";// change accordingly
+        String user = "";
+        String password = "";// change accordingly
         Properties props = setEmailPropertiesForGmailImapSSL(user, password);
         try {
             Session session = Session.getDefaultInstance(props, null);

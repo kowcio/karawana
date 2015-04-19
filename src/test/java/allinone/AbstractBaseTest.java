@@ -51,45 +51,6 @@ import com.codeborne.selenide.SelenideElement;
  */
 public abstract class AbstractBaseTest {
     
-    private static final String      URL_B2B_TEST                = "http://b2b.test.mijasoftware.com";
-    // PROD
-    public static final String       URL_PROD_RL                 = "http://rankinglekarzy.pl";
-    public static final String       URL_PROD_HD                 = "http://halodoktorze.pl";
-    public static final String       URL_PROD_PANEL              = "http://panel.halodoktorze.pl";
-    public static final String       URL_PROD_LOGIN_RL           = URL_PROD_RL + "/konto/logowanie/";
-    public static final String       URL_PROD_LOGIN_HD           = URL_PROD_HD + "/logowanie/";
-    
-    public static final String       LOGOWANIE_PROD_HD           = "http://www.halodoktorze.pl/logowanie/";
-    public static final String       LOGOWANIE_PROD_RL           = "http://www.rankinglekarzy.pl/konto/logowanie/";
-    public static final String       LOGIN_PROD_PATIENT          = "testmija+pacjentprod@gmail.com";
-    
-    public static final String       LOGIN_PROD_DOC              = "testmija+proddoc@gmail.com";
-    public static final String       LOGIN_PROD_INST             = "testmija+placowka@gmail.com";
-    
-    // TEST
-    public static final String       URL_TEST_RL                 = "http://rl.test.mijasoftware.com";
-    public static final String       URL_TEST_HD                 = "http://hd.test.mijasoftware.com";
-    public static final String       URL_TEST_PANEL              = "http://panel.rl.test.mijasoftware.com";
-    
-    public static final String       URL_RL_TEST_SEARCH_PAGE_DOC = URL_TEST_RL + "/lekarze/warszawa/";
-    public static final String       URL_HD_TEST_SEARCH_PAGE_DOC = URL_TEST_HD + "/lekarze/warszawa/";
-    
-    public static final String       URL_TEST_LOGIN_RL           = URL_TEST_RL + "/konto/logowanie/";
-    public static final String       URL_TEST_LOGIN_HD           = URL_TEST_HD + "/logowanie/";
-    
-    public static final String       URL_TEST_DOCTOR_MAIN        = "http://panel.rl.test.mijasoftware.com/lekarz/";
-    public static final String       URL_TEST_CALENDAR           = "http://panel.rl.test.mijasoftware.com/lekarz/kalendarz/";
-    public static final String       URL_TEST_CALENDAR_DAY       = "http://panel.rl.test.mijasoftware.com/lekarz/kalendarz/day/";
-    public static final String       URL_TEST_SEARCH             = "http://rl.test.mijasoftware.com/";
-    
-    public static final String       LOGIN_TEST_PATIENT          = "testmija+pacjenthdtest@gmail.com";
-    public static final String       LOGIN_TEST_DOC              = "testmija+doktorhdtest@gmail.com";
-    public static final String       LOGIN_TEST_INST             = "testmija+placowkahdtest@gmail.com";
-    public static final String       LOGIN_B2B_TESTMIJA = "testmija";
-
-    public static final String       BARDZO_DOBRA_PLACOWKA_I     = "Bardzo Dobra Placówka I";
-    public static final String       TEST_DEPARTMENT_NAME        = "Bardzo Dobra Placówka I";
-    
     // FOR ALL
     public static final String       PASSWORD                    = "TODO";
     public static final int          CODE_FAIL                   = 400;
@@ -113,7 +74,6 @@ public abstract class AbstractBaseTest {
     
     public static final String       TEST_CARD_NUMBER            = "4242424242424242";
     
-    public static final String       DEPARTMENT_NAME             = "bardzo dobra placowka";
     // webdrivery
     public WebDriver                 driver;
     
@@ -247,30 +207,6 @@ public abstract class AbstractBaseTest {
         log.info("Found add = " + adSearchPage);
         Assert.assertTrue(!adSearchPage.isEmpty(), "Ad in top banner is empty !");
         return true;
-    }
-    
-    /**
-     * Login with "doctor", "doc", "patient", "institution"
-     * 
-     * @param user - typ użytkownika do logowania
-     */
-    public void loginOnProdWith(String user) {
-        // tryLogout();
-        log.info("Trying to input credentials.");
-        if (user.equals("patient")) {
-            $(By.id("id_identification")).sendKeys(LOGIN_PROD_PATIENT);
-            $(By.id("id_password")).sendKeys(PASSWORD);
-        }
-        if (user.equals("institution")) {
-            $(By.id("id_identification")).sendKeys(LOGIN_PROD_INST);
-            $(By.id("id_password")).sendKeys(PASSWORD);
-        }
-        if (user.equals("doctor") || user.equals("doc")) {
-            $(By.id("id_identification")).sendKeys(LOGIN_PROD_DOC);
-            $(By.id("id_password")).sendKeys(PASSWORD);
-        }
-        $(By.id("log-in-button")).should(Condition.visible).click();
-        assertThat($(By.id("logout")).text().toString().contains("Wyloguj"));
     }
     
     public void waitForPageLoaded(WebDriver driver) {
@@ -535,21 +471,6 @@ public abstract class AbstractBaseTest {
         executor.executeScript("arguments[0].click();", element);
     }
     
-    public String getBardzoDobryLekarzURLHD() {
-        return "http://hd.test.mijasoftware.com/lekarz/bardzo-dobry-lekarz-testowy,172402/chirurg-ogolny-coach-kardiolog/gdansk-gdynia-warszawa-wysmierzyce/";
-    }
-    
-    public String getBardzoDobryLekarzURLRL() {
-        return "http://rl.test.mijasoftware.com/lekarz/bardzo-dobry-lekarz-testowy,172402/chirurg-ogolny-coach-kardiolog/gdansk-gdynia-warszawa-wysmierzyce/";
-    }
-    
-    public String getBardzoDobryLekarzHDProfile() {
-        return "http://hd.test.mijasoftware.com/lekarz/bardzo-dobry-lekarz-testowy,172402/chirurg-ogolny-coach-kardiolog/gdansk-gdynia-warszawa-wysmierzyce/";
-    }
-    
-    public String getBardzoDobryLekarzRLProfile() {
-        return "http://rl.test.mijasoftware.com/lekarz/bardzo-dobry-lekarz-testowy,172402/chirurg-ogolny-coach-kardiolog/gdansk-gdynia-warszawa-wysmierzyce/";
-    }
     
     /**
      * 
