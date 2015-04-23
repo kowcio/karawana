@@ -39,7 +39,6 @@ public class RepoTests extends AbstractTestNGSpringContextTests {
     @Test
     public void checkContextRunWithDBCreationAndMigrations() throws InterruptedException {
         
-        PodamFactoryImpl f = new PodamFactoryImpl();
         repo.deleteAll();
         for (int i = 0; i < 10; i++) {
             TestEntity t = new TestEntity();// f.manufacturePojo(TestEntity.class);

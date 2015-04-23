@@ -55,7 +55,7 @@ public class RLMainPageTest extends AbstractBaseTest {
     @Test(invocationCount = INVOCATION_COUNT, retryAnalyzer = TestFalsePositiveReRunner.class, enabled = false)
     public void checkMainPageLink() {
         
-        RLMainPage mainPage = new RLMainPage(URL_TEST_RL);
+        new RLMainPage("qwe");
         closePopover();
         testLinksOnCurrentPage();
         
@@ -69,10 +69,10 @@ public class RLMainPageTest extends AbstractBaseTest {
     @Test(invocationCount = INVOCATION_COUNT, retryAnalyzer = TestFalsePositiveReRunner.class, enabled = true)
     public void registerRLDoctorTest() {
         
-        RLMainPage rl = new RLMainPage(URL_TEST_RL + "/konto/rejestracja/lekarz/");
+        new RLMainPage("qwe" + "/konto/rejestracja/lekarz/");
         setCookiesPopoverOn1ForRLTest("rl.test.mijasoftware.com");
         closePopover();
-        new RLMainPage(URL_TEST_RL + "/konto/rejestracja/lekarz/");
+        new RLMainPage("qwe" + "/konto/rejestracja/lekarz/");
         
         // FILL in da form
         $("#id_doctor_title_chosen").click();

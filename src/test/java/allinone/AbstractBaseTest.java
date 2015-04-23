@@ -12,6 +12,7 @@ import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static org.fest.assertions.Assertions.assertThat;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -37,7 +38,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 
-
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
@@ -52,59 +52,58 @@ import com.codeborne.selenide.SelenideElement;
 public abstract class AbstractBaseTest {
     
     // FOR ALL
-    public static final String       PASSWORD                    = "TODO";
-    public static final int          CODE_FAIL                   = 400;
-    public static final int          CODE_SUCCESS                = 200;
-    public static final List<String> CITIES                      = Arrays.asList("Sopot", "Gdynia", "Warszawa",
-                                                                         "Olsztyn", "Gdańsk", "Wrocław", "Łódź",
-                                                                         "Elbląg", "Bydgoszcz");
-    public static final List<String> NAMES                       = Arrays.asList("Jan-Kowalski", "Marek", "Jan",
-                                                                         "Nowak", "Przemysław", "Jarek");
-    public static final List<String> SPECIALIZATION              = Arrays.asList("chirurg", "coach", "psycholog",
-                                                                         "pediatra", "ortopeda", "alergolog",
-                                                                         "stomatolog");
+    public static final String       PASSWORD               = "TODO";
+    public static final String       LOGIN                  = "TODO";
+    public static final int          CODE_FAIL              = 400;
+    public static final int          CODE_SUCCESS           = 200;
+    public static final List<String> CITIES                 = Arrays.asList("Sopot", "Gdynia", "Warszawa", "Olsztyn",
+                                                                    "Gdańsk", "Wrocław", "Łódź", "Elbląg", "Bydgoszcz");
+    public static final List<String> NAMES                  = Arrays.asList("Jan-Kowalski", "Marek", "Jan", "Nowak",
+                                                                    "Przemysław", "Jarek");
+    public static final List<String> SPECIALIZATION         = Arrays.asList("chirurg", "coach", "psycholog",
+                                                                    "pediatra", "ortopeda", "alergolog", "stomatolog");
     
-    public static final List<String> NORMAL_DEPARTMENT_URLS      = Arrays.asList("http://www.rankinglekarzy.pl/placowka/gabinet-stomatologiczny-twoj-usmiech,51049/wroclaw/");
-    public static final List<String> PESELS                      = Arrays.asList("79060804378", "55021562501");
+    public static final List<String> NORMAL_DEPARTMENT_URLS = Arrays.asList("http://www.rankinglekarzy.pl/placowka/gabinet-stomatologiczny-twoj-usmiech,51049/wroclaw/");
+    public static final List<String> PESELS                 = Arrays.asList("79060804378", "55021562501");
     
-    public static final List<String> NIPS                        = Arrays.asList("8779458829", "3551368335",
-                                                                         "5298454644", "9519767646", "5218992872",
-                                                                         "1754767418", "4974399711", "4536776361",
-                                                                         "6124517237", "4987378183");
+    public static final List<String> NIPS                   = Arrays.asList("8779458829", "3551368335", "5298454644",
+                                                                    "9519767646", "5218992872", "1754767418",
+                                                                    "4974399711", "4536776361", "6124517237",
+                                                                    "4987378183");
     
-    public static final String       TEST_CARD_NUMBER            = "4242424242424242";
+    public static final String       TEST_CARD_NUMBER       = "4242424242424242";
     
     // webdrivery
     public WebDriver                 driver;
     
-    public static org.slf4j.Logger   log                         = LoggerFactory.getLogger(AbstractBaseTest.class);
-    public final static int          TEST_RERUN_NUMBER           = 1;
-    public final static int          MAX_RETRY_COUNT             = 1;
-    public final static Long         BROWSER_TIMEOUT             = 45000l;
-    public final static int          INVOCATION_COUNT            = 1;
+    public static org.slf4j.Logger   log                    = LoggerFactory.getLogger(AbstractBaseTest.class);
+    public final static int          TEST_RERUN_NUMBER      = 1;
+    public final static int          MAX_RETRY_COUNT        = 1;
+    public final static Long         BROWSER_TIMEOUT        = 45000l;
+    public final static int          INVOCATION_COUNT       = 1;
     
-    public final static int          WAIT                        = 10000;
+    public final static int          WAIT                   = 10000;
     // Zmienne opisu systemu
     public String                    browserName;
     public String                    userName;
     
-    public Utils                     utils                       = new Utils();
-    public DBUtils                   dbUtils                     = new DBUtils();
+    public Utils                     utils                  = new Utils();
+    public DBUtils                   dbUtils                = new DBUtils();
     
     public UsersENUM                 user;
     public BrowserEnum               browser;
     
     // cloud03
-    //public String                    HUB_IP                      = "137.116.245.246";
-     public String HUB_IP = "localhost";
+    // public String HUB_IP = "137.116.245.246";
+    public String                    HUB_IP                 = "localhost";
     
     // performance
     public long                      startTime;
     public long                      endTime;
     
     // help vars
-    public String                    defaultString               = "";
-    public static final String       SERVICE_NAME_TEST           = "ServiceNameTest_";
+    public String                    defaultString          = "";
+    public static final String       SERVICE_NAME_TEST      = "ServiceNameTest_";
     
     public AbstractBaseTest() {
     };
@@ -156,23 +155,8 @@ public abstract class AbstractBaseTest {
             log.info("Opening specified url = {}", args[0]);
             open(args[0]);
         } else {
-            log.info("Opening specified url = {}", URL_TEST_LOGIN_HD);
-            open(URL_TEST_LOGIN_HD);
-        }
-        
-        log.info("Inputting credentials.");
-        
-        if (user.equals("patient")) {
-            $(By.id("id_identification")).sendKeys(LOGIN_TEST_PATIENT);
-            $(By.id("id_password")).sendKeys(PASSWORD);
-        }
-        if (user.equals("institution") || user.equals("department")) {
-            $(By.id("id_identification")).sendKeys(LOGIN_TEST_INST);
-            $(By.id("id_password")).sendKeys(PASSWORD);
-        }
-        if (user.equals("doctor") || user.equals("doc")) {
-            $(By.id("id_identification")).sendKeys(LOGIN_TEST_DOC);
-            $(By.id("id_password")).sendKeys(PASSWORD);
+            log.info("Opening specified url = {}", LOGIN);
+            open(LOGIN);
         }
         
         log.info("Clicking input. URL = {}", getUrl());
@@ -194,7 +178,6 @@ public abstract class AbstractBaseTest {
         log.info("Logged in as " + user.toString());
     }
     
-   
     public void clickSubmitBtnByTypeEqSubmit() {
         $(By.xpath(".//button[@type='submit']")).shouldBe(visible).click();
     }
@@ -387,7 +370,7 @@ public abstract class AbstractBaseTest {
         
         if (page.size() > 0) {
             pages = Integer.parseInt(page.get(page.size() - 1).text());
-            url = getUrl() + "?p=" + new Random().nextInt(pages);
+            url = getUrl() + "?p=" + new SecureRandom().nextInt(pages);
         } else {
             url = getUrl() + "?p=0";
         }
@@ -470,7 +453,6 @@ public abstract class AbstractBaseTest {
         JavascriptExecutor executor = (JavascriptExecutor) getWebDriver();
         executor.executeScript("arguments[0].click();", element);
     }
-    
     
     /**
      * 
