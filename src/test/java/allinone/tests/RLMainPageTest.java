@@ -61,8 +61,6 @@ public class RLMainPageTest extends AbstractBaseTest {
         
     }
     
-   
-    
     /**
      * Test rejestracji lekarza. TODO - test wyłączony
      */
@@ -100,16 +98,6 @@ public class RLMainPageTest extends AbstractBaseTest {
         $(by("value", "Utwórz konto lekarza")).waitUntil(visible, WAIT).shouldBe(visible).click();
         log.info("Registered on = {} ", mail);
         Assert.assertTrue($(".dialog-content").waitUntil(visible, WAIT).text().contains("Dziękujemy za rejestrację!"));
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         
     }
     

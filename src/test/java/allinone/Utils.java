@@ -175,7 +175,6 @@ public class Utils {
     @Test
     public void testGetRegexp(){
         
-        
         String string = "http://b2b.test.mijasoftware.com/adserver/kampanie/120/";
         System.out.println("String = " + string);
         String reg = "[0-9]+";
