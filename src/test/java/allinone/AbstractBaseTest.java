@@ -94,8 +94,8 @@ public abstract class AbstractBaseTest {
     public BrowserEnum               browser;
     
     // cloud03
-    public String                    HUB_IP                 = "137.116.245.246";
-    // public String HUB_IP = "localhost";
+    // public String HUB_IP = "137.116.245.246";
+    public String                    HUB_IP                 = "localhost";
     
     // performance
     public long                      startTime;
