@@ -262,6 +262,7 @@
       <sonar.jdbc.password>sonar</sonar.jdbc.password>
       <!-- SERVER ON A REMOTE HOST -->
       <sonar.host.url>http://127.0.0.1:9000</sonar.host.url>
+
    </properties>
 </profile>
     </profiles>
