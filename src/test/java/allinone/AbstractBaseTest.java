@@ -164,7 +164,7 @@ public abstract class AbstractBaseTest {
         
         log.info("Inputting credentials.");
         
-        if (user.equals("admin")) {
+        if (user.equals("patient")) {
             $(By.id("id_identification")).sendKeys(LOGIN);
             $(By.id("id_password")).sendKeys(PASSWORD);
         }

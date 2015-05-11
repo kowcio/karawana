@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.Test;
 
@@ -26,18 +27,17 @@ import allinone.repositories.TestEntityRepositoryCustom;
 public class RepoTests extends AbstractTestNGSpringContextTests {
     
     @Autowired
-    private TestEntityRepository     repo;
+    private TestEntityRepository       repo;
     @Autowired
-    //the type is the repository but the name of variable (reference)
-//need to be that of the interface implemented 
+    // the type is the repository but the name of variable (reference)
+    // need to be that of the interface implemented
     private TestEntityRepositoryCustom testEntityRepositoryImpl;
     
-    public final Logger              log = LoggerFactory.getLogger(getClass());
+    public final Logger                log = LoggerFactory.getLogger(getClass());
     
     @Test
     public void checkContextRunWithDBCreationAndMigrations() throws InterruptedException {
         
-        PodamFactoryImpl f = new PodamFactoryImpl();
         repo.deleteAll();
         for (int i = 0; i < 10; i++) {
             TestEntity t = new TestEntity();// f.manufacturePojo(TestEntity.class);
@@ -53,11 +53,22 @@ public class RepoTests extends AbstractTestNGSpringContextTests {
         test.setTestString("UPDATE");
         testEntityRepositoryImpl.update(test);
         repo.flush();
-        System.out.println(((Function<Integer, Integer>) x -> x / 100 * 100 + 10).apply(100));
-        
+        for (int i = 0; i < 100; i++) {
+            int j = i;
+            System.out.println(((Function<Integer, Integer>) w -> j / 100 * 100 + 10).apply(100));
+        }
         log.info("updated = {}", test);
         // updated = repo.findOne(repo.save(updated).getId());
         log.info("updated persisted= {}", repo.findOne(3L).toString());
     }
+ /*   
+    @Bench // console info only, no view ;(
+    public void JbenchXTest() {
+        
+        for (int i = 0; i < 100; i++) {
+            int j = i;
+            System.out.println(((Function<Integer, Integer>) w -> j / 100 * 100 + 10).apply(100));
+        }        
+    }*/
     
 }

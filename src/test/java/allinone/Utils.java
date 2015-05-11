@@ -19,7 +19,6 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.testng.Assert;
-import org.testng.annotations.Test;
 
 import com.codeborne.selenide.SelenideElement;
 
@@ -171,32 +170,6 @@ public class Utils {
         return null;
     }
     
-    
-    @Test
-    public void testGetRegexp(){
-        
-        
-        String string = "strng to cechck";
-        System.out.println("String = " + string);
-        String reg = "[0-9]+";
-        System.out.println("1 = " + getNumberMatchInString(reg, string));
-         reg = "\\D+";
-        System.out.println("1 = " + getNumberMatchInString(reg, string));
-         reg = "\\d+";
-        System.out.println("1 = " + getNumberMatchInString(reg, string));
-         reg = "^[0-9]+";
-        System.out.println("1 = " + getNumberMatchInString(reg, string));
-        
-        reg = "\\d{2,}";
-        System.out.println("1 = " + getNumberMatchInString(reg, string));
-        reg = "^[0-9]+";
-        System.out.println("1 = " + getNumberMatchInString(reg, string));
-        reg = "^[0-9]+";
-        System.out.println("1 = " + getNumberMatchInString(reg, string));
-       
-        
-        
-    }
     
     
     
