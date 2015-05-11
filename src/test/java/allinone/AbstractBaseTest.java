@@ -38,6 +38,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 
 
+
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
@@ -51,7 +52,8 @@ import com.codeborne.selenide.SelenideElement;
  */
 public abstract class AbstractBaseTest {
     
-    // FOR ALL
+    private static final String DOMAIN_NAME = "dimain_name";
+	// FOR ALL
     public static final String       PASSWORD                    = "TODO";
     public static final int          CODE_FAIL                   = 400;
     public static final int          CODE_SUCCESS                = 200;
@@ -60,11 +62,8 @@ public abstract class AbstractBaseTest {
                                                                          "Elbląg", "Bydgoszcz");
     public static final List<String> NAMES                       = Arrays.asList("Jan-Kowalski", "Marek", "Jan",
                                                                          "Nowak", "Przemysław", "Jarek");
-    public static final List<String> SPECIALIZATION              = Arrays.asList("chirurg", "coach", "psycholog",
-                                                                         "pediatra", "ortopeda", "alergolog",
-                                                                         "stomatolog");
+
     
-    public static final List<String> NORMAL_DEPARTMENT_URLS      = Arrays.asList("http://www.rankinglekarzy.pl/placowka/gabinet-stomatologiczny-twoj-usmiech,51049/wroclaw/");
     public static final List<String> PESELS                      = Arrays.asList("79060804378", "55021562501");
     
     public static final List<String> NIPS                        = Arrays.asList("8779458829", "3551368335",
@@ -73,6 +72,9 @@ public abstract class AbstractBaseTest {
                                                                          "6124517237", "4987378183");
     
     public static final String       TEST_CARD_NUMBER            = "4242424242424242";
+    public static final String       LOGIN            = "4242424242424242";
+    public static final String       URL_MAIN            = "4242424242424242";
+    
     
     // webdrivery
     public WebDriver                 driver;
@@ -145,7 +147,7 @@ public abstract class AbstractBaseTest {
     }
     
     /**
-     * Login with "doctor", "doc", "patient", "institution"
+     * Login with 
      * 
      * @param user - user type
      * @param args - args[0] - url
@@ -156,24 +158,17 @@ public abstract class AbstractBaseTest {
             log.info("Opening specified url = {}", args[0]);
             open(args[0]);
         } else {
-            log.info("Opening specified url = {}", URL_TEST_LOGIN_HD);
-            open(URL_TEST_LOGIN_HD);
+            log.info("Opening specified url = {}", LOGIN);
+            open(PASSWORD);
         }
         
         log.info("Inputting credentials.");
         
-        if (user.equals("patient")) {
-            $(By.id("id_identification")).sendKeys(LOGIN_TEST_PATIENT);
+        if (user.equals("admin")) {
+            $(By.id("id_identification")).sendKeys(LOGIN);
             $(By.id("id_password")).sendKeys(PASSWORD);
         }
-        if (user.equals("institution") || user.equals("department")) {
-            $(By.id("id_identification")).sendKeys(LOGIN_TEST_INST);
-            $(By.id("id_password")).sendKeys(PASSWORD);
-        }
-        if (user.equals("doctor") || user.equals("doc")) {
-            $(By.id("id_identification")).sendKeys(LOGIN_TEST_DOC);
-            $(By.id("id_password")).sendKeys(PASSWORD);
-        }
+       
         
         log.info("Clicking input. URL = {}", getUrl());
         
@@ -326,10 +321,6 @@ public abstract class AbstractBaseTest {
         return CITIES.get(idx);
     }
     
-    public String getRandomSpecialization() {
-        int idx = new Random().nextInt(SPECIALIZATION.size());
-        return SPECIALIZATION.get(idx);
-    }
     
     public String getRandomDoctorName() {
         int idx = new Random().nextInt(NAMES.size());
@@ -344,10 +335,6 @@ public abstract class AbstractBaseTest {
         return utils.getRandomString("Service Test_", 4);
     }
     
-    public String getRandomNormalDepartmentUrl() {
-        int idx = new Random().nextInt(NORMAL_DEPARTMENT_URLS.size());
-        return NORMAL_DEPARTMENT_URLS.get(idx);
-    }
     
     public String getRandomNIP() {
         int idx = new Random().nextInt(NIPS.size());
@@ -367,7 +354,7 @@ public abstract class AbstractBaseTest {
         String domain = getUrl();
         String start = "";
         String end = "";
-        if (domain.contains("mijasoftware"))
+        if (domain.contains(DOMAIN_NAME))
             end = ".com";
         else
             end = ".pl";
@@ -379,23 +366,7 @@ public abstract class AbstractBaseTest {
         return domain.substring(0, domain.indexOf(end) + end.length());
     }
     
-    public void getRandomPage() {
-        int pages = 0;
-        String url = "";
-        
-        List<SelenideElement> page = $(".pagination").findAll(By.className("hide-for-mobile"));
-        
-        if (page.size() > 0) {
-            pages = Integer.parseInt(page.get(page.size() - 1).text());
-            url = getUrl() + "?p=" + new Random().nextInt(pages);
-        } else {
-            url = getUrl() + "?p=0";
-        }
-        
-        open(url);
-        log.info("Opened URL = {}", url);
-    }
-    
+   
     public boolean isLoggedIn() {
         assertThat($(By.id("logout")).text().toString().contains("Wyloguj"));
         return true;
@@ -472,13 +443,6 @@ public abstract class AbstractBaseTest {
     }
     
     
-    /**
-     * 
-     tak: 79060804378 nie: 55021562501 brak danych: 01010153201 anulowane
-     * ubezpieczenie (?): 00060958187
-     * 
-     * @return string pesel
-     */
     public String getRandomPesel() {
         int idx = new Random().nextInt(PESELS.size());
         return PESELS.get(idx);
@@ -530,7 +494,6 @@ public abstract class AbstractBaseTest {
     @BeforeMethod
     public void before() {
         
-        log.info("Executing the RLPage2.before method");
         Configuration.browser = browser.getBrowserName();
         log.info("BEFORE method browserName = " + browser.getBrowserName());
         Configuration.remote = "http://" + HUB_IP + ":4444/wd/hub";

@@ -23,7 +23,7 @@ import allinone.AbstractBaseTest;
 import allinone.BrowserEnum;
 import allinone.GeneratorPeselDowod;
 import allinone.TestFalsePositiveReRunner;
-import allinone.pages.RLMainPage;
+import allinone.pages.MainTestPage;
 
 /**
  * Testy weryfkujące poprawnośc działania strony głównej / frontu.
@@ -55,63 +55,14 @@ public class RLMainPageTest extends AbstractBaseTest {
     @Test(invocationCount = INVOCATION_COUNT, retryAnalyzer = TestFalsePositiveReRunner.class, enabled = false)
     public void checkMainPageLink() {
         
-        RLMainPage mainPage = new RLMainPage(URL_TEST_RL);
+        MainTestPage mainPage = new MainTestPage(URL_MAIN);
         closePopover();
         testLinksOnCurrentPage();
         
     }
     
    
-    
-    /**
-     * Test rejestracji lekarza. TODO - test wyłączony
-     */
-    @Test(invocationCount = INVOCATION_COUNT, retryAnalyzer = TestFalsePositiveReRunner.class, enabled = true)
-    public void registerRLDoctorTest() {
-        
-        RLMainPage rl = new RLMainPage(URL_TEST_RL + "/konto/rejestracja/lekarz/");
-        setCookiesPopoverOn1ForRLTest("rl.test.mijasoftware.com");
-        closePopover();
-        new RLMainPage(URL_TEST_RL + "/konto/rejestracja/lekarz/");
-        
-        // FILL in da form
-        $("#id_doctor_title_chosen").click();
-        $(By.xpath(".//*[@id='id_doctor_title_chosen']/div/div/input")).sendKeys("mgr" + Keys.ENTER);
-        
-        $("#id_doctor-first_name").sendKeys("mg qwe 12r");
-        $("#id_doctor-last_name").sendKeys("mg qwe 12r");
-        $("#id_doctor_main_specialization_chosen").click();
-        $(By.xpath(".//*[@id='id_doctor_main_specialization_chosen']/div/div/input"))
-                .sendKeys("Alergolog" + Keys.ENTER);
-        String mail = getRandomTestEmail();
-        $("#id_doctor-email").sendKeys(mail);
-        $("#id_doctor-contact_phone").sendKeys("512512512");
-        $("#id_doctor-pesel").sendKeys(GeneratorPeselDowod.getPesel(1));
-        
-        // UPLOAD FILE
-        // String file = "/src/test/resources/testData/" + (new
-        // Random().nextInt(5) + 1) + ".jpg";
-        String file = "C:\\Users\\pkowalski\\Downloads\\" + (new Random().nextInt(5) + 1) + ".jpg";
-        log.info("File we want to upload = " + file);
-        
-        $("#id_doctor-license").sendKeys(file);
-        $(".delete").waitUntil(visible, WAIT);
-        $(".label_check").click();
-        $(by("value", "Utwórz konto lekarza")).waitUntil(visible, WAIT).shouldBe(visible).click();
-        log.info("Registered on = {} ", mail);
-        Assert.assertTrue($(".dialog-content").waitUntil(visible, WAIT).text().contains("Dziękujemy za rejestrację!"));
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    }
+  
     
     /**
      * before

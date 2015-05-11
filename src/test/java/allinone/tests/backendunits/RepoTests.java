@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.springframework.transaction.annotation.Transactional;
 import org.testng.annotations.Test;
 
 import uk.co.jemos.podam.api.PodamFactoryImpl;
@@ -17,7 +16,6 @@ import allinone.WebXml;
 import allinone.entities.TestEntity;
 import allinone.repositories.TestEntityRepository;
 import allinone.repositories.TestEntityRepositoryCustom;
-import allinone.repositories.TestEntityRepositoryImpl;
 
 //@RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = { ApplicationTest.class, WebXml.class })

@@ -176,7 +176,7 @@ public class Utils {
     public void testGetRegexp(){
         
         
-        String string = "http://b2b.test.mijasoftware.com/adserver/kampanie/120/";
+        String string = "strng to cechck";
         System.out.println("String = " + string);
         String reg = "[0-9]+";
         System.out.println("1 = " + getNumberMatchInString(reg, string));
