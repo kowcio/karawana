@@ -22,26 +22,22 @@ public class ProffOfConceptClassFieldTestInterfaceImpl implements TestInterface 
 
 	@Override
 	public String getRandomString() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String getRansomString(String prefix) {
-		// TODO Auto-generated method stub
+	public String getRandomString(String prefix) {
 		return null;
 	}
 
 	@Override
-	public String getRansomString(String prefix, String suffix) {
-		// TODO Auto-generated method stub
+	public String getRandomString(String prefix, int length, String suffix) {
 		return null;
 	}
 
-	@Override
-	public String getRansomString(String prefix, int length, String suffix) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getRandomString(String prefix, String suffix) {
+        return null;
+    }
 
 }

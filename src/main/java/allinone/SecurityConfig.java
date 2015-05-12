@@ -1,31 +1,18 @@
 package allinone;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import allinone.entities.User;
-import allinone.repositories.UserRepository;
 import allinone.service.UserService;
 
 import com.zaxxer.hikari.HikariDataSource;
@@ -45,7 +32,6 @@ class ApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/success", true).failureUrl("/login?error").and().logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).and().exceptionHandling()
                 .accessDeniedPage("/login?error")
-
         
         ;
         
@@ -62,16 +48,14 @@ class ApplicationSecurity extends WebSecurityConfigurerAdapter {
      * ;//.passwordEncoder( new ShaPasswordEncoder() ); }
      */
     
-    
-    //http://docs.spring.io/autorepo/docs/spring-security/3.2.4.RELEASE/apidocs/org/springframework/security/crypto/bcrypt/BCrypt.html
+    // http://docs.spring.io/autorepo/docs/spring-security/3.2.4.RELEASE/apidocs/org/springframework/security/crypto/bcrypt/BCrypt.html
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder(){
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-    @Autowired
-    UserService      userService;
     
+    @Autowired
+    UserService userService;
     
     @Autowired
     public void configure(AuthenticationManagerBuilder auth) throws Exception {

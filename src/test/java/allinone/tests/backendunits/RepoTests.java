@@ -35,6 +35,7 @@ public class RepoTests extends AbstractTestNGSpringContextTests {
     
     public final Logger                log = LoggerFactory.getLogger(getClass());
     
+    
     @Test
     public void checkContextRunWithDBCreationAndMigrations() throws InterruptedException {
         
