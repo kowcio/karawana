@@ -43,14 +43,6 @@ public abstract class AbstractController {
     public static final String    NEWS_TEMPLATE                   = "landingpage/news";
     public static final String    NEWS_PAGE                       = "/news";
     
-    public static final String    DASHBOARD_TEMPLATE              = "portal/dashboard";
-    public static final String    DASHBOARD_PAGE                  = "/dashboard/{deviceGroupId}";
-    
-    public static final String    DASHBOARD_PAGE_RELOAD           = "/dashboard/{deviceGroupId}/reload";
-    
-    public static final String    NODE_PAGE                       = "/node/{nodeId}";
-    public static final String    NODE_TEMPLATE                   = "portal/device";
-    
     // message timeouts
     public static final Long      MESSAGE_HIDE_TIMEOUT_10         = 10000L;
     public static final Long      MESSAGE_HIDE_TIMEOUT_5          = 5000L;

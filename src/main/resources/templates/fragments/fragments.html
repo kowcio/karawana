@@ -14,7 +14,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
 
-<!--  Analytics Verify -->
+<!--  Analytics Verify -->  
 <meta name="google-site-verification" content="b5zlt27ykabiFZ2b8XQRw7tV34WeFtPlXXVMv4FFw0o" />
 
 
@@ -97,7 +97,19 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="../navbar/">Default</a></li>
                     <li><a href="../navbar-static-top/">Static top</a></li>
-                    <li class="active"><a href="/login">Login <span class="sr-only">(current)</span></a></li>
+                    <!--  DISPLAY ONLY IF LOGGED IN -->
+                    
+                    
+                    <li th:if="${!#authorization.expression('isAuthenticated()')}" 
+                    class="active"><a href="/login">Login <span class="sr-only">(current)</span></a></li>
+                  
+                    <li class="active" th:if="${#authorization.expression('isAuthenticated()')}"> 
+                    <a href="/">
+                    Logged as: <span sec:authentication="name"
+                    ></span></a>
+                    
+                    </li>
+                    
                 </ul>
             </div>
             <!--/.nav-collapse -->

@@ -352,7 +352,6 @@ public abstract class AbstractBaseTest {
      */
     public String getUrlDomain() {
         String domain = getUrl();
-        String start = "";
         String end = "";
         if (domain.contains(DOMAIN_NAME))
             end = ".com";
