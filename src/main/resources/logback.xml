@@ -4,7 +4,6 @@
 
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
-			
 		
 			<pattern>%n%d{HH:mm:ss,SSS} # %p # %10C{1}.%.20M{1}.%L ### %m # %r ms)</pattern>
 			

@@ -1,4 +1,4 @@
-package allinone.tests;
+package allinone.model;
 
 import lombok.Data;
 

@@ -23,7 +23,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import scala.annotation.meta.getter;
 import allinone.repositories.TestEntityRepositoryCustom;
 import allinone.repositories.TestEntityRepositoryImpl;
 

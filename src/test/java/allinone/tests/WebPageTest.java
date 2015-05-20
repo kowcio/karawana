@@ -19,13 +19,13 @@ import allinone.TestFalsePositiveReRunner;
  * @author pkowalski
  *
  */
-public class RLMainPageTest extends AbstractBaseTest {
+public class WebPageTest extends AbstractBaseTest {
 
-	private RLMainPageTest() {
+	private WebPageTest() {
 	}
 
 	@Factory ( dataProvider = "Test_all_5_browsers_x1")
-	public RLMainPageTest(WebDriver driver, BrowserEnum browser) {
+	public WebPageTest(WebDriver driver, BrowserEnum browser) {
 
 		try {
 			log.info("FACTORY Browser =  => " + browser.toString());

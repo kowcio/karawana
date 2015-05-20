@@ -1,4 +1,4 @@
-package allinone.tests;
+package allinone.model;
 
 import java.util.ArrayList;
 import java.util.List;
