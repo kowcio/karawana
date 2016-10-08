@@ -21,7 +21,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @EnableWebMvcSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
-class ApplicationSecurity extends WebSecurityConfigurerAdapter {
+class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {

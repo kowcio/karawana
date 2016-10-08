@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class CarDecorator {
 
-	public CarDecorator(Car car){};
+	public CarDecorator(User car){};
 	
 }

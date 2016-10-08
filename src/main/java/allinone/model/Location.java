@@ -3,12 +3,14 @@ package allinone.model;
 import lombok.Builder;
 import lombok.Data;
 
-public interface CarIf {
+
+@Data
+@Builder
+
+public class Location extends AbstractModel {
 
 
-
-
-
+String name;
 
 
 

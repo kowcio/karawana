@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.h2.tools.Server;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -23,8 +25,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
-import allinone.model.LoggerIf;
 
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -47,7 +47,8 @@ import com.zaxxer.hikari.HikariDataSource;
 @EnableJpaRepositories
 @EnableCaching
 @EnableTransactionManagement
-public class Application extends WebMvcConfigurerAdapter implements LoggerIf {
+public class Application extends WebMvcConfigurerAdapter {
+	final static Logger log = LoggerFactory.getLogger(Application.class);
 
 	public static void main(String[] args) {
 
@@ -56,7 +57,6 @@ public class Application extends WebMvcConfigurerAdapter implements LoggerIf {
 
 	@Bean
 	org.h2.tools.Server h2Server() throws SQLException {
-		log.info("Loading h2 server.");
 		org.h2.tools.Server server = new Server();
 		server.runTool("-tcp");
 		server.runTool("-tcpAllowOthers");
@@ -65,8 +65,8 @@ public class Application extends WebMvcConfigurerAdapter implements LoggerIf {
 	}
 
 	@Bean
-	public ApplicationSecurity applicationSecurity() {
-		return new ApplicationSecurity();
+	public SecurityConfig applicationSecurity() {
+		return new SecurityConfig();
 	}
 
 	@Bean

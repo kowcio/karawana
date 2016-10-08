@@ -1,16 +1,10 @@
 package allinone;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
-
 import org.h2.tools.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -23,7 +17,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import allinone.repositories.TestEntityRepositoryCustom;
 import allinone.repositories.TestEntityRepositoryImpl;
 
 import com.zaxxer.hikari.HikariDataSource;
@@ -68,8 +61,8 @@ public class ApplicationTest extends WebMvcConfigurerAdapter {
 	}
 
 	@Bean
-	public ApplicationSecurity applicationSecurity() {
-		return new ApplicationSecurity();
+	public SecurityConfig applicationSecurity() {
+		return new SecurityConfig();
 	}
 
 	@Bean
