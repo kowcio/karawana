@@ -14,5 +14,5 @@ import java.util.List;
 public class Group {
     String name;
     List<User> users = new ArrayList<>(0);
-    
+
 }
