@@ -1,99 +1,85 @@
 package karawana.entities;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import karawana.model.Location;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import org.joda.time.DateTime;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
 
 @Entity
 @Table(name = "USERS")
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class User implements UserDetails {
-    
-    private static final long serialVersionUID   = 1L;
-    
-    @Column(name = "username", unique = true)
-    private String            name;
-    
-    @Column(name = "password")
-    private String            password;
-    
-    @DateTimeFormat(style = "M-")
-    @CreatedDate
-    private DateTime          createdDate;
-    
-    @LastModifiedDate
-    @DateTimeFormat(style = "M-")
-    private DateTime          modifiedDate;
 
-    @ManyToOne
-    private TestEntity        testEntity;
+    private static final long serialVersionUID = 1L;
+
+    @Column(name = "username", unique = true)
+    private String name;
+
+    @Column(name = "password")
+    private String password;
 
     @Column
-    private Boolean           enabled;
-    
-    @Column(name = "lastLoginDate", nullable = true)
-    private DateTime          lastLoginDate;
-    
-    @ManyToMany
-    @Column(name = "USERS_GRANTED_AUTHORITIES ")
-    private Set<Role>         grantedAuthorities = new HashSet<>();
+    private Location location;
 
+    @DateTimeFormat(style = "M-")
+    @CreatedDate
+    private DateTime createdDate;
+
+    @Column(name = "lastLoginDate", nullable = true)
+    private DateTime lastLoginDate;
+
+    /*TODO - Role sie przyda do stwierdzenia czy to hostCar czy userCar(follower) - wyjebalem z rozpędu ;)*/
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return grantedAuthorities;
+        return null;
     }
-    
+
     @Override
     public String getUsername() {
         return name;
     }
-    
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
-    
+
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
-    
+
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
-    
+
     @Override
     public boolean isEnabled() {
         return true;
     }
-    
-    public static User getUser(String username, String pass, Set<Role> authorities) {
+
+    public static User getUser(String username, String pass) {
         User user = new User();
         user.name = username;
         user.password = pass;
-        user.grantedAuthorities = authorities;
         return user;
     }
-    
+
     public User() {
     }
-    
+
 }
