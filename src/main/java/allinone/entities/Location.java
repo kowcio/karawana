@@ -1,5 +1,6 @@
-package allinone.model;
+package allinone.entities;
 
+import allinone.model.AbstractModel;
 import lombok.Builder;
 import lombok.Data;
 

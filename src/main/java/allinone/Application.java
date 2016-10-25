@@ -64,10 +64,10 @@ public class Application extends WebMvcConfigurerAdapter {
 		return server;
 	}
 
-	@Bean
-	public SecurityConfig applicationSecurity() {
-		return new SecurityConfig();
-	}
+//	@Bean
+//	public SecurityConfig applicationSecurity() {
+//		return new SecurityConfig();
+//	}
 
 	@Bean
 	@Primary

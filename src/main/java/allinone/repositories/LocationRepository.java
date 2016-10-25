@@ -1,14 +1,14 @@
 package allinone.repositories;
 
 
-import allinone.entities.User;
+import allinone.entities.UserOld;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface LocationRepository extends JpaRepository<User, Long> {
-	User findByName(String name);
-	User findByNameAndPassword(String name, String password);
+public interface LocationRepository extends JpaRepository<UserOld, Long> {
+	UserOld findByName(String name);
+	UserOld findByNameAndPassword(String name, String password);
 }
 
 

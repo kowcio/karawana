@@ -1,8 +1,12 @@
 package allinone.service;
 
+import org.springframework.stereotype.Service;
+
 /**
  * Created by Kowcio on 2016-10-08.
  */
+
+@Service
 public class LocationService {
 
 
