@@ -29,38 +29,6 @@
 
 
 
-<!--         <div th:replace="fragments/common :: pagination (pageable=${orderList},href='/panel/order')"></div>
- -->
-
-
-<div th:fragment="pagination (pageable, href)" th:remove="tag">
-
-
-    <div id='pagination_control' th:if="${paginationInfo.isVisible()}" class="pagination blog-pagination">
-        <a th:href="@{${href}(page=${paginationInfo.previousPageNumber})}" class='previous'
-            th:if="${paginationInfo.previousVisible}"><i class="glyphicon glyphicon-chevron-left"></i></a>
-
-        <div th:each="element : ${paginationInfo.pageElements}">
-            <a th:href="@{${href}(page=${element.label})}" th:text="${element.label}+1" th:if="${element.navigable}"></a>
-            <!--   current page   -->
-            <div th:text="${element.label}+1" th:if="${!element.navigable AND element.currentPage}" class="active"></div>
-            <div th:text="${element.label}" th:unless="${element.navigable || element.currentPage}"></div>
-        </div>
-        <a th:href="@{${href}(page=${paginationInfo.nextPageNumber})}" class='next'
-            th:if="${paginationInfo.nextVisible}"><i class="glyphicon glyphicon-chevron-right"></i></a>
-    </div>
-
-
-
-</div>
-<!--  end pagination element -->
-
-
-
-
-
-
-
 
 
 

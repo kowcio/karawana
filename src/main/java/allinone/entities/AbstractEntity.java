@@ -19,9 +19,7 @@ public abstract class AbstractEntity implements Persistable<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    protected
-    // , generator = "seq_generator")
-            Long id = 0L;
+    protected Long id = 0L;
 
     @Version
     @Column(name = "version")

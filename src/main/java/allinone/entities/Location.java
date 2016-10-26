@@ -4,10 +4,12 @@ import allinone.model.AbstractModel;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.persistence.Entity;
+
 
 @Data
 @Builder
-
-public class Location extends AbstractModel {
+@Entity
+public class Location extends AbstractEntity {
     String name;
 }

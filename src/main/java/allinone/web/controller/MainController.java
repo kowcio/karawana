@@ -16,7 +16,6 @@ import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 @Controller
-@Scope("Session")
 public class MainController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
