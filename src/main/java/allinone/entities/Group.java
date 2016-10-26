@@ -12,8 +12,6 @@ import java.util.List;
 @Builder
 
 public class Group extends AbstractModel {
-
     List<User> users = new ArrayList<>(0);
-
 
 }

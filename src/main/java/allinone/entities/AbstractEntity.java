@@ -21,18 +21,18 @@ public abstract class AbstractEntity implements Persistable<Long> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected
     // , generator = "seq_generator")
- Long              id               = 0L;
+            Long id = 0L;
 
     @Version
     @Column(name = "version")
-    private Long              version;
+    private Long version;
 
     public Long getId() {
         return id;
     }
 
     public boolean isNew() {
-        boolean isNew = id != null ;//? true : false;
+        boolean isNew = id != null;//? true : false;
         return isNew;
     }
 }

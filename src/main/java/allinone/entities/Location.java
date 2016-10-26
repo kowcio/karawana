@@ -9,11 +9,5 @@ import lombok.Data;
 @Builder
 
 public class Location extends AbstractModel {
-
-
-String name;
-
-
-
-
+    String name;
 }

@@ -24,66 +24,64 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Table(name = "USERS")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class UserOld extends AbstractAuditableEntity implements UserDetails {
-    
-    private static final long serialVersionUID   = 1L;
-    
+public class UserOld extends AbstractEntity implements UserDetails {
+
+    private static final long serialVersionUID = 1L;
+
     @Column(name = "username", unique = true)
-    private String            name;
-    
+    private String name;
+
     @Column(name = "password")
-    private String            password;
-    
+    private String password;
+
     @DateTimeFormat(style = "M-")
     @CreatedDate
-    private DateTime          createdDate;
-    
+    private DateTime createdDate;
+
     @LastModifiedDate
     @DateTimeFormat(style = "M-")
-    private DateTime          modifiedDate;
-    
-    @ManyToOne
-    private TestEntity        testEntity;
-        @Column
-    private Boolean           enabled;
-    
+    private DateTime modifiedDate;
+
+    @Column
+    private Boolean enabled;
+
     @Column(name = "lastLoginDate", nullable = true)
-    private DateTime          lastLoginDate;
-    
+    private DateTime lastLoginDate;
+
     @ManyToMany
     @Column(name = "USERS_GRANTED_AUTHORITIES ")
-    private Set<Role>         grantedAuthorities = new HashSet<>();
-    
+    private Set<Role> grantedAuthorities = new HashSet<>();
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return grantedAuthorities;
     }
-    
+
     @Override
     public String getUsername() {
         return name;
     }
-    
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
-    
+
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
-    
+
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
-    
+
     @Override
     public boolean isEnabled() {
         return true;
     }
-    
+
     public static UserOld getUser(String username, String pass, Set<Role> authorities) {
         UserOld user = new UserOld();
         user.name = username;
@@ -91,8 +89,8 @@ public class UserOld extends AbstractAuditableEntity implements UserDetails {
         user.grantedAuthorities = authorities;
         return user;
     }
-    
+
     public UserOld() {
     }
-    
+
 }
