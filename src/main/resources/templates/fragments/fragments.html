@@ -14,16 +14,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
 
-<!--  Analytics Verify -->  
-<meta name="google-site-verification" content="b5zlt27ykabiFZ2b8XQRw7tV34WeFtPlXXVMv4FFw0o" />
-
-
-<!--<meta name="_csrf" th:content="${_csrf.token}" />-->
-<!--<meta name="_csrf_header" th:content="${_csrf.headerName}" />-->
-
 
 <!--  CSS  -->
-<link th:href="@{/css/all.css}" rel="stylesheet" type="text/css" media="all"></link>
+<link th:href="@{/css/all.css}" rel="stylesheet" type="text/css" media="all"/>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
 
@@ -33,89 +26,64 @@
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
+    <!--<script type="text/javascript"-->
+            <!--src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD62-h3vHt8Wk1es0s92R-VNdgzQM75PRE&amp;libraries=geometry,places">-->
+    <!--</script>-->
+    <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?sensor=false">
+    </script>
 
 <script src="//cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
 <script src="../../static/js/websockets.js" th:src="@{/js/websockets.js}"></script>
 <script src="../../static/js/websockets.js" th:src="@{/js/stomp.js}"></script>
+<script src="../../static/js/app.js" th:src="@{/js/app.js}"></script>
+
+
+
 </head>
 
 
 
-<!--    ANALYTICS  -->
 
-<script th:fragment="fragments/common :: analytics">
-	var _gaq = _gaq || [];
-	_gaq.push([ '_setAccount', 'UA-49363543-2' ]);
-	_gaq.push([ '_trackPageview' ]);
-	(function() {
-		var ga = document.createElement('script');
-		ga.type = 'text/javascript';
-		ga.async = true;
-		ga.src = ('https:' == document.location.protocol ? 'https://ssl'
-				: 'http://www')
-				+ '.google-analytics.com/ga.js';
-		var s = document.getElementsByTagName('script')[0];
-		s.parentNode.insertBefore(ga, s);
-	})();
-</script>
+<div th:fragment="top" class="">
 
 
-
-<div th:fragment="top">
-
-
-<div class="row">
-
-    Here we get data from the main controller when generating a new user when someone visits the website.
+    <div class="row" style="height:100%; width:100%;">
 
 
-</div>
+sd
 
 
 
 
 
-</div>
 
+        q
 
-
-<div th:fragment="pagination" th:remove="tag">pagination part</div>
-
-
-
-<div th:fragment="confirmationModal">
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">Potwierdzenie operacji</h4>
-                </div>
-                <div class="modal-body">Czy na pewno chcesz wykonać operację ?</div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" id="confirmOperation">Tak</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="cancelOperation">Nie</button>
-                </div>
-            </div>
-        </div>
     </div>
 
+
+
+
+
 </div>
+
+
+
 
 
 
 <div th:fragment="footer">
 
     <footer class="footer">
-      <div class="container">
-        <p class="text-muted">Place sticky footer content here.</p>
+      <div class="">
+        <p class="text-muted">
+
+            footer
+
+        </p>
       </div>
     </footer>
-
-
 </div>
 
 
