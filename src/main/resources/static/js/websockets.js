@@ -15,8 +15,8 @@
             stompClient.connect({}, function(frame) {
                 setConnected(true);
                 console.log('Connected: ' + frame);
-                stompClient.subscribe('/topic/greetings', function(greeting){
-                	showWebSocketMsg(JSON.parse(greeting.body).content);
+                stompClient.subscribe('/topic/greetings', function(callback){
+                	showWebSocketMsg(JSON.parse(callback).content);
                 });
             });
         }

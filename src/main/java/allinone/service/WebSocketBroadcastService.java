@@ -20,10 +20,10 @@ public class WebSocketBroadcastService {
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
-    @Scheduled(fixedRate=1000)
+    @Scheduled(fixedRate=3000)
     public void broadcastTest() {
     	LOGGER.info("Broadcasting messages to users on /test.");
-        messagingTemplate.convertAndSend("/test", "Broadcasting payload data." + LocalTime.now()	);
+        messagingTemplate.convertAndSend("/test", "Broadcasting payload data." + LocalTime.now()+" Static data broadcast."	);
     }
 
   
