@@ -14,24 +14,40 @@
             console.log("Connecting to server.");
             stompClient.connect({}, function(frame) {
                 setConnected(true);
+
+                    var name = document.getElementById('name').value;
+                var sub = "/topic/greetings";
+
                 console.log('Connected: ' + frame);
-                stompClient.subscribe('/topic/greetings', function(callback){
-                	showWebSocketMsg(JSON.parse(callback).content);
+                console.log('subscribing to ' + sub);
+
+                stompClient.subscribe(sub, function(callback){
+                console.log("res callback - " + callback);
+
+//                	showWebSocketMsg(JSON.parse(callback).content);
                 });
             });
         }
-        function connectTest() {
-            var socket = new SockJS('/test');
-            stompClient = Stomp.over(socket);
-            console.log("Connecting to server.");
-            stompClient.connect({}, function(frame) {
-                setConnected(true);
-                console.log('Connected: ' + frame);
-                stompClient.subscribe('/test', function(string){
-                	showWebSocketMsg(string.body);
-                });
-            });
-        }
+               function sendName() {
+                    var name = document.getElementById('name').value;
+                    var res = stompClient.send("/app/hello", {}, JSON.stringify({ 'name': name }));
+                    console.log(res);
+
+
+                }
+//        function connectTest() {
+//            var socket = new SockJS('/test');
+//            stompClient = Stomp.over(socket);
+//            console.log("Connecting to server.");
+//            stompClient.connect({}, function(frame) {
+//                setConnected(true);
+//                console.log('Connected: ' + frame);
+//                stompClient.subscribe('/test', function(string){
+//                console.log("Resp - "+string);
+//                	showWebSocketMsg(string.body);
+//                });
+//            });
+//        }
         function disconnect() {
             if (stompClient != null) {
                 stompClient.disconnect();
@@ -40,10 +56,7 @@
             console.log("Disconnected");
         }
 
-        function sendName() {
-            var name = document.getElementById('name').value;
-            stompClient.send("/app/hello", {}, JSON.stringify({ 'name': name }));
-        }
+
 
         function showWebSocketMsg(message) {
             var response = document.getElementById('response');
@@ -51,5 +64,5 @@
             p.style.wordWrap = 'break-word';
             p.textContent=message;
             response.insertBefore(p, response.firstChild);
-            //response.appendChild(p);
+            response.appendChild(p);
         }

@@ -14,20 +14,24 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry config) {
-		config.enableSimpleBroker("/test");
+		config.enableSimpleBroker("/topic");
 		config.setApplicationDestinationPrefixes("/app");
 	}
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint("/test").withSockJS();
+
+		registry.addEndpoint("/hello").withSockJS();
+		registry.addEndpoint("/topic/greetings").withSockJS();
+		registry.addEndpoint("/ws/endpoint").withSockJS();
+
 	}
 
-    @MessageMapping("/ws/endpoint")
-    @SendToUser("/queue/dashboard/reload")
+    @MessageMapping("/topic/greetings")
+    @SendToUser("/topic/greetings")
     public String greeting() {
-    	
-        return "Test Sended String";
+		System.out.println("trolololo");
+		return "Test Sended String";
     }
     
     
