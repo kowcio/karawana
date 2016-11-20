@@ -15,14 +15,15 @@
             stompClient.connect({}, function(frame) {
                 setConnected(true);
 
-                    var name = document.getElementById('name').value;
+                var name = document.getElementById('name').value;
                 var sub = "/topic/greetings";
 
                 console.log('Connected: ' + frame);
                 console.log('subscribing to ' + sub);
 
                 stompClient.subscribe(sub, function(callback){
-                console.log("res callback - " + callback);
+                console.log("we subscribed to  " + sub +"\n the callback is = " + callback);
+                console.log(callback);
 
 //                	showWebSocketMsg(JSON.parse(callback).content);
                 });
@@ -30,7 +31,7 @@
         }
                function sendName() {
                     var name = document.getElementById('name').value;
-                    var res = stompClient.send("/app/hello", {}, JSON.stringify({ 'name': name }));
+                    var res = stompClient.send("/app/hello/"+name, {}, JSON.stringify({ 'name': name }));
                     console.log(res);
 
 
