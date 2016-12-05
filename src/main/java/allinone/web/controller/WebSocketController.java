@@ -39,16 +39,15 @@ public class WebSocketController {
         }
         log.info("We want to create a websocket with :  {} -- {}", groupID, DateTime.now());
         //config service;
-
-        scheduler.scheduleAtFixedRate(new Runnable() {
-            public void run() {
-                try{
-                    System.out.println("WS !!");
-                    String destination = "/topic/greetings/" + groupID;
-                    template.convertAndSend(destination, "{shares:true,price:100.00}");
-                }catch(MessagingException e){
-                    System.err.println("!!!!!! websocket timer error :>"+e.toString());
-                }
+        Thread.currentThread().setName("ThreadCreatingSocket");
+        scheduler.scheduleAtFixedRate(() -> {
+            try{
+                log.info("Log from thread=");
+                Thread.currentThread().setName("websocket:"+groupID);
+                String destination = "/topic/greetings/" + groupID;
+                template.convertAndSend(destination, "{shares:true,price:100.00}");
+            }catch(MessagingException e){
+                System.err.println("!!!!!! websocket timer error :>"+e.toString());
             }
         }, 3000);
 
