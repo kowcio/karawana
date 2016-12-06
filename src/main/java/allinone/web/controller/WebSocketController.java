@@ -16,6 +16,7 @@ import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.websocket.Session;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,9 +43,13 @@ public class WebSocketController {
         Thread.currentThread().setName("ThreadCreatingSocket");
         scheduler.scheduleAtFixedRate(() -> {
             try{
-                log.info("Log from thread=");
+
                 Thread.currentThread().setName("websocket:"+groupID);
                 String destination = "/topic/greetings/" + groupID;
+                log.info("Log from thread={}",destination);
+
+
+
                 template.convertAndSend(destination, "{shares:true,price:100.00}");
             }catch(MessagingException e){
                 System.err.println("!!!!!! websocket timer error :>"+e.toString());

@@ -16,22 +16,24 @@
                 setConnected(true);
 
                 var name = document.getElementById('name').value;
-                var sub = "/topic/greetings";
+                var sub = "/topic/greetings/"+name;
 
                 console.log('Connected: ' + frame);
                 console.log('subscribing to ' + sub);
 
                 stompClient.subscribe(sub, function(callback){
-                console.log("we subscribed to  " + sub +"\n the callback is = " + callback);
+                console.log("we subscribed to  " + sub +" the callback is = " + callback);
                 console.log(callback);
 
 //                	showWebSocketMsg(JSON.parse(callback).content);
+                	showWebSocketMsg(callback.content);
                 });
             });
         }
                function sendName() {
                     var name = document.getElementById('name').value;
-                    var res = stompClient.send("/app/hello/"+name, {}, JSON.stringify({ 'name': name }));
+//                    var res = stompClient.send("/app/hello/"+name, {}, JSON.stringify({ 'name': name }));
+                    var res = stompClient.send("/app/hello/"+name, {}, name);
                     console.log(res);
 
 
