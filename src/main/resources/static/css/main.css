@@ -1,8 +1,5 @@
 #map {
-    width: 50%;
-    height: 50%;
-    margin-left: 25%;
-    padding: 1%;
-    position:relative;
-    position:absolute;
+    max-width: 500px;
+    height: 500px;
+    border:1px solid black;
 }

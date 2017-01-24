@@ -15,9 +15,8 @@ console.log("Moading map .... ? ");
     });
 
 
-
 function initMap() {
-  map = new google.maps.Map(document.getElementById('map'), {
+ var map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 45.518, lng: -122.672},
     zoom: 18,
     mapTypeId: 'satellite',
@@ -25,6 +24,21 @@ function initMap() {
     tilt: 45
 
   });
+
+ var marker = new google.maps.Marker({
+    position: {lat: 45.518, lng: -122.672},
+    map: map,
+    title: 'Test !',
+     icon: {
+            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+            strokeColor: "red",
+            scale: 3
+        }
+  });
+
+
+
+
 }
 
 

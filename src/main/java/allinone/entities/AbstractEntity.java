@@ -7,13 +7,15 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import org.springframework.data.domain.Persistable;
 
 @Data
 @MappedSuperclass
-public abstract class AbstractEntity implements Persistable<Long> {
+public class AbstractEntity implements Persistable<Long> {
 
     private static final long serialVersionUID = 1L;
 
@@ -22,7 +24,6 @@ public abstract class AbstractEntity implements Persistable<Long> {
     protected Long id = 0L;
 
     @Version
-    @Column(name = "version")
     private Long version;
 
     public Long getId() {
@@ -32,5 +33,8 @@ public abstract class AbstractEntity implements Persistable<Long> {
     public boolean isNew() {
         boolean isNew = id != null;//? true : false;
         return isNew;
+    }
+
+    public AbstractEntity() {
     }
 }

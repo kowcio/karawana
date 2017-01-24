@@ -6,9 +6,12 @@ import allinone.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
+
 @Repository
+@Transactional
 public interface LocationRepository extends JpaRepository<Location, Long> {
-	User findByName(String name);
+	User findById(String name);
 }
 
 

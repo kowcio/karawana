@@ -1,6 +1,7 @@
 package allinone.service;
 
 import allinone.entities.User;
+import allinone.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
@@ -17,6 +18,11 @@ public class UserService {
         PodamFactory factory = new PodamFactoryImpl();
         return factory.manufacturePojo(User.class);
 
+    }
+
+    public static User getUserByID(Long user){
+        //get from repo
+        return null;
     }
 
 }

@@ -1,21 +1,46 @@
 package allinone.entities;
 
+import allinone.service.UserService;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.joda.time.DateTime;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Data
-@Builder
 @Entity
-public class Group extends AbstractEntity {
+@Builder
+@AllArgsConstructor
+public class Group //extends AbstractEntity
+{
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    protected Long id = 0L;
+
+    @Version
+    private Long version;
 
     @OneToMany(targetEntity = Group.class, mappedBy = "id", fetch = FetchType.LAZY)
-    List<Group> users = new ArrayList<>(0);
+    List<User> users = new ArrayList<>(0);
+
+    @DateTimeFormat
+    @CreatedDate
+    private DateTime createdDate;
+
+    private List<User> addUserToGroup(User user){
+        users.add(user);
+        return users;
+    }
+    private List<User> addUserToGroup(Long user){
+        users.add(UserService.getUserByID(user));
+        return users;
+    }
+
 
 }
