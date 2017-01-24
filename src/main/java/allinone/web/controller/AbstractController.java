@@ -2,6 +2,8 @@ package allinone.web.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import static org.fest.assertions.Assertions.*;
+
 
 public abstract class AbstractController {
 
@@ -53,16 +55,16 @@ public abstract class AbstractController {
 //        }
 //    }
 //
-//    /**
-//     * Pomocnicza metoda do przekierowań na konkretną stronę.
-//     *
-//     * @param page strona
-//     * @return strona do przekierowania
-//     */
-//    protected String redirect(String page) {
-//        assertThat(page).isNotEmpty();
-//        return "redirect:" + page;
-//    }
+    /**
+     * Pomocnicza metoda do przekierowań na konkretną stronę.
+     *
+     * @param page strona
+     * @return strona do przekierowania
+     */
+    protected String redirect(String page) {
+        assertThat(page).isNotEmpty();
+        return "redirect:" + page;
+    }
 //
 //    /**
 //     * Pomocnicza metoda dodająca wiadomość do wyświetlenia dla użytkownika.
