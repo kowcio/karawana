@@ -51,7 +51,7 @@ public class MainController {
         User user = User.builder().id(new Random().nextLong()).build();
         List<User> users = new ArrayList<>();
         users.add(user);
-
+//TODO session restore and etc
         Group gneratedNewGroup = Group.builder()
                 .id(new Random().nextLong())
                 .createdDate(DateTime.now())
