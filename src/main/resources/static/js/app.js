@@ -1,19 +1,17 @@
-
 /**
-
 Initiate base function.
-
 */
 
-    $( document ).ready(function() {
-console.log("Moading map .... ? ");
-    initMap();
+//var x = document.getElementById("location");
 
-//setInterval();
+$( document ).ready(function() {
 
+console.log("Doc ready funcs. ");
+initMap();
+getLocation();
 //init websockt
 
-    });
+});
 
 
 function initMap() {
@@ -23,9 +21,7 @@ function initMap() {
     mapTypeId: 'satellite',
     heading: 90,
     tilt: 45
-
   });
-
  var marker = new google.maps.Marker({
     position: {lat: 45.518, lng: -122.672},
     map: map,
@@ -36,24 +32,37 @@ function initMap() {
             scale: 3
         }
   });
-
-
 }
 
 
+/**
+        LOCATION for browser
+*/
+
+var x = document.getElementById("location");
+function showPosition(position) {
+    document.getElementById("location").innerHTML = "Latitude: " + position.coords.latitude +
+    "<br>Longitude: " + position.coords.longitude;
+}
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(showPosition);
+    } else {
+        document.getElementById("location").innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
 
 
-
-
-var timestamp = "${countdown}"
- timestamp /= 1000;
-console.log(timestamp);
+/**
+        COUNTER
+*/
+var timestamp = $("countdown").text();
+timestamp /= 1000;
 $("#test").text(timestamp);
 
 function component(x, v) {
     return Math.floor(x / v);
 }
-
 setInterval(function() { // execute code each second
 
     timestamp--; // decrement timestamp with one second each second
@@ -63,7 +72,7 @@ setInterval(function() { // execute code each second
         minutes = component(timestamp,           60) % 60, // minutes
         seconds = component(timestamp,            1) % 60; // seconds
 
-    $("#countdown").html(days + " days, " + hours + ":" + minutes + ":" + seconds); // display
+    $("#countdown").html(days + " days, HH" + hours + ":" + minutes + ":" + seconds); // display
 
 }, 1000); // interval each second = 1000 ms
 
