@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -41,11 +43,11 @@ public class MainController {
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView mainPage() {
+    public ModelAndView mainPage(HttpSession session) {
         checkCache();
         ModelAndView mav = new ModelAndView("/pages/main");
         User generatedUserIDKeptInSession = userService.getRandomUser();
-
+        String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
         //check user if it is already in DB
         //make ID as string ? UUID ?
         User user = User.builder().id(new Random().nextLong()).build();
@@ -57,8 +59,13 @@ public class MainController {
                 .createdDate(DateTime.now())
                 .users(users)
                 .build();
+        long sessionTimeLeft = System.currentTimeMillis() - session.getLastAccessedTime();
+        //if session  20 min
 
         mav.addObject("group", gneratedNewGroup);
+        mav.addObject("sessionId", sessionId);
+        mav.addObject("countdown", sessionTimeLeft);
+
 
         return mav;
     }

@@ -35,8 +35,11 @@
     <div class="row">
         Data from the server
         <p th:text="${group}"></p>
-        <p th:text="${group.id}"></p>
-        <p th:text="${group.createdDate}"></p>
+        <p th:text="'Group id = ' + ${group.id}"></p>
+        <p th:text="'Group created date = ' + ${group.createdDate}"></p>
+        <p th:text="'SessionID = ' + ${sessionId}"></p>
+        <p id="countdown" th:text="${countdown}"></p>
+        <p id="test"></p>
 
 
     </div>
