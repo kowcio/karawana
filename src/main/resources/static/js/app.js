@@ -1,11 +1,10 @@
 /**
 Initiate base function.
 */
-var lat,lon,map;
-
-
+var lat,lon,map,pos;
 
 function initMap() {
+
  window.map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 45.518, lng: -122.672},
     zoom: 18,
@@ -13,8 +12,39 @@ function initMap() {
     heading: 90,
     tilt: 45
   });
- var marker = new google.maps.Marker({
-    position: {lat: 45.518, lng: -122.672},
+
+        var infoWindow = new google.maps.InfoWindow({map: map});
+
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+           window.pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Twoja lokalizacja.'
+            + window.pos.lat + " - " + window.pos.lng   );
+            map.setCenter(pos);
+          }, function() {
+          console.log("Error.");
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+
+//CHECK IT AFTER
+        map = new google.maps.Map(document.getElementById("map_canvas"), map.options);
+    TestMarker();
+
+}
+
+function addMarker(location){
+    console.log("addMarker");
+
+  marker = new google.maps.Marker({
+    position: location,
     map: map,
     title: 'Test !',
      icon: {
@@ -23,40 +53,12 @@ function initMap() {
             scale: 3
         }
   });
-}
 
-function showPosition(position) {
-     window.lat = parseFloat(position.coords.latitude);
-     window.lon = parseFloat(position.coords.longitude);
-         console.log(window.lat + " -x- " + window.lon);
-                  console.log(lat + " -x- " + lon);
-//       var myLatlng = new google.maps.LatLng(parseFloat(window.lat),parseFloat(window.lon));
-     $("#location").text("Latitude: " + window.lat +    "   Longitude: " + window.lon);
-
-}
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.watchPosition(showPosition);
-    } else {
-        $("#location").text("Geolocation is not supported by this browser.");
-    }
-
-}
-
-function moveMap(){
-    console.log(window.lat + " -ZZZ- " + window.lon);
-    window.map.setCenter(new google.maps.LatLng( 54.4136058  , 18.5827882 ));
-     var marker = new google.maps.Marker({
-        position: {lat: 54.4136058, lng: 18.5827882},
-        map: map,
-        title: 'Test !',
-         icon: {
-                path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-                strokeColor: "red",
-                scale: 3
-            }
-      });
 };
+    function TestMarker() {
+           CentralPark = new google.maps.LatLng(window.pos);
+           addMarker(CentralPark);
+    };
 
 
 /**
@@ -81,11 +83,11 @@ function moveMap(){
 
 $( document ).ready(function() {
 initMap();
-getLocation();
+//getLocation();
 console.log(window.lat + " -- " + window.lon);
 console.log(lat + " -- " + lon);
 
-moveMap();
+//moveMap();
 //init websockt
 
 });
