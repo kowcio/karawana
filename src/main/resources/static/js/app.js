@@ -7,8 +7,8 @@ function initMap() {
 
  window.map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 45.518, lng: -122.672},
-    zoom: 18,
-    mapTypeId: 'satellite',
+    zoom: 16,
+    mapTypeId: 'roadmap',
     heading: 90,
     tilt: 45
   });
@@ -21,9 +21,14 @@ function initMap() {
               lat: position.coords.latitude,
               lng: position.coords.longitude
             };
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('Twoja lokalizacja.'
-            + window.pos.lat + " - " + window.pos.lng   );
+            var marker = new google.maps.Marker({
+            position: pos,
+
+            map:window.map
+            });
+//            infoWindow.setPosition(pos);
+//            infoWindow.setContent('Twoja lokalizacja.'
+//            + window.pos.lat + " - " + window.pos.lng   );
             map.setCenter(pos);
           }, function() {
           console.log("Error.");
@@ -35,8 +40,8 @@ function initMap() {
         }
 
 //CHECK IT AFTER
-        map = new google.maps.Map(document.getElementById("map_canvas"), map.options);
-    TestMarker();
+//        map = new google.maps.Map(document.getElementById("map_canvas"), map.options);
+//    TestMarker();
 
 }
 
