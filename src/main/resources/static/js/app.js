@@ -2,9 +2,26 @@
 Initiate base function.
 */
 var lat,lon,map,pos;
+//var window.pos;
+
+
+$( document ).ready(function() {
+
+initMap();
+//getLocation();
+console.log(window.lat + " -- " + window.lon);
+console.log(lat + " -- " + lon);
+
+//moveMap();
+//init websockt
+
+
+});
+
+
 
 function initMap() {
-
+console.log("Updating map position.");
  window.map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 45.518, lng: -122.672},
     zoom: 16,
@@ -12,7 +29,6 @@ function initMap() {
     heading: 90,
     tilt: 45
   });
-
         var infoWindow = new google.maps.InfoWindow({map: map});
 
         if (navigator.geolocation) {
@@ -22,7 +38,7 @@ function initMap() {
               lng: position.coords.longitude
             };
             var marker = new google.maps.Marker({
-            position: pos,
+            position: window.pos,
 
             map:window.map
             });
@@ -45,25 +61,26 @@ function initMap() {
 
 }
 
-function addMarker(location){
-    console.log("addMarker");
-
-  marker = new google.maps.Marker({
-    position: location,
-    map: map,
+function updateMap(location){
+    console.log("addMarker new position");
+    window.pos.lng+=0.001;
+    console.log("window.pos.longitude = " + window.pos.lng);
+    console.log("window.pos.longitude = " + window.pos.lat);
+  var marker = new google.maps.Marker({
+    position: {lat: parseFloat(window.pos.lat) ,
+               lng: parseFloat(window.pos.lng)
+              },
+    map: window.map,
     title: 'Test !',
-     icon: {
+    icon: {
             path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
             strokeColor: "red",
             scale: 3
         }
   });
-
 };
-    function TestMarker() {
-           CentralPark = new google.maps.LatLng(window.pos);
-           addMarker(CentralPark);
-    };
+
+
 
 
 /**
@@ -86,13 +103,8 @@ function addMarker(location){
 
 
 
-$( document ).ready(function() {
-initMap();
-//getLocation();
-console.log(window.lat + " -- " + window.lon);
-console.log(lat + " -- " + lon);
+setInterval(updateMap,4000);
 
-//moveMap();
-//init websockt
 
-});
+
+
