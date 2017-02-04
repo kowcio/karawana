@@ -45,12 +45,16 @@ console.log("Updating map position.");
             infoWindow.setContent('Twoja lokalizacja.');
 //            + window.pos.lat + " - " + window.pos.lng   );
             map.setCenter(pos);
-          }, function() {
+          }, function(failure) {
           console.log("Error.");
+          console.log(failure);
+         $("#test").text("Browser not suporting geo, user denied or unsecure location = NOT HTTPS");
+
             handleLocationError(true, infoWindow, map.getCenter());
           });
         } else {
           // Browser doesn't support Geolocation
+          $("#test").text("Browser not suporting geo.");
           handleLocationError(false, infoWindow, map.getCenter());
         }
 
