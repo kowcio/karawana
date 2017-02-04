@@ -17,7 +17,7 @@ import java.util.List;
 @Entity
 @Builder
 @AllArgsConstructor
-public class Group //extends AbstractEntity
+public class Group
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

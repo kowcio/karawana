@@ -1,7 +1,6 @@
 package karawana.service;
 
 
-import karawana.repositories.UserRepository;
 import karawana.entities.User;
 import org.springframework.stereotype.Service;
 import uk.co.jemos.podam.api.PodamFactory;

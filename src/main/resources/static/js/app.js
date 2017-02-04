@@ -64,6 +64,17 @@ console.log("Updating map position.");
 
 }
 
+function changePosition(){
+console.log("Moved position from " + window.pos.lat);
+window.pos.lat+=0.001;
+console.log("Moved position to " + window.pos.lat);
+};
+
+$( "#changePosition" ).on( "click", function(  ) {
+console.log("Moved position from " + window.pos.lat);
+window.pos.lat+=0.001;
+console.log("Moved position to " + window.pos.lat);
+});
 //function updateMap(location){
 //    console.log("addMarker new position");
 //    window.pos.lng+=0.001;

@@ -39,8 +39,6 @@ public class MainController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView mainPage(HttpSession session) {
         checkCache();
-        System.out.println("CONTROLLER IS ON ! ");
-
         ModelAndView mav = new ModelAndView("/pages/main");
         User generatedUserIDKeptInSession = userService.getRandomUser();
         String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();

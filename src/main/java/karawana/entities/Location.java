@@ -1,7 +1,9 @@
 package karawana.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -9,7 +11,10 @@ import javax.persistence.*;
 @Data
 @Builder
 @Entity
-public class Location //extends AbstractEntity
+
+@NoArgsConstructor
+@AllArgsConstructor
+public class Location
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,7 +25,5 @@ public class Location //extends AbstractEntity
 
     private Double latitude;
     private Double longitude;
-
-
 
 }

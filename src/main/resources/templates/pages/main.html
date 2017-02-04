@@ -8,31 +8,30 @@
 <div class="row" layout:fragment="content">
 
 
-    <div class="row">
-        <div class="col-sm-8">
-            <div>
-                <div>
-                    <button id="connect" onclick="connect();">Connect</button>
-                    <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
-                </div>
-                <div id="conversationDiv">
-                    <label>What is your name?</label><input type="text" id="name"/>
-                    <button id="sendName" onclick="sendName();">Send</button>
-                </div>
-            </div>
-            <div class="row">
-                <div>
-                    <button id="connect" onclick="connectTest();">Connect</button>
-                    <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
-                </div>
+    <!--<div class="row">-->
+        <!--<div class="col-sm-8">-->
+            <!--<div>-->
+                <!--<div>-->
+                    <!--<button id="connect" onclick="connect();">Connect</button>-->
+                    <!--<button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>-->
+                <!--</div>-->
+                <!--<div id="conversationDiv">-->
+                    <!--<label>What is your name?</label><input type="text" id="name"/>-->
+                    <!--<button id="sendName" onclick="sendName();">Send</button>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="row">-->
+                <!--<div>-->
+                    <!--<button id="connect" onclick="connectTest();">Connect</button>-->
+                    <!--<button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>-->
+                <!--</div>-->
 
-            </div>
+            <!--</div>-->
 
-        </div>
-    </div>
+        <!--</div>-->
+    <!--</div>-->
 
-
-    <div class="row">
+    <div class="text-center col-sm-10 col-sm-offset-1" id="top">
         Data from the server
         <p th:text="${group}"></p>
         <p th:text="'Group id = ' + ${group.id}"></p>
@@ -41,22 +40,22 @@
         <p id="countdown" th:text="${countdown}"></p>
         <p id="test"></p>
         <p id="location"></p>
-
-
     </div>
 
-        <div class="row">
-
+        <div class="row text-center">
                 MAP BELOW !!
-                <div id="map" class="col-sm-6 col-sm-offset-3"></div>
+                <div id="map"    class="col-sm-6"></div>
+
+            <div id="testFunctions" class="pull-right">
+                <button id="changePosition" class="btn btn-info" >Change global position. </button>
+            </div>
 
         </div>
 
-
-    <div class="row">
-        <div class="col-sm-12">
-
-            <p id="response">Response  1                 </p>
+    <div class="row text-center" id="bottom">
+        <div class="info col-sm-10 col-sm-offset-1">
+            <!--<p id="response">Response  1                 </p>-->
+            info
 
         </div>
     </div>
