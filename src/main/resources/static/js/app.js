@@ -44,7 +44,7 @@ console.log("Updating map position.");
             infoWindow.setPosition(pos);
             infoWindow.setContent('Twoja lokalizacja.');
 //            + window.pos.lat + " - " + window.pos.lng   );
-            map.setCenter(pos);
+            map.setCenter   (pos);
           }, function(failure) {
           console.log("Error.");
           console.log(failure);
