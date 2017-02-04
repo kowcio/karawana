@@ -1,7 +1,5 @@
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
-}
-.main-wrapper{
-	
+#map {
+    max-width: 500px;
+    height: 500px;
+    border:1px solid black;
 }

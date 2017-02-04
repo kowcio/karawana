@@ -1,50 +1,68 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 
-<html xmlns:th="http://www.thymeleaf.org" 
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
 
 <body>
-    <div class="container" layout:fragment="content">
-    
-    
-  
-        <div class="main-wrapper container-fluid table-bordered">
-          <div class="col-sm-8">
-          
-                main wrapper 
-          
-          <div>
-    <div>
-        <button id="connect" onclick="connect();">Connect</button>
-        <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
-    </div>
-    <div id="conversationDiv">
-        <label>What is your name?</label><input type="text" id="name" />
-        <button id="sendName" onclick="sendName();">Send</button>
-        <p id="response"></p>
-    </div>
-</div>
+<div class="row" layout:fragment="content">
 
 
-          <div class="row">
-    <div>
-        <button id="connect" onclick="connectTest();">Connect</button>
-        <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
-    </div>
-
-</div>
-
-
-
-
-
-          </div>
-
-          
+    <div class="row">
+        <div class="col-sm-8">
+            <div>
+                <div>
+                    <button id="connect" onclick="connect();">Connect</button>
+                    <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
+                </div>
+                <div id="conversationDiv">
+                    <label>What is your name?</label><input type="text" id="name"/>
+                    <button id="sendName" onclick="sendName();">Send</button>
+                </div>
             </div>
-            
-            
+            <div class="row">
+                <div>
+                    <button id="connect" onclick="connectTest();">Connect</button>
+                    <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
+                </div>
+
+            </div>
+
+        </div>
     </div>
+
+
+    <div class="row">
+        Data from the server
+        <p th:text="${group}"></p>
+        <p th:text="'Group id = ' + ${group.id}"></p>
+        <p th:text="'Group created date = ' + ${group.createdDate}"></p>
+        <p th:text="'SessionID = ' + ${sessionId}"></p>
+        <p id="countdown" th:text="${countdown}"></p>
+        <p id="test"></p>
+        <p id="location"></p>
+
+
+    </div>
+
+        <div class="row">
+
+                MAP BELOW !!
+                <div id="map" class="col-sm-6 col-sm-offset-3"></div>
+
+        </div>
+
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            <p id="response">Response  1                 </p>
+
+        </div>
+    </div>
+
+
+
+</div>
 </body>
 </html>
