@@ -9,13 +9,13 @@
 
     <packaging>jar</packaging>
 
-    <name>Carawana</name>
+    <name>karawana</name>
     <description>--</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.2.2.RELEASE</version>
+        <version>1.5.1.RELEASE</version>
         <!-- <relativePath /> -->
     </parent>
 
@@ -28,17 +28,24 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <start-class>karawana.Application</start-class>
         <java.version>1.8</java.version>
-        <tomcat.version>8.0.9</tomcat.version>
+        <!--<tomcat.version>9.0.0.M15</tomcat.version>-->
         <guava.version>17.0</guava.version>
         <fest-assert.version>1.4</fest-assert.version>
         <commons-lang3.version>3.3.2</commons-lang3.version>
-        <usertype.extended.version>3.2.0.GA</usertype.extended.version>
+        <!--<usertype.extended.version>3.2.0.GA</usertype.extended.version>-->
         <postgresql.version>9.3-1102-jdbc41</postgresql.version>
-        <spring-ldap-core.version>2.0.2.RELEASE</spring-ldap-core.version>
     </properties>
 
     <dependencies>
-        <!-- Spring Boot -->
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -51,14 +58,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -75,6 +75,11 @@
             <artifactId>hibernate-entitymanager</artifactId>
         </dependency>
 
+        <!--<dependency>-->
+            <!--<groupId>mysql</groupId>-->
+            <!--<artifactId>mysql-connector-java</artifactId>-->
+            <!--<version>5.1.6</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -83,17 +88,13 @@
         </dependency>
 
         <!-- Add support JSR-310 to Hibernate -->
-        <dependency>
-            <groupId>org.jadira.usertype</groupId>
-            <artifactId>usertype.extended</artifactId>
-            <version>${usertype.extended.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.jadira.usertype</groupId>-->
+            <!--<artifactId>usertype.extended</artifactId>-->
+            <!--<version>${usertype.extended.version}</version>-->
+        <!--</dependency>-->
 
         <!-- javax.validation (JSR-303) -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-        </dependency>
 
         <!-- For RestTemplate -->
         <dependency>
@@ -167,24 +168,6 @@
             <version>1.4</version>
         </dependency>
     </dependencies>
-
-    <profiles>
-        <profile>
-            <id>sonar</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <sonar.jdbc.url>jdbc:mysql://vps168451.ovh.net:3306/sonar/</sonar.jdbc.url>
-                <sonar.jdbc.driver>com.mysql.jdbc.Driver</sonar.jdbc.driver>
-                <sonar.jdbc.username>sonar</sonar.jdbc.username>
-                <sonar.jdbc.password>sonar</sonar.jdbc.password>
-                <!-- SERVER ON A REMOTE HOST -->
-                <sonar.host.url>http://vps168451.ovh.net:9000/</sonar.host.url>
-
-            </properties>
-        </profile>
-    </profiles>
 
 
     <build>

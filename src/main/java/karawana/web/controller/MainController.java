@@ -58,6 +58,8 @@ public class MainController {
         mav.addObject("group", gneratedNewGroup);
         mav.addObject("sessionId", sessionId);
         mav.addObject("countdown", sessionTimeLeft);
+
+        //redirect na grupe ?
         return mav;
     }
 

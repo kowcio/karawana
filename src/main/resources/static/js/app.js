@@ -1,48 +1,76 @@
 /**
 Initiate base function.
 */
-var lat,lon,map,pos;
+var lat,lon,map,pos, iw;
 //var window.pos;
 
 $( document ).ready(function() {
 
+window.isTest = "prod";
 
+if(window.isTest=="prod"){
+console.log("Init run for map creation.");
  window.map = new google.maps.Map(document.getElementById('map'), {
-//    center: {lat: 45.518, lng: -122.672},
+    center: {lat: 45.518, lng: -122.672},
     zoom: 16,
     mapTypeId: 'roadmap',
     heading: 90,
     tilt: 45
   });
+window.iw = new google.maps.InfoWindow({map: window.map});
+}
 
-initMap();
-//getLocation();
-console.log(window.lat + " -- " + window.lon);
-console.log(lat + " -- " + lon);
-//moveMap();
+////musi byc w onload doc
+//$( "#changePosition" ).click( changePosition );
+//function changePosition(){
+//console.log("Moved position from " + window.pos.lat);
+//window.pos.lat+=0.001;
+//console.log("Moved position to " + window.pos.lat);
+//};
+//test model map access
+console.log("Test start");
+console.log(window.group);
+console.log(window.group.id);
+console.log(window.group.users);
+console.log(window.group.createdDate);
+
 
 });
+
+
+var carouselIntervalId = setInterval(initMap,5000);
+
 //setInterval(updateMap,4000);
-setInterval(initMap,3000);
-
-
 function initMap() {
-console.log("Updating map position.");
-
-        var infoWindow = new google.maps.InfoWindow({map: map});
+console.log("Update Map func - " + window.isTest );
 
         if (navigator.geolocation) {
+//        navigator.geolocation.watchPosition(function(position) {
           navigator.geolocation.getCurrentPosition(function(position) {
+          if (window.isTest == "test"){
+           window.pos.lng = window.pos.lng  +  0.0003;
+           window.pos = {
+              lat: window.pos.lat,
+              lng: window.pos.lng
+            };
+            }
+            if (window.isTest == "prod"){
            window.pos = {
               lat: position.coords.latitude,
               lng: position.coords.longitude
             };
-             window.marker = new google.maps.Marker({
+            }
+          if (window.isTest == "prod")
+                window.isTest = "test";
+
+console.log("Updating map position to Lat:"+pos.lat+" Lng:"+pos.lng);
+
+            var marker = new google.maps.Marker({
             position: window.pos,
             map:window.map
             });
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('Twoja lokalizacja.');
+//            infoWindow.setPosition(pos);
+//            infoWindow.setContent('Twoja lokalizacja.');
 //            + window.pos.lat + " - " + window.pos.lng   );
             map.setCenter   (pos);
           }, function(failure) {
@@ -50,31 +78,19 @@ console.log("Updating map position.");
           console.log(failure);
          $("#test").text("Browser not suporting geo, user denied or unsecure location = NOT HTTPS");
 
-            handleLocationError(true, infoWindow, map.getCenter());
+//            handleLocationError(true, infoWindow, map.getCenter());
           });
         } else {
           // Browser doesn't support Geolocation
           $("#test").text("Browser not suporting geo.");
-          handleLocationError(false, infoWindow, map.getCenter());
+//          handleLocationError(false, infoWindow, map.getCenter());
         }
-
 //CHECK IT AFTER
 //        map = new google.maps.Map(document.getElementById("map_canvas"), map.options);
 //    TestMarker();
-
 }
 
-function changePosition(){
-console.log("Moved position from " + window.pos.lat);
-window.pos.lat+=0.001;
-console.log("Moved position to " + window.pos.lat);
-};
 
-$( "#changePosition" ).on( "click", function(  ) {
-console.log("Moved position from " + window.pos.lat);
-window.pos.lat+=0.001;
-console.log("Moved position to " + window.pos.lat);
-});
 //function updateMap(location){
 //    console.log("addMarker new position");
 //    window.pos.lng+=0.001;

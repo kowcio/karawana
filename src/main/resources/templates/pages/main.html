@@ -42,12 +42,20 @@
         <p id="location"></p>
     </div>
 
+    <span name="group" id="group1" th:value="${group}"  th:object="${group}"  th:text="${group}"></span>
+
+    <script th:inline="javascript">
+    window.group = [[${group}]];
+
+    </script>
+
+
         <div class="row text-center">
                 MAP BELOW !!
                 <div id="map"    class="col-sm-6"></div>
 
             <div id="testFunctions" class="pull-right">
-                <button id="changePosition" class="btn btn-info" >Change global position. </button>
+                <div id="changePosition" class="btn btn-info" >Change global position. </div>
             </div>
 
         </div>
