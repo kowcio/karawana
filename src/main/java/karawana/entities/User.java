@@ -8,6 +8,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,20 +23,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id = 0L;
 
+    @Column(unique = true)
+    private String name;
     @Version
     private Long version;
-
-    @Column(name = "username", unique = true)
-    private String name;
-
-    @Column(name = "password")
-    private String password;
+    @Max(999999)
+    private int color;
 
     @DateTimeFormat
     @CreatedDate
     private LocalDateTime createdDate;
 
-    @OneToMany(targetEntity = User.class, mappedBy = "id", fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = Location.class, mappedBy = "id", fetch = FetchType.LAZY)
     private List<Location> locations;
 
 }

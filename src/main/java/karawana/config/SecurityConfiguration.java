@@ -33,8 +33,9 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .maxSessionsPreventsLogin(true)
                 .and()
                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-                .invalidSessionUrl("/");
-
+                .invalidSessionUrl("/")
+                ;
+        http.csrf().disable();
 
     }
 }

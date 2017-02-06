@@ -4,6 +4,7 @@ import karawana.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -17,16 +18,20 @@ import java.util.List;
 @Entity
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class Group
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    protected Long id = 0L;
+    private Long id;
 
+    @Column(unique = true)
+    private String groupName;
     @Version
     private Long version;
+    private String password;
 
-    @OneToMany(targetEntity = Group.class, mappedBy = "id", fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = User.class, mappedBy = "id", fetch = FetchType.LAZY)
     List<User> users = new ArrayList<>(0);
 
     @DateTimeFormat
@@ -42,6 +47,9 @@ public class Group
         users.add(UserService.getUserByID(user));
         return users;
     }
-
+//    private List<User> addUserToGroup(String name) {
+//        users.add(UserService.getUserByID(user));
+//        return users;
+//    }
 
 }

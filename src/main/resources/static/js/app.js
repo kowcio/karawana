@@ -30,17 +30,22 @@ window.iw = new google.maps.InfoWindow({map: window.map});
 //test model map access
 console.log("Test start");
 console.log(window.group);
-console.log(window.group.id);
-console.log(window.group.users);
-console.log(window.group.createdDate);
+console.log(window.pos);
+//var group = new Group(window.group,window.pos);
+//console.log(group);
+//group.updateMyLocation();
+//console.log(window.group.id);
+//console.log(window.group.users);
+//console.log(window.group.createdDate);
 
 
-});
 
 
-var carouselIntervalId = setInterval(initMap,5000);
 
-//setInterval(updateMap,4000);
+}); //END DOCUMENT ON LOAD
+
+
+setInterval(initMap,4000);
 function initMap() {
 console.log("Update Map func - " + window.isTest );
 
@@ -63,11 +68,22 @@ console.log("Update Map func - " + window.isTest );
           if (window.isTest == "prod")
                 window.isTest = "test";
 
-console.log("Updating map position to Lat:"+pos.lat+" Lng:"+pos.lng);
+            if (window.pos != "undefined"){
+            var group = new Group(window.group,window.pos);
+            console.log("Position : " + JSON.stringify(window.pos));
+            console.log(group.currentUserPosition);
+            group.updateMyLocation();
+            console.log("Updating map position to Lat:"+pos.lat+" Lng:"+pos.lng);
+}
 
             var marker = new google.maps.Marker({
             position: window.pos,
-            map:window.map
+            map:window.map,
+             icon: {
+                        path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+                        strokeColor: '#457803',
+                        scale: 3
+                    }
             });
 //            infoWindow.setPosition(pos);
 //            infoWindow.setContent('Twoja lokalizacja.');
@@ -77,7 +93,6 @@ console.log("Updating map position to Lat:"+pos.lat+" Lng:"+pos.lng);
           console.log("Error.");
           console.log(failure);
          $("#test").text("Browser not suporting geo, user denied or unsecure location = NOT HTTPS");
-
 //            handleLocationError(true, infoWindow, map.getCenter());
           });
         } else {
@@ -130,6 +145,41 @@ console.log("Updating map position to Lat:"+pos.lat+" Lng:"+pos.lng);
 //        seconds = component(timestamp,            1) % 60; // seconds
 //    $("#countdown").html(days + " days, HH" + hours + ":" + minutes + ":" + seconds); // display
 //}, 1000); // interval each second = 1000 ms
+
+
+//
+//var Group = function(group, position){
+//this.group = group;
+//this.currentUserPosition = position;
+//};
+//
+//Group.prototype.updateMyLocation = function() {
+//    var position = this.currentUserPosition;
+//    console.log("Updating user location = " + JSON.stringify(position));
+//    $.ajax({
+//        url: '/api/updateMyLocation',
+//        type: 'POST',
+//        data: JSON.stringify( {lat:54.4136058,lng:18.613688199999928}),
+//        contentType: 'application/json; charset=utf-8',
+//        async: true,
+//        success: function(msg) {
+//        console.log("Position of user updated.");
+//        }
+//    });
+//};
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
