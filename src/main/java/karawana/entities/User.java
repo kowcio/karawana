@@ -34,7 +34,7 @@ public class User {
     @CreatedDate
     private LocalDateTime createdDate;
 
-    @OneToMany(cascade=CascadeType.ALL , targetEntity = Location.class, mappedBy = "id", fetch = FetchType.LAZY)
+    @ManyToMany(cascade=CascadeType.ALL , targetEntity = Location.class, mappedBy = "userId", fetch = FetchType.LAZY)
     private List<Location> locations;
 
 }

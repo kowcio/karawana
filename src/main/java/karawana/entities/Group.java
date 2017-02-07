@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -32,6 +33,10 @@ public class Group
     private Long version;
     private String password;
 
+    @Transient
+    @Autowired
+    UserService userService;
+
     @OneToMany(cascade=CascadeType.ALL , targetEntity = User.class, mappedBy = "id", fetch = FetchType.LAZY)
     List<User> users = new ArrayList<>(0);
 
@@ -44,8 +49,8 @@ public class Group
         return users;
     }
 
-    private List<User> addUserToGroup(Long user) {
-        users.add(UserService.getUserByID(user));
+    private List<User> addUserToGroup(Long userId) {
+        users.add(userService.getUserById(userId));
         return users;
     }
 //    private List<User> addUserToGroup(String name) {

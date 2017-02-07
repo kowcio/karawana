@@ -21,14 +21,17 @@ public class UserService {
 @Autowired
     UserRepository userRepository;
 
-    public static User getRandomUser() {
+    public  User getRandomUser() {
         PodamFactory factory = new PodamFactoryImpl();
         return factory.manufacturePojo(User.class);
 
     }
+    public User getUserById(Long id){
+        return userRepository.findById(id);
+    }
 
-    public static User getUserByID(Long user){
-
+    public  User saveUser(User user){
+        userRepository.save(user);
         return null;
     }
 

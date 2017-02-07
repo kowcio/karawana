@@ -1,6 +1,8 @@
 package karawana.web.controller;
 
+import karawana.entities.Group;
 import karawana.entities.Location;
+import karawana.repositories.UserRepository;
 import karawana.service.GroupService;
 import karawana.service.LocationService;
 import karawana.service.UserService;
@@ -15,13 +17,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 
 @Controller
 @ResponseBody
 @RequestMapping(value = "/api", method = RequestMethod.GET)
 
 public class RestController {
-    
+
     private final Logger log = LoggerFactory.getLogger(getClass());
 
 
@@ -42,18 +46,20 @@ public class RestController {
 
     @RequestMapping(value = "/updateMyLocation", method = RequestMethod.POST)
     @ResponseBody
-    public boolean updateMyLocation(
+    public String updateMyLocation(
             HttpServletRequest httpServletRequest,
-            @RequestBody Location location
+            HttpSession session,
+            @RequestBody Location location,
+            String groupId
     ) {
         System.out.println(httpServletRequest.getSession().getId());
         System.out.println(location.toString());
-        String jsonString = httpServletRequest.getParameter("json");
-
-        return true;
+        Long userId = (Long) session.getAttribute("userId");
+        location.setUserId(userId);
+        location.setCreatedDate(LocalDateTime.now());
+        log.info("Saved lcation = {}", location.toString());
+        return "Saved location";
     }
-
-
 
 
 }

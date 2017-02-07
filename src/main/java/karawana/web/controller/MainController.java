@@ -44,11 +44,12 @@ public class MainController {
         String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
         //check user if it is already in DB
         //make ID as string ? UUID ?
-        String groupName = sessionId.substring(0, 4);
+        String groupName = "group" + sessionId.substring(0, 4);
 
+        String userName = "User" + groupName;
         User user = User.builder()
                 .id(new Random().nextLong())
-                .name("User" + groupName)
+                .name(userName)
                 .color(new Random().nextInt(999999))
                 .build();
         List<User> users = new ArrayList<>();
@@ -56,15 +57,23 @@ public class MainController {
 //TODO session restore and etc
         Group group = Group.builder()
                 .id(new Random().nextLong())
-                .groupName("group" + groupName)
+                .groupName(groupName)
                 .createdDate(LocalDateTime.now())
                 .users(users)
                 .build();
 
-        //store in session
-        session.setAttribute(groupName, group);
-        //store in hibernate for testing
-        groupService.saveGroup(group);
+
+        Long groupId = (Long) session.getAttribute("groupId");
+        Long userId = (Long) session.getAttribute("userId");
+        if (groupId == null || userId == null) {
+            group = groupService.saveGroup(group);
+            user = userService.saveUser(user);
+            groupId = group.getId();
+            userId = user.getId();
+            session.setAttribute("groupId", groupId);
+            session.setAttribute("userId", userId);
+
+        }
 
 
         long sessionTimeLeft = System.currentTimeMillis() - session.getLastAccessedTime();

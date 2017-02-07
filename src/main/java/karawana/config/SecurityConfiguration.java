@@ -10,7 +10,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 
 
 @Configuration
-@EnableWebMvcSecurity
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
