@@ -24,7 +24,6 @@ import java.time.LocalDateTime;
 public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-
     protected Long id = 0L;
     @DateTimeFormat
     @CreatedDate

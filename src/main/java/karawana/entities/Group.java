@@ -19,11 +19,12 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name="group_table")
 public class Group
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long id=0L;
 
     @Column(unique = true)
     private String groupName;
@@ -31,7 +32,7 @@ public class Group
     private Long version;
     private String password;
 
-    @OneToMany(targetEntity = User.class, mappedBy = "id", fetch = FetchType.LAZY)
+    @OneToMany(cascade=CascadeType.ALL , targetEntity = User.class, mappedBy = "id", fetch = FetchType.LAZY)
     List<User> users = new ArrayList<>(0);
 
     @DateTimeFormat
