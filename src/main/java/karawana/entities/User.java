@@ -1,43 +1,40 @@
 package karawana.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Data
 @Builder
-public class User //extends AbstractEntity
-{
+@NoArgsConstructor
+@AllArgsConstructor
+public class User {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	protected Long id = 0L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    protected Long id = 0L;
 
-	@Version
-	private Long version;
+    @Column(unique = true)
+    private String name;
+    @Version
+    private Long version;
+    @Max(999999)
+    private int color;
 
-	@Column(name = "username", unique = true)
-	private String            name;
+    @DateTimeFormat
+    @CreatedDate
+    private LocalDateTime createdDate;
 
-	@Column(name = "password")
-	private String            password;
-
-	@DateTimeFormat
-	@CreatedDate
-	private LocalDateTime createdDate;
-
-	@OneToMany(targetEntity=User.class, mappedBy="id", fetch=FetchType.LAZY)
-	private List<Location> locations;
-
-
-
-
-
+    @OneToMany(targetEntity = Location.class, mappedBy = "id", fetch = FetchType.LAZY)
+    private List<Location> locations;
 
 }
