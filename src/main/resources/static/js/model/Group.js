@@ -14,14 +14,26 @@ Group.prototype.updateMyLocation = function() {
         contentType: 'application/json; charset=utf-8',
         async: true,
         success: function(msg) {
-        $("#log").append(msg+"<br />");
+
+        for (var key in msg) {
+          if (msg.hasOwnProperty(key)) {
+            console.log(key + " -> " + msg[key]);
+            $("#log").append(msg+"<br />");
+          }
+        }
+
+//        $("#log").append(msg+"<br />");
+//        console.log(msg);
         }
     });
 }
 
+
+
 Group.prototype.getGroupLocation = function() {
     var position = this.currentUserPosition;
     console.log("Updating user location = " + JSON.stringify(position));
+
     $.ajax({
         url: '/api/getGroupLocation'+this.group.groupName,
         type: 'GET',
@@ -35,4 +47,9 @@ Group.prototype.getGroupLocation = function() {
         console.log("Error in saving Locationfor user.");
         }
         })
+}
+
+Group.prototype.updateMapGroupLocations = function() {
+
+
 }

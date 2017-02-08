@@ -21,9 +21,9 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    protected Long id = 0L;
+    private Long id = 0L;
 
-    @Column(unique = true)
+    @Column
     private String name;
     @Version
     private Long version;
@@ -34,7 +34,7 @@ public class User {
     @CreatedDate
     private LocalDateTime createdDate;
 
-    @ManyToMany(cascade=CascadeType.ALL , targetEntity = Location.class, mappedBy = "userId", fetch = FetchType.LAZY)
+    @OneToMany(cascade=CascadeType.ALL , targetEntity = Location.class, mappedBy = "userId", fetch = FetchType.LAZY)
     private List<Location> locations;
 
 }

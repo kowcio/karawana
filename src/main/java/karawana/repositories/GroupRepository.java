@@ -15,7 +15,7 @@ import javax.transaction.Transactional;
 @ManagedBean
 @Transactional
 public interface GroupRepository extends JpaRepository<Group, Long> {
-	Group findById(String id);
+	Group findById(Long id);
 
 
 }

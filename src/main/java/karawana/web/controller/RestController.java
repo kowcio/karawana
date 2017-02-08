@@ -10,16 +10,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @ResponseBody
@@ -47,23 +44,51 @@ public class RestController {
 
     @RequestMapping(value = "/updateMyLocation", method = RequestMethod.POST)
     @ResponseBody
-    public String updateMyLocation(
+    public Map<Long, Location> updateMyLocation(
             HttpServletRequest httpServletRequest,
             HttpSession session,
             @RequestBody Location location
     ) {
         System.out.println(httpServletRequest.getSession().getId());
         System.out.println(location.toString());
-        Long userId = (Long) session.getAttribute("userId");
+        Long userId = (Long) session.getAttribute(SESSION_VAR.USER_ID);
+
         location.setUserId(userId);
         location.setCreatedDate(LocalDateTime.now());
-        log.info("Saved location = {}", location.toString());
         Optional<Location> saveLocation = locationService.saveUserLocation(location);
-        if (saveLocation.isPresent())
-            return saveLocation.get().toString();
-        else
-            return "Saved location";
+        Location savedLocation = saveLocation.get();
+        Long groupId = (Long) session.getAttribute(SESSION_VAR.GROUP_ID);
+
+//        String sessionGroupName = "latestLocations" + groupId;
+        String sessionGroupName = SESSION_VAR.latestLocations(groupId);
+
+        Map<Long, Location> groupLatestLocations =
+                (HashMap<Long, Location>) session.getAttribute(sessionGroupName);
+        if (groupLatestLocations == null) return new HashMap<>();
+
+        groupLatestLocations.put(userId, savedLocation);
+
+        log.info("latest locations update = {}", groupLatestLocations.toString());
+
+
+        return groupLatestLocations;
     }
 
+    @RequestMapping(value = "/getGroupLocation", method = RequestMethod.POST)
+    @ResponseBody
+    public Group getGroupLocation(
+            HttpServletRequest httpServletRequest,
+            HttpSession session
+    ) {
+        Long groupId = (Long) session.getAttribute("groupId");
+        Optional<Group> group = groupService.getGroupLocations(groupId);
+        if (group.isPresent()) {
+            Group gr = group.get();
+
+
+            return gr;
+        } else
+            return new Group();
+    }
 
 }
