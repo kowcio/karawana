@@ -5,6 +5,8 @@ import karawana.repositories.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 /**
  * Created by Kowcio on 2016-10-08.
  */
@@ -14,11 +16,14 @@ public class LocationService {
 
     @Autowired
     LocationRepository locationRepository;
-    private Location addUserLocation(Long userid, Location location){
 
-        return locationRepository.save(location);
+    public Optional<Location> saveUserLocation(Location location) {
+        if (location.getUserId() != null) {
+            return Optional.of(locationRepository.save(location));
+        } else {
+            return Optional.of(location);
+        }
     }
 
-    
 
 }

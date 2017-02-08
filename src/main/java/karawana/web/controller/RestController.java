@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Controller
 @ResponseBody
@@ -49,16 +50,19 @@ public class RestController {
     public String updateMyLocation(
             HttpServletRequest httpServletRequest,
             HttpSession session,
-            @RequestBody Location location,
-            String groupId
+            @RequestBody Location location
     ) {
         System.out.println(httpServletRequest.getSession().getId());
         System.out.println(location.toString());
         Long userId = (Long) session.getAttribute("userId");
         location.setUserId(userId);
         location.setCreatedDate(LocalDateTime.now());
-        log.info("Saved lcation = {}", location.toString());
-        return "Saved location";
+        log.info("Saved location = {}", location.toString());
+        Optional<Location> saveLocation = locationService.saveUserLocation(location);
+        if (saveLocation.isPresent())
+            return saveLocation.get().toString();
+        else
+            return "Saved location";
     }
 
 

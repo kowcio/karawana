@@ -16,7 +16,7 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-//        http.authorizeRequests().antMatchers("/login").permitAll()
+//        http.permitAll()antMatchers("/login").permitAll()
 //                .antMatchers("/**", "/all", "/console/**", "/login/**", "/css/**", "/images/**", "/js/**", "/fonts/**")
 //                .permitAll()
 //                .anyRequest()
@@ -32,8 +32,10 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .maxSessionsPreventsLogin(true)
                 .and()
                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-                .invalidSessionUrl("/")
-                ;
+                .invalidSessionUrl("/");
+
+        http.antMatcher("/**").authorizeRequests().anyRequest().permitAll();
+
         http.csrf().disable();
 
     }

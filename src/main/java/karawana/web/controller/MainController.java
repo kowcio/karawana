@@ -51,6 +51,7 @@ public class MainController {
                 .id(new Random().nextLong())
                 .name(userName)
                 .color(new Random().nextInt(999999))
+                .createdDate(LocalDateTime.now())
                 .build();
         List<User> users = new ArrayList<>();
         users.add(user);

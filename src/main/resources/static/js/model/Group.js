@@ -14,7 +14,7 @@ Group.prototype.updateMyLocation = function() {
         contentType: 'application/json; charset=utf-8',
         async: true,
         success: function(msg) {
-        console.log("Position of user updated.");
+        $("#log").append(msg+"<br />");
         }
     });
 }
@@ -27,9 +27,12 @@ Group.prototype.getGroupLocation = function() {
         type: 'GET',
         data: this.group.password,
         contentType: 'application/json; charset=utf-8',
-        async: true,
-        success: function(msg) {
+        async: false,
+        success: function(response) {
         console.log("Got group update.");
+        },
+        error : function(response){
+        console.log("Error in saving Locationfor user.");
         }
-    });
+        })
 }
