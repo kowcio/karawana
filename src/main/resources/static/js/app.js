@@ -40,12 +40,23 @@ console.log(window.pos);
 
 
 
+$( "#groupChangeSubmit" ).click(function() {
+var newGroupName = $("#groupName").val();
+var group = new Group(window.group,window.pos);
+console.log("Changing group name to = "+ newGroupName);
+group.changeGroup(newGroupName);
+
+});
+
+
+
 
 
 }); //END DOCUMENT ON LOAD
 
 
-setInterval(initMap,4000);
+
+setInterval(initMap,7000);
 function initMap() {
 console.log("Update Map func - " + window.isTest );
 

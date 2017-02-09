@@ -10,6 +10,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Null;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +21,11 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="group_table")
-public class Group
-{
+@Table(name = "group_table")
+public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id=0L;
+    private Long id = 0L;
 
     @Column(unique = true)
     private String groupName;
@@ -37,7 +37,8 @@ public class Group
     @Autowired
     UserService userService;
 
-    @OneToMany(cascade=CascadeType.ALL , targetEntity = User.class, mappedBy = "id", fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = User.class, mappedBy = "id", fetch = FetchType.LAZY)
+    @ElementCollection
     List<User> users = new ArrayList<>(0);
 
     @DateTimeFormat

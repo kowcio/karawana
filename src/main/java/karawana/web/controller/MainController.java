@@ -3,11 +3,9 @@ package karawana.web.controller;
 import karawana.entities.Group;
 import karawana.entities.Location;
 import karawana.entities.User;
-import karawana.repositories.GroupRepository;
 import karawana.service.GroupService;
 import karawana.service.LocationService;
 import karawana.service.UserService;
-import org.h2.jdbc.JdbcSQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +18,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.ConstraintViolationException;
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -42,16 +40,16 @@ public class MainController {
         checkCache();
         ModelAndView mav = new ModelAndView("/pages/main");
         User generatedUserIDKeptInSession = userService.getRandomUser();
-        String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
+        String sessionId = session.getId();
         //check user if it is already in DB
         //make ID as string ? UUID ?
-//        String groupName = "group" + sessionId.substring(0, 4);
-        String groupName = "groupMocked1";
+        String groupName = "group" + sessionId.substring(0, 4);
+//        String groupName = "groupMocked1";
 
-        String userName = "User" + sessionId.substring(0, 4) + new Random().nextInt(12233);
+        String userName = "User" + sessionId.substring(0, 4) + new SecureRandom().nextInt(12233);
         User user = User.builder()
                 .name(userName)
-                .color(new Random().nextInt(800000)+100000)
+                .color(new SecureRandom().nextInt(800000) + 100000)
                 .createdDate(LocalDateTime.now())
                 .build();
         List<User> users = new ArrayList<>();
@@ -66,25 +64,24 @@ public class MainController {
 
         Long groupId = (Long) session.getAttribute(SESSION_VAR.GROUP_ID);
         Long userId = (Long) session.getAttribute(SESSION_VAR.USER_ID);
-        if (groupId == null || userId == null) {
-            try {
-                group = groupService.saveGroup(group);
-            } catch (Exception e) {
-                log.info("Group already in DB, won`t create a new one.");
-            }
-            user = userService.saveUser(user);
+
+
+        if (groupId == null) {
+            group = groupService.saveGroup(group);
             groupId = group.getId();
-            userId = user.getId();
             session.setAttribute(SESSION_VAR.GROUP_ID, groupId);
-            session.setAttribute(SESSION_VAR.USER_ID, userId);
-
         }
-        session.setAttribute(SESSION_VAR.latestLocations(groupId),new HashMap<Long, Location>(0));
+        if (userId == null) {
+            user = userService.saveUser(user);
+            userId = user.getId();
+            session.setAttribute(SESSION_VAR.USER_ID, userId);
+        }
 
-
+//        session.setAttribute(SESSION_VAR.latestLocations(groupId), new HashMap<Long, Location>(0));
         long sessionTimeLeft = System.currentTimeMillis() - session.getLastAccessedTime();
         //if session  20 min
         mav.addObject("group", group);
+        mav.addObject("user", user);
         mav.addObject(SESSION_VAR.SESSION_ID, sessionId);
         mav.addObject("countdown", sessionTimeLeft);
 

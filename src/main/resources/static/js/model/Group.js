@@ -14,19 +14,19 @@ Group.prototype.updateMyLocation = function() {
         contentType: 'application/json; charset=utf-8',
         async: true,
         success: function(msg) {
+            console.log(msg);
+            console.log(msg);
+        var users = msg.users
 
-        for (var key in msg) {
-          if (msg.hasOwnProperty(key)) {
-            console.log(key + " -> " + msg[key]);
-            $("#log").append(msg+"<br />");
+        for (var i = 0 ; i < users.length ; i++) {
+          $("#log").append(users[i].id+" -- "+users[i].locations[i].lat+"<br />");
           }
         }
 
 //        $("#log").append(msg+"<br />");
 //        console.log(msg);
-        }
-    });
-}
+        })
+    }
 
 
 
@@ -41,6 +41,7 @@ Group.prototype.getGroupLocation = function() {
         contentType: 'application/json; charset=utf-8',
         async: false,
         success: function(response) {
+        console.log(response);
         console.log("Got group update.");
         },
         error : function(response){
@@ -50,6 +51,30 @@ Group.prototype.getGroupLocation = function() {
 }
 
 Group.prototype.updateMapGroupLocations = function() {
+
+
+}
+
+Group.prototype.changeGroup = function(groupName) {
+
+    $.ajax({
+        url: '/api/changeGroup/'+groupName,
+        type: 'GET',
+        data: groupName,
+        contentType: 'application/json; charset=utf-8',
+        async: false,
+        success: function(response) {
+        this.group = response;
+        console.log(response);
+        $("#groupId").text(response.id);
+        $("#userId").text(user.id);
+        $("#groupNameSh").text(response.groupName]);
+        console.log("Got new group update.");
+        },
+        error : function(response){
+        console.log("Error in updating group for user.");
+        }
+        })
 
 
 }

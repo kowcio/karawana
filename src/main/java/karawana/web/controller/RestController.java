@@ -2,6 +2,7 @@ package karawana.web.controller;
 
 import karawana.entities.Group;
 import karawana.entities.Location;
+import karawana.entities.User;
 import karawana.repositories.UserRepository;
 import karawana.service.GroupService;
 import karawana.service.LocationService;
@@ -44,7 +45,7 @@ public class RestController {
 
     @RequestMapping(value = "/updateMyLocation", method = RequestMethod.POST)
     @ResponseBody
-    public Map<Long, Location> updateMyLocation(
+    public Group updateMyLocation(
             HttpServletRequest httpServletRequest,
             HttpSession session,
             @RequestBody Location location
@@ -52,43 +53,66 @@ public class RestController {
         System.out.println(httpServletRequest.getSession().getId());
         System.out.println(location.toString());
         Long userId = (Long) session.getAttribute(SESSION_VAR.USER_ID);
-
         location.setUserId(userId);
         location.setCreatedDate(LocalDateTime.now());
+
         Optional<Location> saveLocation = locationService.saveUserLocation(location);
         Location savedLocation = saveLocation.get();
+
         Long groupId = (Long) session.getAttribute(SESSION_VAR.GROUP_ID);
 
-//        String sessionGroupName = "latestLocations" + groupId;
-        String sessionGroupName = SESSION_VAR.latestLocations(groupId);
+        Optional<Group> optGroupLatest = groupService.getGroupById(groupId);
+        Group gr = optGroupLatest.get();
 
-        Map<Long, Location> groupLatestLocations =
-                (HashMap<Long, Location>) session.getAttribute(sessionGroupName);
-        if (groupLatestLocations == null) return new HashMap<>();
+        User user = userService.getUserById(userId);
+        user.getLocations().add(location);
+        gr.getUsers().add(user);
 
-        groupLatestLocations.put(userId, savedLocation);
+        gr = groupService.saveGroup(gr);
+        System.out.println(
+                "Size:" + gr.getUsers().size() + " UserId " + " -- " + userId + " groupID:" + groupId + " grUpdated:" + gr.getId());
+        return gr;
 
-        log.info("latest locations update = {}", groupLatestLocations.toString());
-
-
-        return groupLatestLocations;
     }
 
-    @RequestMapping(value = "/getGroupLocation", method = RequestMethod.POST)
+//    @RequestMapping(value = "/getGroupLocation", method = RequestMethod.POST)
+//    @ResponseBody
+//    public Group getGroupLocation(
+//            HttpServletRequest httpServletRequest,
+//            HttpSession session
+//    ) {
+//        Long groupId = (Long) session.getAttribute(SESSION_VAR.GROUP_ID);
+//        Optional<Group> group = groupService.getGroupById(groupId);
+//        if (group.isPresent()) {
+//            Group gr = group.get();
+//            return gr;
+//        } else
+//            return new Group();
+//    }
+
+
+    @RequestMapping(value = "/changeGroup/{groupName}", method = RequestMethod.POST)
     @ResponseBody
-    public Group getGroupLocation(
+    public Group changeGroup(
             HttpServletRequest httpServletRequest,
-            HttpSession session
+            HttpSession session,
+            @PathVariable String groupName
     ) {
-        Long groupId = (Long) session.getAttribute("groupId");
-        Optional<Group> group = groupService.getGroupLocations(groupId);
-        if (group.isPresent()) {
-            Group gr = group.get();
 
+        Long userId = (Long) session.getAttribute(SESSION_VAR.USER_ID);
 
-            return gr;
-        } else
-            return new Group();
+        Optional<Group> optNewGroup = groupService.getGroupByName(groupName);
+        User user = userService.getUserById(userId);
+
+        if (optNewGroup.isPresent()) {
+            Group newGroup = optNewGroup.get();
+            session.setAttribute(SESSION_VAR.GROUP_ID, newGroup.getId());
+            newGroup.getUsers().add(user);
+            Group group = groupService.saveGroup(newGroup);
+            System.out.println("asdqwe");
+            return group;
+        }
+        return new Group();
+
     }
-
 }

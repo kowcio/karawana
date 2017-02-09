@@ -17,8 +17,11 @@ public class GroupService {
     @Autowired(required = true)
     private GroupRepository groupRepository;
 
-    public Optional<Group> getGroupLocations(Long groupId) {
+    public Optional<Group> getGroupById(Long groupId) {
         return Optional.of(groupRepository.findById(groupId));
+    }
+    public Optional<Group> getGroupByName(String groupName) {
+        return Optional.of(groupRepository.findByGroupName(groupName));
     }
 
     public Group saveGroup(Group group) {
