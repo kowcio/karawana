@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
+import javax.transaction.Transactional;
+
 /**
  * Created by Kowcio on 2016-10-08.
  */
@@ -15,6 +17,7 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 
 @Service
+@Transactional
 public class UserService {
 
 
@@ -31,7 +34,7 @@ public class UserService {
     }
 
     public  User saveUser(User user){
-       return userRepository.saveAndFlush(user);
+       return userRepository.save(user);
     }
 
 }

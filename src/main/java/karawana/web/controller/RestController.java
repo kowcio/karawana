@@ -63,14 +63,7 @@ public class RestController {
 
         Optional<Group> optGroupLatest = groupService.getGroupById(groupId);
         Group gr = optGroupLatest.get();
-
-        User user = userService.getUserById(userId);
-        user.getLocations().add(location);
-        gr.getUsers().add(user);
-
-        gr = groupService.saveGroup(gr);
-        System.out.println(
-                "Size:" + gr.getUsers().size() + " UserId " + " -- " + userId + " groupID:" + groupId + " grUpdated:" + gr.getId());
+        log.info("Size:" + gr.getUsers().size() + " UserId " + " -- " + userId + " groupID:" + groupId + " grUpdated:" + gr.getId());
         return gr;
 
     }
@@ -100,16 +93,23 @@ public class RestController {
     ) {
 
         Long userId = (Long) session.getAttribute(SESSION_VAR.USER_ID);
+        User user = userService.getUserById(userId);
 
         Optional<Group> optNewGroup = groupService.getGroupByName(groupName);
-        User user = userService.getUserById(userId);
 
         if (optNewGroup.isPresent()) {
             Group newGroup = optNewGroup.get();
             session.setAttribute(SESSION_VAR.GROUP_ID, newGroup.getId());
-            newGroup.getUsers().add(user);
+
+            user = userService.saveUser(user);
+            List<User> addUser = newGroup.getUsers();
+            addUser.add(user);
+            newGroup.setUsers(addUser);
+
             Group group = groupService.saveGroup(newGroup);
-            System.out.println("asdqwe");
+            log.info("Saved group with new user. Debug !  ");
+            Group test = groupService.getGroupByName(groupName).get();
+
             return group;
         }
         return new Group();

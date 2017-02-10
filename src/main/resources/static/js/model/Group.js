@@ -39,7 +39,7 @@ Group.prototype.getGroupLocation = function() {
         type: 'GET',
         data: this.group.password,
         contentType: 'application/json; charset=utf-8',
-        async: false,
+        async: true,
         success: function(response) {
         console.log(response);
         console.log("Got group update.");
@@ -62,13 +62,12 @@ Group.prototype.changeGroup = function(groupName) {
         type: 'GET',
         data: groupName,
         contentType: 'application/json; charset=utf-8',
-        async: false,
+        async: true,
         success: function(response) {
         this.group = response;
         console.log(response);
         $("#groupId").text(response.id);
-        $("#userId").text(user.id);
-        $("#groupNameSh").text(response.groupName]);
+        $("#groupNameSh").text(response.groupName);
         console.log("Got new group update.");
         },
         error : function(response){

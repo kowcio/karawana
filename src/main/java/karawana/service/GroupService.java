@@ -23,7 +23,7 @@ public class GroupService {
     public Optional<Group> getGroupByName(String groupName) {
         return Optional.of(groupRepository.findByGroupName(groupName));
     }
-
+//http://stackoverflow.com/questions/11881479/how-do-i-update-an-entity-using-spring-data-jpa
     public Group saveGroup(Group group) {
         return groupRepository.save(group);
     }

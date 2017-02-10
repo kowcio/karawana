@@ -9,11 +9,14 @@
 
     <div class="row">
         Data from the server
-        <span class="label label-default row" id="groupId" th:text="'GroupId : ' + ${group.id}">Default</span>
-        <span class="label label-default row" id="userId" th:text="'UserId : ' + ${user.id}">Default</span>
-        <span class="label label-default row" id="groupNameSh" th:text="'GroupName : ' + ${group.groupName}">Default</span>
-        <span class="label label-info row"    th:text="'Cgroup.createdDate : ' + ${group.createdDate}">Default</span>
-        <span class="label label-warning row" th:text="'Session : ' + ${sessionId}">Default</span>
+        <label for="groupId">GroupID:</label>
+        <div class="label label-default row" id="groupId" th:text="${group.id}">Default</div>
+        <label for="userId">UserID:</label>
+        <div class="label label-default row" id="userId" th:text="${user.id}">Default</div>
+        <label for="groupNameSh">GroupName:</label>
+        <div class="label label-default row" id="groupNameSh" th:text="${group.groupName}">Default</div>
+        <div class="label label-info row"    th:text="${group.createdDate}">Default</div>
+        <div class="label label-warning row" th:text="'Session : ' + ${sessionId}">Default</div>
 
         <div class="form-group">
             <label for="groupName">GROUP:</label>

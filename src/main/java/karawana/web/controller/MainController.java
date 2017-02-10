@@ -70,12 +70,17 @@ public class MainController {
             group = groupService.saveGroup(group);
             groupId = group.getId();
             session.setAttribute(SESSION_VAR.GROUP_ID, groupId);
+        } else {
+            group = groupService.getGroupById(groupId).get();
         }
         if (userId == null) {
             user = userService.saveUser(user);
             userId = user.getId();
             session.setAttribute(SESSION_VAR.USER_ID, userId);
+        } else {
+            user = userService.getUserById(userId);
         }
+
 
 //        session.setAttribute(SESSION_VAR.latestLocations(groupId), new HashMap<Long, Location>(0));
         long sessionTimeLeft = System.currentTimeMillis() - session.getLastAccessedTime();

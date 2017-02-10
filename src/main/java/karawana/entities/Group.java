@@ -37,7 +37,7 @@ public class Group {
     @Autowired
     UserService userService;
 
-    @OneToMany(targetEntity = User.class, mappedBy = "id", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, targetEntity = User.class, mappedBy = "id", fetch = FetchType.LAZY)
     @ElementCollection
     List<User> users = new ArrayList<>(0);
 
@@ -45,18 +45,5 @@ public class Group {
     @CreatedDate
     private LocalDateTime createdDate;
 
-    private List<User> addUserToGroup(User user) {
-        users.add(user);
-        return users;
-    }
-
-    private List<User> addUserToGroup(Long userId) {
-        users.add(userService.getUserById(userId));
-        return users;
-    }
-//    private List<User> addUserToGroup(String name) {
-//        users.add(UserService.getUserByID(user));
-//        return users;
-//    }
 
 }
