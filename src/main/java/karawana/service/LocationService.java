@@ -18,11 +18,8 @@ public class LocationService {
     LocationRepository locationRepository;
 
     public Optional<Location> saveUserLocation(Location location) {
-        if (location.getUserId() != null) {
             return Optional.of(locationRepository.save(location));
-        } else {
-            return Optional.of(location);
-        }
+
     }
 
 

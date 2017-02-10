@@ -55,7 +55,7 @@ public class MainController {
         List<User> users = new ArrayList<>();
         users.add(user);
 //TODO session restore and etc
-        Group group = Group.builder()
+        Group group     = Group.builder()
                 .groupName(groupName)
                 .createdDate(LocalDateTime.now())
                 .users(users)
@@ -74,6 +74,7 @@ public class MainController {
             group = groupService.getGroupById(groupId).get();
         }
         if (userId == null) {
+            user.setGid(group.getId());
             user = userService.saveUser(user);
             userId = user.getId();
             session.setAttribute(SESSION_VAR.USER_ID, userId);

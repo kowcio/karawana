@@ -31,13 +31,11 @@ public class Group {
     private Long version;
     private String password;
 
-    @Transient
-    @Autowired
-    UserService userService;
 
-    @OneToMany(cascade = CascadeType.ALL, targetEntity = User.class, mappedBy = "id", fetch = FetchType.LAZY)
-    @ElementCollection
-    List<User> users = new ArrayList<>(0);
+    @OneToMany(cascade = CascadeType.ALL, targetEntity = User.class, mappedBy = "gid", fetch = FetchType.LAZY)
+    @OrderBy("id")
+    //    @JoinColumn(name="id")
+    private List<User> users = new ArrayList<>(0);
 
     @DateTimeFormat
     @CreatedDate

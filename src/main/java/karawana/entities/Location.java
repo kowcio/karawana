@@ -22,8 +22,8 @@ public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id = 0L;
+    private Long uid = 0L;
 
-    private Long userId;
     @Version
     private Long version;
 

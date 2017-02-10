@@ -53,8 +53,7 @@ public class RestController {
         System.out.println(httpServletRequest.getSession().getId());
         System.out.println(location.toString());
         Long userId = (Long) session.getAttribute(SESSION_VAR.USER_ID);
-        location.setUserId(userId);
-        location.setCreatedDate(LocalDateTime.now());
+            location.setCreatedDate(LocalDateTime.now());
 
         Optional<Location> saveLocation = locationService.saveUserLocation(location);
         Location savedLocation = saveLocation.get();
@@ -92,21 +91,26 @@ public class RestController {
             @PathVariable String groupName
     ) {
 
-        Long userId = (Long) session.getAttribute(SESSION_VAR.USER_ID);
-        User user = userService.getUserById(userId);
+
 
         Optional<Group> optNewGroup = groupService.getGroupByName(groupName);
 
         if (optNewGroup.isPresent()) {
             Group newGroup = optNewGroup.get();
+            List<User> addUser = newGroup.getUsers();
+
             session.setAttribute(SESSION_VAR.GROUP_ID, newGroup.getId());
 
+            Long userId = (Long) session.getAttribute(SESSION_VAR.USER_ID);
+            User user = userService.getUserById(userId);
+            user.setGid(optNewGroup.get().getId());
+
             user = userService.saveUser(user);
-            List<User> addUser = newGroup.getUsers();
             addUser.add(user);
             newGroup.setUsers(addUser);
 
             Group group = groupService.saveGroup(newGroup);
+
             log.info("Saved group with new user. Debug !  ");
             Group test = groupService.getGroupByName(groupName).get();
 

@@ -25,7 +25,9 @@ public class GroupService {
     }
 //http://stackoverflow.com/questions/11881479/how-do-i-update-an-entity-using-spring-data-jpa
     public Group saveGroup(Group group) {
-        return groupRepository.save(group);
+        Group save = groupRepository.save(group);
+        groupRepository.flush();
+        return save;
     }
 
 

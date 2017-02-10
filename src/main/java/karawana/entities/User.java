@@ -23,6 +23,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id = 0L;
+    private Long gid = 0L;
 
     @Column
     private String name;
@@ -35,9 +36,7 @@ public class User {
     @CreatedDate
     private LocalDateTime createdDate;
 
-    @ElementCollection
-    @OneToMany(cascade=CascadeType.ALL , targetEntity = Location.class, mappedBy = "userId", fetch = FetchType.LAZY)
-
+    @OneToMany(cascade=CascadeType.ALL , targetEntity = Location.class, mappedBy = "uid", fetch = FetchType.LAZY)
     private List<Location> locations = new ArrayList<>(0);
 
 }
