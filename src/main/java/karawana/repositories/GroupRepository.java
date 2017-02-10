@@ -11,8 +11,6 @@ import javax.annotation.ManagedBean;
 import javax.transaction.Transactional;
 
 @Repository
-@Service
-@ManagedBean
 @Transactional
 public interface GroupRepository extends JpaRepository<Group, Long> {
 	Group findById(Long id);
