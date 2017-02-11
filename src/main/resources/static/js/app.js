@@ -87,6 +87,8 @@ console.log("Update Map func - " + window.isTest );
             console.log("Updating map position to Lat:"+pos.lat+" Lng:"+pos.lng);
 }
 
+
+
             var marker = new google.maps.Marker({
             position: window.pos,
             map:window.map,
@@ -96,6 +98,10 @@ console.log("Update Map func - " + window.isTest );
                         scale: 3
                     }
             });
+
+
+
+
 //            infoWindow.setPosition(pos);
 //            infoWindow.setContent('Twoja lokalizacja.');
 //            + window.pos.lat + " - " + window.pos.lng   );

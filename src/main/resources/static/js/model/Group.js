@@ -16,17 +16,36 @@ Group.prototype.updateMyLocation = function() {
         success: function(msg) {
             console.log(msg);
         var users = msg.users
-
+        this.group = msg;
         for (var i = 0 ; i < users.length ; i++) {
-          $("#log").append(users[i].id+" -- "+users[i].locations[0].lat+"<br />");
+          $("#log").append("UserName:"+users[i].name+" -Position:- "+users[i].locations[0].lat+" -- "+users[i].locations[0].lat+"<br />");
           }
+          qwe(this.group);
         }
 
 //        $("#log").append(msg+"<br />");
 //        console.log(msg);
         })
     }
+function qwe(group) {
+        var users = group.users;
+        for (var i = 0 ; i < users.length ; i++) {
+            var lastLoc = users[i].locations.length;
+            var lat = parseFloat(users[i].locations[lastLoc-1].lat)+0.003;
+            var lng = parseFloat(users[i].locations[lastLoc-1].lng)+0.003;
+                    var marker = new google.maps.Marker({
+                    position: {lat:lat,lng:lng},
+                    map:window.map,
+                     icon: {
+                                path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+                                strokeColor: '#'+users[i].color,
+                                scale: 3
+                            }
+                    });
 
+          }
+
+}
 
 
 Group.prototype.getGroupLocation = function() {
