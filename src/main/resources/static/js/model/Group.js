@@ -5,8 +5,8 @@ this.currentUserPosition = position;
 };
 
 Group.prototype.updateMyLocation = function() {
+    var thisObj = this;
     var position = this.currentUserPosition;
-    console.log("Updating user location = " + JSON.stringify(position));
     $.ajax({
         url: '/api/updateMyLocation',
         type: 'POST',
@@ -14,25 +14,28 @@ Group.prototype.updateMyLocation = function() {
         contentType: 'application/json; charset=utf-8',
         async: true,
         success: function(msg) {
-            console.log(msg);
         var users = msg.users
         this.group = msg;
+        console.log("Users");
+        console.log(users);
         for (var i = 0 ; i < users.length ; i++) {
           $("#log").append("UserName:"+users[i].name+" -Position:- "+users[i].locations[0].lat+" -- "+users[i].locations[0].lat+"<br />");
           }
-          qwe(this.group);
+         thisObj.showMarkers();
         }
 
 //        $("#log").append(msg+"<br />");
 //        console.log(msg);
         })
     }
-function qwe(group) {
-        var users = group.users;
+Group.prototype.showMarkers = function() {
+        var users = this.group.users;
         for (var i = 0 ; i < users.length ; i++) {
+        console.log("qwe");
+        console.log(users[i]);
             var lastLoc = users[i].locations.length;
-            var lat = parseFloat(users[i].locations[lastLoc-1].lat)+0.003;
-            var lng = parseFloat(users[i].locations[lastLoc-1].lng)+0.003;
+            var lat = parseFloat(users[i].locations[lastLoc-1].lat)+0.0003;
+            var lng = parseFloat(users[i].locations[lastLoc-1].lng)+0.0003;
                     var marker = new google.maps.Marker({
                     position: {lat:lat,lng:lng},
                     map:window.map,
@@ -51,7 +54,6 @@ function qwe(group) {
 Group.prototype.getGroupLocation = function() {
     var position = this.currentUserPosition;
     console.log("Updating user location = " + JSON.stringify(position));
-
     $.ajax({
         url: '/api/getGroupLocation'+this.group.groupName,
         type: 'GET',
