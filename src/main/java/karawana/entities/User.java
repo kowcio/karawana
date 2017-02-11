@@ -24,7 +24,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id = 0L;
-    @NotNull
+//    @NotNull
     private Long gid = 0L;
 
     @Column

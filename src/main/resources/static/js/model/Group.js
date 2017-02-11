@@ -15,11 +15,10 @@ Group.prototype.updateMyLocation = function() {
         async: true,
         success: function(msg) {
             console.log(msg);
-            console.log(msg);
         var users = msg.users
 
         for (var i = 0 ; i < users.length ; i++) {
-          $("#log").append(users[i].id+" -- "+users[i].locations[i].lat+"<br />");
+          $("#log").append(users[i].id+" -- "+users[i].locations[0].lat+"<br />");
           }
         }
 
