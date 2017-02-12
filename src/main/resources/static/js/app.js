@@ -85,8 +85,7 @@ console.log("Update Map func - " + window.isTest );
             console.log(group.currentUserPosition);
             group.updateMyLocation();
             console.log("Updating map position to Lat:"+pos.lat+" Lng:"+pos.lng);
-}
-
+            }
 
 
             var marker = new google.maps.Marker({
@@ -94,7 +93,7 @@ console.log("Update Map func - " + window.isTest );
             map:window.map,
              icon: {
                         path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-                        strokeColor: '#457803',
+                        strokeColor: '#'+window.user.color,
                         scale: 3
                     }
             });

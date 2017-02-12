@@ -19,16 +19,18 @@ Group.prototype.updateMyLocation = function() {
         console.log("Users");
         console.log(users);
         for (var i = 0 ; i < users.length ; i++) {
-          $("#log").append("UserName:"+users[i].name+" -Position:- "+users[i].locations[0].lat+" -- "+users[i].locations[0].lat+"<br />");
+          $("#log").append("UserName:"+users[i].name+" -Position:- "+users[i].locations[0].lat+" -- "+users[i].locations[0].lng+"<br />");
           }
-         thisObj.showMarkers();
+         thisObj.showLatestMarker();
+         thisObj.showUsers();
+
         }
 
 //        $("#log").append(msg+"<br />");
 //        console.log(msg);
         })
     }
-Group.prototype.showMarkers = function() {
+Group.prototype.showLatestMarker = function() {
         var users = this.group.users;
         for (var i = 0 ; i < users.length ; i++) {
         console.log("qwe");
@@ -70,13 +72,9 @@ Group.prototype.getGroupLocation = function() {
         })
 }
 
-Group.prototype.updateMapGroupLocations = function() {
-
-
-}
 
 Group.prototype.changeGroup = function(groupName) {
-
+var thisObj = this;
     $.ajax({
         url: '/api/changeGroup/'+groupName,
         type: 'GET',
@@ -96,4 +94,31 @@ Group.prototype.changeGroup = function(groupName) {
         })
 
 
+}
+
+
+
+Group.prototype.showUsers = function() {
+    var users = this.group.users;
+    var html="";
+        for (var i = 0 ; i < users.length ; i++) {
+        var date = localDateTimePrint(users[i].createdDate);
+        html += "<label class='label label-info'>User: </label>";
+        html += "<div style='color:#"+users[i].color+"'>"+users[i].name+" Last: "  + date +"</div>"
+          }
+    $("#users").html(html);
+
+}
+
+function localDateTimePrint(date){
+var dateString="";
+    dateString += "Time:";
+    dateString += date.hour+"-";
+    dateString += date.minute;
+    dateString += " Date:";
+    dateString += date.dayOfMonth+"-";
+    dateString += date.month.$name+"-";
+    dateString += date.year+"-";
+
+return dateString;
 }
