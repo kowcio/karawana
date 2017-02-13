@@ -34,7 +34,6 @@ public class User {
     @Max(999999)
     private int color;
 
-    @DateTimeFormat
     @CreatedDate
     private LocalDateTime createdDate;
 

@@ -14,8 +14,6 @@ import javax.transaction.Transactional;
  * Created by Kowcio on 2016-10-08.
  */
 
-
-
 @Service
 @Transactional
 public class UserService {

@@ -29,7 +29,6 @@ public class Location {
     @Version
     private Long version;
 
-    @DateTimeFormat
     @CreatedDate
     private LocalDateTime createdDate;
     private String lat;

@@ -37,7 +37,6 @@ public class Group {
     //    @JoinColumn(name="id")
     private List<User> users = new ArrayList<>(0);
 
-    @DateTimeFormat
     @CreatedDate
     private LocalDateTime createdDate;
 
