@@ -1,12 +1,17 @@
 package karawana.security;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 
 @Configuration
@@ -18,18 +23,18 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/**", "/css/**",
-                        "/js/**", "/fonts/**", "/console", "console/**").permitAll()
-                .anyRequest().permitAll()
+                .antMatchers("/", "/**", "/css/**",
+                        "/js/**", "/fonts/**", "/console", "/console/**").permitAll()
                 .and()
                 .sessionManagement()
                 .maximumSessions(1)
                 .maxSessionsPreventsLogin(true)
                 .and()
                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-                .invalidSessionUrl("/");
+                .and().csrf().disable();
+        http.headers().frameOptions().disable();
     }
-}
+
 //    @Autowired
 //    UserDetailsService userDS;
 //
@@ -43,5 +48,5 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //    protected UserDetailsService userDetailsService() {
 //        return userDS;
 //    }
-//
-//}
+
+}
