@@ -34,8 +34,7 @@ import static org.junit.Assert.assertTrue;
 @WebAppConfiguration
 //@SpringApplicationConfiguration
 @Transactional
-
-public class UserRepositoryTest {
+class UserRepositoryTest {
 
     @Autowired
     GroupRepository groupRepository;

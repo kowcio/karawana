@@ -34,7 +34,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @EnableCaching
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = {"karawana.repositories"})
-@ComponentScan(basePackages = {"karawana.*"})
 public class Application extends WebMvcConfigurerAdapter {
     final static Logger log = LoggerFactory.getLogger(Application.class);
     public static void main(String[] args) {
