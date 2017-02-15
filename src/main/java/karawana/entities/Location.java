@@ -25,6 +25,8 @@ public class Location {
    // @Column(name="lid")
     private Long id = 0L;
 //    @NotNull
+//    @ManyToOne
+//    @JoinColumn(name="id")
     @Version
     private Long version;
 

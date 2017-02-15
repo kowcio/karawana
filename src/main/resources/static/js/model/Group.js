@@ -15,12 +15,14 @@ Group.prototype.updateMyLocation = function() {
         async: true,
         success: function(msg) {
         var users = msg.users
+//        var users = users
         this.group = msg;
         console.log("Users");
         console.log(users);
         for (var i = 0 ; i < users.length ; i++) {
           $("#log").append("UserName:"+users[i].name+" -Position:- "+users[i].locations[0].lat+" -- "+users[i].locations[0].lng+"<br />");
           }
+
          thisObj.showLatestMarker();
          thisObj.showUsers();
 
@@ -33,11 +35,10 @@ Group.prototype.updateMyLocation = function() {
 Group.prototype.showLatestMarker = function() {
         var users = this.group.users;
         for (var i = 0 ; i < users.length ; i++) {
-        console.log("qwe");
         console.log(users[i]);
-            var lastLoc = users[i].locations.length;
-            var lat = parseFloat(users[i].locations[lastLoc-1].lat)+0.0003;
-            var lng = parseFloat(users[i].locations[lastLoc-1].lng)+0.0003;
+            var lastLoc = users[i].locations.length-1;
+            var lat = parseFloat(users[i].locations[lastLoc].lat)+0.0003;
+            var lng = parseFloat(users[i].locations[lastLoc].lng)+0.0003;
                     var marker = new google.maps.Marker({
                     position: {lat:lat,lng:lng},
                     map:window.map,

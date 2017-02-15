@@ -34,7 +34,12 @@ public class User {
     @Singular("location")
     @OrderBy("id")
     @OneToMany(cascade=CascadeType.ALL , fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")//, referencedColumnName = "lid")//by field name
+    @JoinColumn(name = "user_id", referencedColumnName ="id")//by field name
     private List<Location> locations = new ArrayList<>();
+
+    public User addLocation(Location location){
+        locations.add(location);
+        return this;
+    }
 
 }

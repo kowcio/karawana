@@ -54,22 +54,19 @@ public class RestController {
         System.out.println(httpServletRequest.getSession().getId());
         System.out.println(location.toString());
         Long userId = (Long) session.getAttribute(SESSION_VAR.USER_ID);
-        if(userId==null) return new Group();
-
-        location.setCreatedDate(LocalDateTime.now());
-
-        Optional<Location> saveLocation = locationService.saveUserLocation(location);
-        Location savedLocation = saveLocation.get();
-
         Long groupId = (Long) session.getAttribute(SESSION_VAR.GROUP_ID);
 
-        Optional<Group> optGroupLatest = groupService.getGroupById(groupId);
-        if (optGroupLatest.isPresent()) {
-            Group gr = optGroupLatest.get();
-            log.info("Size:" + gr.getUsers().size() + " UserId " + " -- " + userId + " groupID:" + groupId + " grUpdated:" + gr.getId());
-            return gr;
-        } else
-            return new Group();
+        location.setCreatedDate(LocalDateTime.now());
+        location.setId(userId);
+
+        User user = userService
+                .getUserById(userId)
+                .addLocation(location);
+
+
+        Group group = groupService.getGroupById(groupId).get().addUser(user);
+        group = groupService.saveGroup(group);
+        return group;
 
     }
 
@@ -97,29 +94,15 @@ public class RestController {
             HttpSession session,
             @PathVariable String groupName
     ) {
-
-
         Optional<Group> optNewGroup = groupService.getGroupByName(groupName);
-
         if (optNewGroup.isPresent()) {
             Group newGroup = optNewGroup.get();
-            Set<User> addUser = newGroup.getUsers();
-
             session.setAttribute(SESSION_VAR.GROUP_ID, newGroup.getId());
-
             Long userId = (Long) session.getAttribute(SESSION_VAR.USER_ID);
             User user = userService.getUserById(userId);
-//            user.setGid(optNewGroup.get().getId());
-
-            user = userService.saveUser(user);
-            addUser.add(user);
-            newGroup.setUsers(addUser);
-
-            Group group = groupService.saveGroup(newGroup);
-
-            log.info("Saved group with new user. Debug !  ");
-            Group test = groupService.getGroupByName(groupName).get();
-
+            Group group = newGroup.addUser(user);
+            group = groupService.saveGroup(group);
+            log.info("Saved group with new user. Debug ! = {} ", group.toString());
             return group;
         }
         return new Group();

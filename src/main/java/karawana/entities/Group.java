@@ -44,4 +44,8 @@ public class Group {
     @CreatedDate
     private LocalDateTime createdDate;
 
+    public Group addUser(User user){
+        users.add(user);
+        return this;
+    }
 }
