@@ -100,7 +100,7 @@ public class RestController {
 
         if (optNewGroup.isPresent()) {
             Group newGroup = optNewGroup.get();
-            List<User> addUser = newGroup.getUsers();
+            Set<User> addUser = newGroup.getUsers();
 
             session.setAttribute(SESSION_VAR.GROUP_ID, newGroup.getId());
 

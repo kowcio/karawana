@@ -1,14 +1,10 @@
 package karawana.entities;
 
 import lombok.*;
-import org.hibernate.annotations.BatchSize;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +34,6 @@ public class User {
     private LocalDateTime createdDate;
 
     @OneToMany(cascade=CascadeType.ALL , targetEntity = Location.class, mappedBy = "uid", fetch = FetchType.LAZY)
-    private List<Location> locations = new ArrayList<>(0);
+    private List<Location> locations = new ArrayList<>();
 
 }

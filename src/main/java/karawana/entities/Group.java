@@ -10,7 +10,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Null;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Data
@@ -31,14 +33,12 @@ public class Group {
     private Long version;
     private String password;
 
-
-    @OneToMany(cascade = CascadeType.ALL, targetEntity = User.class, mappedBy = "gid", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL)//, targetEntity = User.class, mappedBy = "gid", fetch = FetchType.LAZY)
     @OrderBy("id")
-    //    @JoinColumn(name="id")
-    private List<User> users = new ArrayList<>(0);
+    @Singular("user")
+    private Set<User> users = new HashSet<>();
 
     @CreatedDate
     private LocalDateTime createdDate;
-
 
 }
