@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -53,8 +54,9 @@ public class RestController {
         System.out.println(httpServletRequest.getSession().getId());
         System.out.println(location.toString());
         Long userId = (Long) session.getAttribute(SESSION_VAR.USER_ID);
+        if(userId==null) return new Group();
+
         location.setCreatedDate(LocalDateTime.now());
-        location.setUid(userId);
 
         Optional<Location> saveLocation = locationService.saveUserLocation(location);
         Location savedLocation = saveLocation.get();
@@ -89,6 +91,7 @@ public class RestController {
 
     @RequestMapping(value = "/changeGroup/{groupName}", method = RequestMethod.POST)
     @ResponseBody
+    @Transactional
     public Group changeGroup(
             HttpServletRequest httpServletRequest,
             HttpSession session,
@@ -106,7 +109,7 @@ public class RestController {
 
             Long userId = (Long) session.getAttribute(SESSION_VAR.USER_ID);
             User user = userService.getUserById(userId);
-            user.setGid(optNewGroup.get().getId());
+//            user.setGid(optNewGroup.get().getId());
 
             user = userService.saveUser(user);
             addUser.add(user);

@@ -19,10 +19,8 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@Column(name="uid")
     private Long id = 0L;
-//    @NotNull
-    private Long gid = 0L;
-
     @Column
     private String name;
     @Version
@@ -33,7 +31,10 @@ public class User {
     @CreatedDate
     private LocalDateTime createdDate;
 
-    @OneToMany(cascade=CascadeType.ALL , targetEntity = Location.class, mappedBy = "uid", fetch = FetchType.LAZY)
+    @Singular("location")
+    @OrderBy("id")
+    @OneToMany(cascade=CascadeType.ALL , fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")//, referencedColumnName = "lid")//by field name
     private List<Location> locations = new ArrayList<>();
 
 }

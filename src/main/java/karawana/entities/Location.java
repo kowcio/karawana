@@ -22,10 +22,9 @@ public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+   // @Column(name="lid")
     private Long id = 0L;
 //    @NotNull
-    private Long uid = 0L;
-
     @Version
     private Long version;
 

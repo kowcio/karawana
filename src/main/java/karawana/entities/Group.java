@@ -25,6 +25,7 @@ import java.util.Set;
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="gid")
     private Long id = 0L;
 
     @Column(unique = true)
@@ -36,6 +37,8 @@ public class Group {
     @OneToMany(cascade = CascadeType.ALL)//, targetEntity = User.class, mappedBy = "gid", fetch = FetchType.LAZY)
     @OrderBy("id")
     @Singular("user")
+    @JoinColumn(name = "group_id")//, referencedColumnName = "uid")//by field name
+//    @CollectionTable
     private Set<User> users = new HashSet<>();
 
     @CreatedDate

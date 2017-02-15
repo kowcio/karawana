@@ -29,12 +29,12 @@ import java.util.List;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
 @ContextConfiguration(classes = {Application.class})
-@WebAppConfiguration
+//@WebAppConfiguration
 //@SpringApplicationConfiguration
 @Transactional
-class UserRepositoryTest {
+@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class UserRepositoryTest {
 
     @Autowired
     GroupRepository groupRepository;
@@ -42,39 +42,31 @@ class UserRepositoryTest {
     UserRepository userRepository;
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-
     @Test
     public void addGroupThenAddUser() {
+
+
+        int color = new SecureRandom().nextInt(800000) + 100000;
+        User user = User.builder()
+                .name("testUserName")
+                .color(color)
+                .createdDate(LocalDateTime.now())
+                .build();
+
 
         String groupName = "testGroupName";
         Group group = Group.builder()
                 .groupName(groupName)
                 .createdDate(LocalDateTime.now())
-//                .users(users)
+                .user(user)
                 .build();
 
         group = groupRepository.save(group);
+
         log.info(group.toString());
-        assertTrue(group.getId() != null);
-
-        User user = User.builder()
-                .name("testUserName")
-                .color(new SecureRandom().nextInt(800000) + 100000)
-                .createdDate(LocalDateTime.now())
-                .build();
-
-        //save user to get ID and attach to hibernate context
-        user = userRepository.save(user);
-        //set user we have to group
-        List<User> users = new ArrayList<>();
-        users.add(user);
-        group.setUsers(users);
-        //save all...
-        group = groupRepository.save(group);
 
         group = groupRepository.findByGroupName(groupName);
         log.info(group.toString());
-        assertTrue(group.getUsers().size() == 1);
 
     }
 
@@ -85,7 +77,7 @@ class UserRepositoryTest {
         assertTrue(group.getId() != null);
     }
 
-    @Ignore
+//    @Ignore
     @Test
     public void addGroupWithNullUserList() {
 
@@ -100,7 +92,7 @@ class UserRepositoryTest {
         assertTrue(group.getId() != null);
     }
 
-    @Ignore
+//    @Ignore
     @Test
     public void testSaveSingleUser() {
 

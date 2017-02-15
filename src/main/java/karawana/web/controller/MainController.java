@@ -55,7 +55,7 @@ public class MainController {
         List<User> users = new ArrayList<>();
         users.add(user);
 //TODO session restore and etc
-        Group group     = Group.builder()
+        Group group = Group.builder()
                 .groupName(groupName)
                 .createdDate(LocalDateTime.now())
                 .users(users)
@@ -66,20 +66,14 @@ public class MainController {
         Long userId = (Long) session.getAttribute(SESSION_VAR.USER_ID);
 
 
-        if (groupId == null) {
+        if (groupId == null || userId == null) {
             group = groupService.saveGroup(group);
             groupId = group.getId();
             session.setAttribute(SESSION_VAR.GROUP_ID, groupId);
+            session.setAttribute(SESSION_VAR.USER_ID, groupId);
+            log.info("Created new group for new user = {}", group.toString());
         } else {
             group = groupService.getGroupById(groupId).get();
-        }
-        if (userId == null) {
-            user.setGid(group.getId());
-            user = userService.saveUser(user);
-            userId = user.getId();
-            session.setAttribute(SESSION_VAR.USER_ID, userId);
-        } else {
-            user = userService.getUserById(userId);
         }
 
 
