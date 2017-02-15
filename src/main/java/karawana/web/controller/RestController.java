@@ -56,17 +56,17 @@ public class RestController {
         Long userId = (Long) session.getAttribute(SESSION_VAR.USER_ID);
         Long groupId = (Long) session.getAttribute(SESSION_VAR.GROUP_ID);
 
+
         location.setCreatedDate(LocalDateTime.now());
-        location.setId(userId);
+        location.setUser_id(userId);
+        locationService.saveUserLocation(location);
+//        User user = userService
+//                .getUserById(userId)
+//                .addLocation(location);
+//        Group group = groupService.getGroupById(groupId).get().addUser(user);
+//        group = groupService.saveGroup(group);
 
-        User user = userService
-                .getUserById(userId)
-                .addLocation(location);
-
-
-        Group group = groupService.getGroupById(groupId).get().addUser(user);
-        group = groupService.saveGroup(group);
-        return group;
+        return groupService.getGroupById(groupId).get();
 
     }
 
@@ -94,6 +94,7 @@ public class RestController {
             HttpSession session,
             @PathVariable String groupName
     ) {
+
         Optional<Group> optNewGroup = groupService.getGroupByName(groupName);
         if (optNewGroup.isPresent()) {
             Group newGroup = optNewGroup.get();

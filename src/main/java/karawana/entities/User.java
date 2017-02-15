@@ -31,6 +31,11 @@ public class User {
     @CreatedDate
     private LocalDateTime createdDate;
 
+    @Column(name = "GROUP_ID")
+    private Long user_id;
+
+
+
     @Singular("location")
     @OrderBy("id")
     @OneToMany(cascade=CascadeType.ALL , fetch = FetchType.LAZY)

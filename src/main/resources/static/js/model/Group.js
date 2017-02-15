@@ -34,7 +34,7 @@ Group.prototype.updateMyLocation = function() {
     }
 Group.prototype.showLatestMarker = function() {
         var users = this.group.users;
-        for (var i = 0 ; i < users.length ; i++) {
+        for (var i = 0 ; i < users.length-1 ; i++) {
         console.log(users[i]);
             var lastLoc = users[i].locations.length-1;
             var lat = parseFloat(users[i].locations[lastLoc].lat)+0.0003;
