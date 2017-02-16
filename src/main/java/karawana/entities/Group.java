@@ -1,17 +1,18 @@
 package karawana.entities;
 
 import karawana.service.UserService;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Null;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Data
@@ -19,11 +20,13 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Group
-{
+@EqualsAndHashCode
+@Table(name = "group_table")
+public class Group {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="gid")
+    private Long id = 0L;
 
     @Column(unique = true)
     private String groupName;
@@ -31,25 +34,18 @@ public class Group
     private Long version;
     private String password;
 
-    @OneToMany(targetEntity = User.class, mappedBy = "id", fetch = FetchType.LAZY)
-    List<User> users = new ArrayList<>(0);
+    @OneToMany(cascade = CascadeType.ALL)//, targetEntity = User.class, mappedBy = "gid", fetch = FetchType.LAZY)
+    @OrderBy("id")
+    @Singular("user")
+    @JoinColumn(name = "group_id")//, referencedColumnName = "uid")//by field name
+//    @CollectionTable
+    private Set<User> users = new HashSet<>();
 
-    @DateTimeFormat
     @CreatedDate
     private LocalDateTime createdDate;
 
-    private List<User> addUserToGroup(User user) {
+    public Group addUser(User user){
         users.add(user);
-        return users;
+        return this;
     }
-
-    private List<User> addUserToGroup(Long user) {
-        users.add(UserService.getUserByID(user));
-        return users;
-    }
-//    private List<User> addUserToGroup(String name) {
-//        users.add(UserService.getUserByID(user));
-//        return users;
-//    }
-
 }

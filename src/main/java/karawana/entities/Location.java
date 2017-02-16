@@ -1,17 +1,12 @@
 package karawana.entities;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 
@@ -20,13 +15,22 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
+@EqualsAndHashCode
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Location {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
 
-    protected Long id = 0L;
-    @DateTimeFormat
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+   // @Column(name="lid")
+    private Long id = 0L;
+//    @NotNull
+//    @ManyToOne
+//    @JoinColumn(name="id")
+    @Version
+    private Long version;
+    @Column(name = "USER_ID")
+    private Long user_id;
     @CreatedDate
     private LocalDateTime createdDate;
     private String lat;

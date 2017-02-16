@@ -1,40 +1,50 @@
 package karawana.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Data
 @Builder
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    protected Long id = 0L;
-
-    @Column(unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@Column(name="uid")
+    private Long id = 0L;
+    @Column
     private String name;
     @Version
     private Long version;
     @Max(999999)
     private int color;
 
-    @DateTimeFormat
     @CreatedDate
     private LocalDateTime createdDate;
 
-    @OneToMany(targetEntity = Location.class, mappedBy = "id", fetch = FetchType.LAZY)
-    private List<Location> locations;
+    @Column(name = "GROUP_ID")
+    private Long user_id;
+
+
+
+    @Singular("location")
+    @OrderBy("id")
+    @OneToMany(cascade=CascadeType.ALL , fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName ="id")//by field name
+    private List<Location> locations = new ArrayList<>();
+
+    public User addLocation(Location location){
+        locations.add(location);
+        return this;
+    }
 
 }

@@ -40,12 +40,23 @@ console.log(window.pos);
 
 
 
+$( "#groupChangeSubmit" ).click(function() {
+var newGroupName = $("#groupName").val();
+var group = new Group(window.group,window.pos);
+console.log("Changing group name to = "+ newGroupName);
+group.changeGroup(newGroupName);
+
+});
+
+
+
 
 
 }); //END DOCUMENT ON LOAD
 
 
-setInterval(initMap,4000);
+
+setInterval(initMap,7000);
 function initMap() {
 console.log("Update Map func - " + window.isTest );
 
@@ -74,17 +85,22 @@ console.log("Update Map func - " + window.isTest );
             console.log(group.currentUserPosition);
             group.updateMyLocation();
             console.log("Updating map position to Lat:"+pos.lat+" Lng:"+pos.lng);
-}
+            }
+
 
             var marker = new google.maps.Marker({
             position: window.pos,
             map:window.map,
              icon: {
                         path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-                        strokeColor: '#457803',
+                        strokeColor: '#'+window.user.color,
                         scale: 3
                     }
             });
+
+
+
+
 //            infoWindow.setPosition(pos);
 //            infoWindow.setContent('Twoja lokalizacja.');
 //            + window.pos.lat + " - " + window.pos.lng   );

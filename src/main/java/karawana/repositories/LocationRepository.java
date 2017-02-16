@@ -11,7 +11,7 @@ import javax.transaction.Transactional;
 @Repository
 @Transactional
 public interface LocationRepository extends JpaRepository<Location, Long> {
-	User findById(String name);
+    Location findById(Long id);
 }
 
 

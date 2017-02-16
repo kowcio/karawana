@@ -1,8 +1,8 @@
 package karawana.web.controller;
 
 import karawana.entities.Group;
+import karawana.entities.Location;
 import karawana.entities.User;
-import karawana.repositories.GroupRepository;
 import karawana.service.GroupService;
 import karawana.service.LocationService;
 import karawana.service.UserService;
@@ -18,10 +18,9 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Controller
 public class MainController {
@@ -41,36 +40,49 @@ public class MainController {
         checkCache();
         ModelAndView mav = new ModelAndView("/pages/main");
         User generatedUserIDKeptInSession = userService.getRandomUser();
-        String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
+        String sessionId = session.getId();
         //check user if it is already in DB
         //make ID as string ? UUID ?
-        String groupName = sessionId.substring(0, 4);
+        String groupName = "group" + sessionId.substring(0, 4);
+//        String groupName = "groupMocked1";
 
+        String userName = "User" + sessionId.substring(0, 4) + new SecureRandom().nextInt(12233);
         User user = User.builder()
-                .id(new Random().nextLong())
-                .name("User" + groupName)
-                .color(new Random().nextInt(999999))
+                .name(userName)
+                .color(new SecureRandom().nextInt(800000) + 100000)
+                .createdDate(LocalDateTime.now())
                 .build();
         List<User> users = new ArrayList<>();
         users.add(user);
 //TODO session restore and etc
         Group group = Group.builder()
-                .id(new Random().nextLong())
-                .groupName("group" + groupName)
+                .groupName(groupName)
                 .createdDate(LocalDateTime.now())
                 .users(users)
                 .build();
 
-        //store in session
-        session.setAttribute(groupName, group);
-        //store in hibernate for testing
-        groupService.saveGroup(group);
+
+        Long groupId = (Long) session.getAttribute(SESSION_VAR.GROUP_ID);
+        Long userId = (Long) session.getAttribute(SESSION_VAR.USER_ID);
 
 
+        if (groupId == null || userId == null) {
+            group = groupService.saveGroup(group);
+            groupId = group.getId();
+            session.setAttribute(SESSION_VAR.GROUP_ID, groupId);
+            session.setAttribute(SESSION_VAR.USER_ID, groupId);
+            log.info("Created new group for new user = {}", group.toString());
+        } else {
+            group = groupService.getGroupById(groupId).get();
+        }
+
+
+//        session.setAttribute(SESSION_VAR.latestLocations(groupId), new HashMap<Long, Location>(0));
         long sessionTimeLeft = System.currentTimeMillis() - session.getLastAccessedTime();
         //if session  20 min
         mav.addObject("group", group);
-        mav.addObject("sessionId", sessionId);
+        mav.addObject("user", user);
+        mav.addObject(SESSION_VAR.SESSION_ID, sessionId);
         mav.addObject("countdown", sessionTimeLeft);
 
         //redirect na grupe ?
