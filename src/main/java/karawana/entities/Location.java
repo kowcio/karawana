@@ -34,7 +34,6 @@ public class Location {
     @Column(name = "USER_ID")
 
     private Long user_id;
-    @NotNull
     @CreatedDate
     private LocalDateTime createdDate;
     private String lat;

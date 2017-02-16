@@ -75,6 +75,7 @@ public class MainController {
             log.info("Created new group for new user = {}", group.toString());
         } else {
             group = groupService.getGroupById(groupId).get();
+            user = userService.getUserById(userId);
         }
 
 

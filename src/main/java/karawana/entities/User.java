@@ -31,7 +31,6 @@ public class User {
 
     @CreatedDate
     private LocalDateTime createdDate;
-    @NotNull
     @Column(name = "GROUP_ID")
     private Long user_id;
 
