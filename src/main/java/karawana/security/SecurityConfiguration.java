@@ -30,7 +30,7 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .maximumSessions(1)
                 .maxSessionsPreventsLogin(true)
                 .and()
-                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                .sessionCreationPolicy(SessionCreationPolicy.NEVER)
                 .and().csrf().disable();
         http.headers().frameOptions().disable();
     }

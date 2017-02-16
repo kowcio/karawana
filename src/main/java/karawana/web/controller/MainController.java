@@ -46,7 +46,7 @@ public class MainController {
         String groupName = "group" + sessionId.substring(0, 4);
 //        String groupName = "groupMocked1";
 
-        String userName = "User" + sessionId.substring(0, 4) + new SecureRandom().nextInt(12233);
+        String userName = "User" + sessionId.substring(0, 4) ;
         User user = User.builder()
                 .name(userName)
                 .color(new SecureRandom().nextInt(800000) + 100000)
@@ -69,8 +69,9 @@ public class MainController {
         if (groupId == null || userId == null) {
             group = groupService.saveGroup(group);
             groupId = group.getId();
+            userId = group.getUsers().iterator().next().getId();
             session.setAttribute(SESSION_VAR.GROUP_ID, groupId);
-            session.setAttribute(SESSION_VAR.USER_ID, groupId);
+            session.setAttribute(SESSION_VAR.USER_ID, userId);
             log.info("Created new group for new user = {}", group.toString());
         } else {
             group = groupService.getGroupById(groupId).get();
@@ -99,7 +100,7 @@ public class MainController {
     @ResponseBody
     @RequestMapping(value = "/ws", method = RequestMethod.GET)
     public String testWS() {
-        System.out.println("CONTROLLER IS ON ! ");
+        log.info("CONTROLLER IS ON ! ");
 
 
         return "s";

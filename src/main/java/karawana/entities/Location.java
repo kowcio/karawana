@@ -29,8 +29,12 @@ public class Location {
 //    @JoinColumn(name="id")
     @Version
     private Long version;
+
+
     @Column(name = "USER_ID")
+
     private Long user_id;
+    @NotNull
     @CreatedDate
     private LocalDateTime createdDate;
     private String lat;

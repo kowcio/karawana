@@ -5,6 +5,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     //@Column(name="uid")
     private Long id = 0L;
-    @Column
+    @Column(unique=true)
     private String name;
     @Version
     private Long version;
@@ -30,7 +31,7 @@ public class User {
 
     @CreatedDate
     private LocalDateTime createdDate;
-
+    @NotNull
     @Column(name = "GROUP_ID")
     private Long user_id;
 
