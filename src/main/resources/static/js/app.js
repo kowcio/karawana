@@ -64,7 +64,17 @@ console.log("Update Map func - " + window.isTest );
 //        navigator.geolocation.watchPosition(function(position) {
           navigator.geolocation.getCurrentPosition(function(position) {
           if (window.isTest == "test"){
-           window.pos.lng = window.pos.lng  +  0.0003;
+           window.pos.lng = window.pos.lng  +  0.0002;
+
+            var offset=0
+            if(window.user != undefined){
+            console.log(window.user);
+            offset = window.user.id*2/10000;
+            }
+            else offset=0;
+
+           window.pos.lat = window.pos.lat  +  0.0001 + offset;
+           window.pos.lng = window.pos.lng  +  offset*2;
            window.pos = {
               lat: window.pos.lat,
               lng: window.pos.lng
@@ -88,15 +98,15 @@ console.log("Update Map func - " + window.isTest );
             }
 
 
-            var marker = new google.maps.Marker({
-            position: window.pos,
-            map:window.map,
-             icon: {
-                        path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-                        strokeColor: '#'+window.user.color,
-                        scale: 3
-                    }
-            });
+//            var marker = new google.maps.Marker({
+//            position: window.pos,
+//            map:window.map,
+//             icon: {
+//                        path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+//                        strokeColor: '#'+window.user.color,
+//                        scale: 3
+//                    }
+//            });
 
 
 
