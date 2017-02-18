@@ -1,12 +1,17 @@
-#top{
+html, body{
+height:100%;
 }
+.content{
+height:90%;
+}
+
 #bottom{
 background-color:#a8e063
 }
 #map {
-    max-width: 500px;
-    height: 500px;
-    border:1px solid black;
+    height:100%;
+    padding:0px;
+    margin:0px;
 }
 #testFunctions{
 }

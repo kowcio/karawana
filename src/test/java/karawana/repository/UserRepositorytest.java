@@ -34,7 +34,7 @@ import static org.junit.Assert.assertTrue;
 //@SpringApplicationConfiguration
 @Transactional
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class UserRepositoryTest {
+public class UserRepositorytest {
 
     @Autowired
     GroupRepository groupRepository;

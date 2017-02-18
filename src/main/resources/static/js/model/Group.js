@@ -18,7 +18,7 @@ Group.prototype.updateMyLocation = function() {
 
 
         var users = msg.users
-        this.group = msg;
+        thisObj.group = msg;
         console.log("Users");
         console.log(users);
         for (var i = 0 ; i < users.length ; i++) {
