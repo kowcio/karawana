@@ -5,16 +5,15 @@ import org.h2.tools.Server;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 import java.sql.SQLException;
 
-/**
- * Created by U6041021 on 02/02/2017.
- */
 @Configuration
+@Profile("default")
 public class DataSourceConfig implements ServletContextInitializer {
     private final static Logger log = Logger.getLogger(DataSourceConfig.class);
 

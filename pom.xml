@@ -3,11 +3,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>geo</groupId>
-    <artifactId>geo</artifactId>
-    <packaging>war</packaging>
-    <version>1.0</version>
-    <name>geo</name>
+    <groupId>karawana</groupId>
+    <artifactId>karawana</artifactId>
+    <version>0.1</version>
+    <name>karawana</name>
 
     <description>Project to find Your friends that didn`t learn how to use a map.</description>
 
@@ -39,12 +38,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                </exclusion>
-            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -92,12 +89,6 @@
         <!--</dependency>-->
         <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
 
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>${postgresql.version}</version>
-        </dependency>
-
         <!-- Add support JSR-310 to Hibernate -->
         <!--<dependency>-->
             <!--<groupId>org.jadira.usertype</groupId>-->
@@ -139,13 +130,6 @@
             <artifactId>lombok</artifactId>
             <version>1.16.2</version>
         </dependency>
-        <!-- h2 -->
-        <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>1.4.193</version>
-        </dependency>
 
 
         <!-- tests mocking -->
@@ -184,24 +168,120 @@
             <version>1.4</version>
         </dependency>
 
-        <!-- OPENSHIFT -->
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>7.0</version>
-            <scope>provided</scope>
-        </dependency>
-
     </dependencies>
 
 
+
+
+
     <profiles>
+
+
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <packaging.type>jar</packaging.type>
+                <skipTests>true</skipTests>
+            </properties>
+            <dependencies>
+                <!-- h2 -->
+                <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                    <version>1.4.193</version>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.postgresql</groupId>
+                    <artifactId>postgresql</artifactId>
+                    <version>${postgresql.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                    <version>6.0.2</version>
+                </dependency>
+            </dependencies>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.springframework</groupId>
+                                <artifactId>springloaded</artifactId>
+                                <version>1.2.3.RELEASE</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+
+
+        </profile>
+
+
+
+
         <profile>
             <!-- When built in OpenShift the 'openshift' profile will be used when invoking mvn. -->
             <!-- Use this profile for any OpenShift specific customization your app will need. -->
             <!-- By default that is to put the resulting archive into the 'deployments' folder. -->
             <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
             <id>openshift</id>
+            <properties>
+                <packaging.type>war</packaging.type>
+                <skipTests>true</skipTests>
+            </properties>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+                <property>
+                    <name>spring.profiles.active</name>
+                    <value>openshift</value>
+                </property>
+            </activation>
+
+            <dependencies>
+
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-web</artifactId>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-starter-tomcat</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+
+
+
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>6.0.2</version>
+            </dependency>
+
+
+                <!-- OPENSHIFT -->
+                <dependency>
+                    <groupId>javax</groupId>
+                    <artifactId>javaee-api</artifactId>
+                    <version>7.0</version>
+                    <scope>provided</scope>
+                </dependency>
+
+
+            </dependencies>
+
+
+
             <build>
                 <finalName>geo</finalName>
                 <plugins>
@@ -213,7 +293,6 @@
                             <failOnMissingWebXml>false</failOnMissingWebXml>
                             <outputDirectory>deployments</outputDirectory>
                             <warName>ROOT</warName>
-                            <skipTests>true</skipTests>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -223,28 +302,7 @@
 
 
 
-    <build>
 
-
-        <plugins>
-            <!--<plugin>-->
-                <!--<groupId>org.springframework.boot</groupId>-->
-                <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
-            <!--</plugin>-->
-
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>springloaded</artifactId>
-                        <version>1.2.3.RELEASE</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>
 
