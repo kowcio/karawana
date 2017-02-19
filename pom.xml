@@ -182,9 +182,13 @@
 
 
         <profile>
-            <id>default</id>
+            <id>dev</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>spring.profiles.active</name>
+                    <value>default</value>
+                </property>
             </activation>
             <properties>
                 <packaging.type>jar</packaging.type>
