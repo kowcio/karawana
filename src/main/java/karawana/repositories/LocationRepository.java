@@ -2,7 +2,6 @@ package karawana.repositories;
 
 
 import karawana.entities.Location;
-import karawana.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

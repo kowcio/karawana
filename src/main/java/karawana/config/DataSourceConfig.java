@@ -1,19 +1,14 @@
 package karawana.config;
 
-import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.log4j.Logger;
-import org.h2.tools.Console;
 import org.h2.tools.Server;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
-import java.net.URISyntaxException;
 import java.sql.SQLException;
 
 /**

@@ -3,7 +3,6 @@ package karawana.web.controller;
 import karawana.entities.Group;
 import karawana.entities.Location;
 import karawana.entities.User;
-import karawana.repositories.UserRepository;
 import karawana.service.GroupService;
 import karawana.service.LocationService;
 import karawana.service.UserService;
@@ -18,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Optional;
 
 @Controller
 @ResponseBody

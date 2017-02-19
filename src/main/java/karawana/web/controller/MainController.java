@@ -1,7 +1,6 @@
 package karawana.web.controller;
 
 import karawana.entities.Group;
-import karawana.entities.Location;
 import karawana.entities.User;
 import karawana.service.GroupService;
 import karawana.service.LocationService;
@@ -14,13 +13,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class MainController {
