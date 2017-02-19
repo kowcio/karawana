@@ -242,6 +242,11 @@
             <properties>
                 <packaging.type>war</packaging.type>
                 <skipTests>true</skipTests>
+                <spring.profiles.active>openshift
+                </spring.profiles.active> <!-- defines banner.folder property when the dev profile is activated -->
+                <spring.profiles.default>openshift
+                </spring.profiles.default> <!-- defines banner.folder property when the dev profile is activated -->
+
             </properties>
             <activation>
                 <activeByDefault>false</activeByDefault>
