@@ -213,6 +213,7 @@
                             <failOnMissingWebXml>false</failOnMissingWebXml>
                             <outputDirectory>deployments</outputDirectory>
                             <warName>ROOT</warName>
+                            <skipTests>true</skipTests>
                         </configuration>
                     </plugin>
                 </plugins>
