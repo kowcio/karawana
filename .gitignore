@@ -8,3 +8,4 @@
 *.db
 *.iml
 /karawana.iml
+some !/src/test/java/karawana/repository/UserRepositoryTest.java

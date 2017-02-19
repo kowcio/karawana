@@ -26,11 +26,13 @@ import static org.junit.Assert.assertTrue;
 @Transactional
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Ignore
-public class UserRepositoryTest {
+ class UserRepositoryTest {
 
     @Autowired
+    private
     GroupRepository groupRepository;
     @Autowired
+    private
     UserRepository userRepository;
     private final Logger log = LoggerFactory.getLogger(getClass());
 
