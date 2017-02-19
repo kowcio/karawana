@@ -182,12 +182,12 @@
 
 
         <profile>
-            <id>default</id>
+            <id>dev</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
                 <property>
-                    <name>spring.profiles.active</name>
-                    <value>default</value>
+                    <name>spring.profiles.default</name>
+                    <value>dev</value>
                 </property>
             </activation>
             <properties>
