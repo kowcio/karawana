@@ -1,0 +1,17 @@
+html, body{
+height:100%;
+}
+.content{
+height:90%;
+}
+
+#bottom{
+background-color:#a8e063
+}
+#map {
+    height:100%;
+    padding:0px;
+    margin:0px;
+}
+#testFunctions{
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
+
+<div class="container-fluid content" layout:fragment="content">
+
+
+    <script th:inline="javascript">
+    window.group = [[${group}]];
+    window.user = [[${user}]];
+
+    </script>
+
+    <div class="row text-center">
+        <label for="groupId">GroupID:</label>
+        <div class="label label-info" id="groupId" th:text="${group.id}">Default</div>
+        <label for="userId">UserID:</label>
+        <div class="label label-info" id="userId" th:text="${user.name} +'('+ ${user.id} +')'">Default</div>
+        <label for="groupNameSh">GroupName:</label>
+        <div class="label label-info" id="groupNameSh" th:text="${group.groupName}">Default</div>
+
+        <div class="row">
+            <div class="form-group text-center col-md-2 col-md-offset-5 pull-left">
+                <input type="text" class="form-control" id="groupName" th:value="${group.groupName}"/>
+                <button type="button" id="groupChangeSubmit" class="btn btn-info ">Find them !</button>
+            </div>
+        </div>
+        <p id="countdown" th:text="${countdown}"></p>
+        <p id="test"></p>
+        <p id="location"></p>
+
+
+    </div>
+
+    <div class="row text-center content">
+        <div id="users" class="col-md-2 pull-left"></div>
+        <div id="map" class="col-md-10 col-md-offset-2"></div>
+    </div>
+
+
+    <div class="row " id="bottom">
+        <div class="" id="log"></div>
+    </div>
+
+
+</div>
+</html>
