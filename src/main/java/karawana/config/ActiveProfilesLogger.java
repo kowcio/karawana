@@ -20,11 +20,11 @@ public class ActiveProfilesLogger extends Throwable implements EnvironmentAware 
     public void setEnvironment(Environment environment) {
 
         for (String s : env.getActiveProfiles())
-            System.out.println(s);
+            log.info(s);
         for (String s : env.getDefaultProfiles())
-            System.out.println(s);
-        System.out.println("PROFILES!!! = {}" + env.getProperty("profileActiveMaven"));
-        System.out.println("PROFILES!!! = {}" + env.getProperty("activatedProperties"));
+            log.info(s);
+        log.info("PROFILES!!! = {}" + env.getProperty("profileActiveMaven"));
+        log.info("PROFILES!!! = {}" + env.getProperty("activatedProperties"));
 
     }
 }
