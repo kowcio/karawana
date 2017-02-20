@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,19 +34,22 @@ public class MainController {
     LocationService locationService;
     @Autowired
     UserService userService;
+    @Autowired
+    Environment environment;
+
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView mainPage(HttpSession session) {
         checkCache();
         ModelAndView mav = new ModelAndView("/pages/main");
-        User generatedUserIDKeptInSession = userService.getRandomUser();
+//        User generatedUserIDKeptInSession = userService.getRandomUser();
         String sessionId = session.getId();
         //check user if it is already in DB
         //make ID as string ? UUID ?
         String groupName = "group" + sessionId.substring(0, 4);
 //        String groupName = "groupMocked1";
 
-        String userName = "User" + sessionId.substring(0, 4) ;
+        String userName = "User" + sessionId.substring(0, 4);
         User user = User.builder()
                 .name(userName)
                 .color(new SecureRandom().nextInt(800000) + 100000)
@@ -87,6 +91,11 @@ public class MainController {
         mav.addObject("countdown", sessionTimeLeft);
 
         //redirect na grupe ?
+        log.info("PROFILES!!! = {}", environment.getActiveProfiles());
+        log.info("PROFILES!!! = {}", environment.getDefaultProfiles());
+        log.info("PROFILES!!! = {}", environment.getProperty("profileActiveMaven"));
+        log.info("PROFILES!!! = {}", environment.getProperty("activatedProperties"));
+
         return mav;
     }
 

@@ -13,7 +13,7 @@ import javax.servlet.ServletRegistration;
 import java.sql.SQLException;
 
 @Configuration
-@Profile("dev")
+@Profile("openshift")
 public class DataSourceConfig implements ServletContextInitializer {
     private final static Logger log = Logger.getLogger(DataSourceConfig.class);
 

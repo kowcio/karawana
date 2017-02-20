@@ -24,8 +24,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class Application extends WebMvcConfigurerAdapter {
     final static Logger log = LoggerFactory.getLogger(Application.class);
 
+    //spring.profiles.active
 
     public static void main(String[] args) {
+
+
         SpringApplication.run(Application.class, args);
     }
 
