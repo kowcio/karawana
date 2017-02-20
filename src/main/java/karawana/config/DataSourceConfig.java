@@ -2,21 +2,24 @@ package karawana.config;
 
 import org.apache.log4j.Logger;
 import org.h2.tools.Server;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.env.Environment;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
-import java.sql.SQLException;
 
 @Configuration
 @Profile("dev")
 public class DataSourceConfig implements ServletContextInitializer {
-    private final static Logger log = Logger.getLogger(DataSourceConfig.class);
+    private final Logger log = Logger.getLogger(getClass());
 
+    @Autowired
+    Environment environment;
 //    @Bean
 //    @Primary
 //    @ConfigurationProperties(prefix = "spring.datasource")
@@ -36,12 +39,17 @@ public class DataSourceConfig implements ServletContextInitializer {
 
 
     @Bean
-    public Server startH2TcpServer() throws SQLException {
+    public Server startH2TcpServer() throws Exception {
+        log.info("STARTING H2#######################################");
+        log.info("STARTING H2#######################################");
+        log.info("STARTING H2#######################################");
+
         return Server.createWebServer("-webAllowOthers","-tcpAllowOthers").start();
     }
 
 
     public void initH2Console(ServletContext servletContext) {
+
         log.debug("Initializing H2 console");
         ServletRegistration.Dynamic h2ConsoleServlet =
                 servletContext.addServlet(

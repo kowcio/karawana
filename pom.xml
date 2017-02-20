@@ -201,7 +201,7 @@
     Profile debugging.
 
     mvn clean install exec:java -Dexec.mainClass="karawan.Application" -Popenshift
-
+mvn clean install exec:java -Dexec.mainClass="karawan.Application" -P dev
 
     -->
 
