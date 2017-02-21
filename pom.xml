@@ -240,6 +240,17 @@ mvn clean install exec:java -Dexec.mainClass="karawan.Application" -P dev
             </properties>
             <dependencies>
 
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-web</artifactId>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-starter-tomcat</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+
                 <!--<dependency>-->
                 <!--<groupId>org.postgresql</groupId>-->
                 <!--<artifactId>postgresql</artifactId>-->
@@ -322,4 +333,20 @@ mvn clean install exec:java -Dexec.mainClass="karawan.Application" -P dev
             </build>
         </profile>
     </profiles>
+
+
+    <repositories>
+        <repository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+
 </project>
