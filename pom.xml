@@ -21,6 +21,34 @@
         <url>http://kowalskipiotr.eu</url>
     </organization>
 
+
+    <repositories>
+        <repository>
+            <id>eap</id>
+            <url>http://maven.repository.redhat.com/techpreview/all</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>eap</id>
+            <url>http://maven.repository.redhat.com/techpreview/all</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <start-class>karawana.Application</start-class>
@@ -170,7 +198,22 @@
             <artifactId>h2</artifactId>
             <version>1.4.193</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.2-1003-jdbc4</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.25</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
 
@@ -296,38 +339,6 @@ mvn clean install exec:java -Dexec.mainClass="karawan.Application" -P dev
 
             </properties>
 
-            <dependencies>
-
-                <dependency>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-web</artifactId>
-                    <exclusions>
-                        <exclusion>
-                            <groupId>org.springframework.boot</groupId>
-                            <artifactId>spring-boot-starter-tomcat</artifactId>
-                        </exclusion>
-                    </exclusions>
-                </dependency>
-
-
-                <dependency>
-                    <groupId>mysql</groupId>
-                    <artifactId>mysql-connector-java</artifactId>
-                    <version>6.0.2</version>
-                </dependency>
-
-
-                <!-- OPENSHIFT -->
-                <dependency>
-                    <groupId>javax</groupId>
-                    <artifactId>javaee-api</artifactId>
-                    <version>7.0</version>
-                    <scope>provided</scope>
-                </dependency>
-
-
-            </dependencies>
-
 
             <build>
                 <finalName>geo-openshift</finalName>
@@ -337,8 +348,7 @@ mvn clean install exec:java -Dexec.mainClass="karawan.Application" -P dev
                         <artifactId>maven-war-plugin</artifactId>
                         <version>2.3</version>
                         <configuration>
-                            <failOnMissingWebXml>false</failOnMissingWebXml>
-                            <outputDirectory>deployments</outputDirectory>
+                            <outputDirectory>webapps</outputDirectory>
                             <warName>ROOT</warName>
                         </configuration>
                     </plugin>
@@ -351,4 +361,3 @@ mvn clean install exec:java -Dexec.mainClass="karawan.Application" -P dev
 
 
 </project>
-
