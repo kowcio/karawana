@@ -49,7 +49,7 @@ public class Application implements WebApplicationInitializer {
 
     private AnnotationConfigWebApplicationContext getContext() {
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-        context.setConfigLocation("eu.kielczewski.example.config");
+        context.setConfigLocation("karawana.*");
         return context;
     }
 
