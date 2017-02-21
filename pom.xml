@@ -5,7 +5,7 @@
 
     <groupId>karawana</groupId>
     <artifactId>karawana</artifactId>
-    <version>0.1</version>
+    <version>0.1.1</version>
     <name>karawana</name>
 
     <description>Project to find Your friends that didn`t learn how to use a map.</description>
