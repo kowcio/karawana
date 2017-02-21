@@ -8,6 +8,8 @@
     <version>0.1.0</version>
     <name>karawana</name>
     <description>Project to find Your friends that didn`t learn how to use a map.</description>
+    <packaging>war</packaging>
+
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -307,7 +309,6 @@ mvn clean install exec:java -Dexec.mainClass="karawan.Application" -P dev
             <!-- By default that is to put the resulting archive into the 'deployments' folder. -->
             <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
             <id>openshift</id>
-
             <properties>
                 <activatedProperties>openshift</activatedProperties>
                 <packaging.type>war</packaging.type>
@@ -330,6 +331,11 @@ mvn clean install exec:java -Dexec.mainClass="karawan.Application" -P dev
                             <failOnMissingWebXml>false</failOnMissingWebXml>
                             <outputDirectory>deployments</outputDirectory>
                             <warName>ROOT</warName>
+                            <archive>
+                                <manifest>
+                                    <addClasspath>true</addClasspath>
+                                </manifest>
+                            </archive>
                         </configuration>
                     </plugin>
                 </plugins>
