@@ -285,9 +285,11 @@ mvn clean install exec:java -Dexec.mainClass="karawan.Application" -P dev
             <!-- By default that is to put the resulting archive into the 'deployments' folder. -->
             <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
             <id>openshift</id>
+
             <properties>
                 <activatedProperties>openshift</activatedProperties>
                 <packaging.type>war</packaging.type>
+                <packaging>war</packaging>
                 <skipTests>true</skipTests>
                 <profileActiveMaven>openshift</profileActiveMaven>
                 <SPRING_PROFILES_ACTIVE>openshift</SPRING_PROFILES_ACTIVE>
@@ -328,7 +330,7 @@ mvn clean install exec:java -Dexec.mainClass="karawan.Application" -P dev
 
 
             <build>
-                <finalName>geo-openshiftProfile</finalName>
+                <finalName>geo-openshift</finalName>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
