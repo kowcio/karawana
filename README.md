@@ -1,3 +1,3 @@
-The OpenShift `jbossews` cartridge documentation can be found at:
+The OpenShift `jbossas` cartridge documentation can be found at:
 
-http://openshift.github.io/documentation/oo_cartridge_guide.html#tomcat
+https://github.com/openshift/origin-server/tree/master/cartridges/openshift-origin-cartridge-jbossas/README.md
