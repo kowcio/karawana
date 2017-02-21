@@ -280,7 +280,7 @@ mvn clean install exec:java -Dexec.mainClass="karawan.Application" -P dev
 
 
         <profile>
-            <!-- When built in OpenShift the 'openshift' profile will be used when invoking mvn. -->
+            <!-- When built in OpenShift the 'openshift' profile will be used when invoking mvn. x -->
             <!-- Use this profile for any OpenShift specific customization your app will need. -->
             <!-- By default that is to put the resulting archive into the 'deployments' folder. -->
             <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
