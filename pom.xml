@@ -247,16 +247,6 @@ mvn clean install exec:java -Dexec.mainClass="karawan.Application" -P dev
             </properties>
             <dependencies>
 
-                <dependency>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-web</artifactId>
-                    <!--<exclusions>-->
-                    <!--<exclusion>-->
-                    <!--<groupId>org.springframework.boot</groupId>-->
-                    <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
-                    <!--</exclusion>-->
-                    <!--</exclusions>-->
-                </dependency>
 
                 <!--<dependency>-->
                 <!--<groupId>org.postgresql</groupId>-->
@@ -318,7 +308,19 @@ mvn clean install exec:java -Dexec.mainClass="karawan.Application" -P dev
                 <SPRING_PROFILES_ACTIVE>openshift</SPRING_PROFILES_ACTIVE>
 
             </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-web</artifactId>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-starter-tomcat</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
 
+            </dependencies>
 
             <build>
                 <finalName>geo-openshift</finalName>
