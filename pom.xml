@@ -328,7 +328,7 @@ mvn clean install exec:java -Dexec.mainClass="karawan.Application" -P dev
 
 
             <build>
-                <finalName>geo</finalName>
+                <finalName>geo-openshiftProfile</finalName>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
