@@ -348,15 +348,20 @@ mvn clean install exec:java -Dexec.mainClass="karawan.Application" -P dev
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-war-plugin</artifactId>
                         <version>2.3</version>
+
                         <configuration>
                             <failOnMissingWebXml>false</failOnMissingWebXml>
                             <outputDirectory>deployments</outputDirectory>
                             <warName>ROOT</warName>
-                            <!--<archive>-->
+                            <archive>
                             <!--<manifest>-->
                             <!--<addClasspath>true</addClasspath>-->
                             <!--</manifest>-->
-                            <!--</archive>-->
+                                <manifestEntries>
+                                    <Class-Path>geo-ejb-${project.version}.jar</Class-Path>
+                                </manifestEntries>
+                            </archive>
+
                         </configuration>
                     </plugin>
                 </plugins>
