@@ -30,7 +30,7 @@ public class Application implements WebApplicationInitializer {
     @Override
     public void onStartup(ServletContext container) {
 
-        System.out.println("########################################### STARTUP 9 ");
+        System.out.println("########################################### STARTUP 10 ");
 
         // Create the 'root' Spring application context
         AnnotationConfigWebApplicationContext rootContext =
