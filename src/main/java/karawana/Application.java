@@ -30,7 +30,7 @@ public class Application implements WebApplicationInitializer {
     @Override
     public void onStartup(ServletContext container) {
 
-        System.out.println("########################################### STARTUP 10 ");
+        System.out.println("########################################### STARTUP 11 ");
 
         // Create the 'root' Spring application context
         AnnotationConfigWebApplicationContext rootContext =
@@ -42,10 +42,13 @@ public class Application implements WebApplicationInitializer {
 
         // Create the dispatcher servlet's Spring application context
         // Register and map the dispatcher servlet
-        ServletRegistration.Dynamic dispatcher =
-                container.addServlet("dispatcher", new DispatcherServlet());
+
+        AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
+
+        ServletRegistration.Dynamic dispatcher = container.addServlet("dispatcher",
+                new DispatcherServlet(rootContext)); // <-- hooray! Spring doesn't look for XML files!
         dispatcher.setLoadOnStartup(1);
-        dispatcher.addMapping("/");
+        dispatcher.addMapping("/*");
     }
 
 
