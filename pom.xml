@@ -105,7 +105,6 @@
 			<properties>
 				<packaging>war</packaging>
 				<skipTests>true</skipTests>
-				<SPRING_PROFILES_ACTIVE>openshift</SPRING_PROFILES_ACTIVE>
 
 			</properties>
 			<dependencies>

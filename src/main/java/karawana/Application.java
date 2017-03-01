@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
-@EnableJpaRepositories(basePackages = {"karawana.repositories"})
+@EnableJpaRepositories(basePackages = {"karawana"})
 
 public class Application extends SpringBootServletInitializer {
 
