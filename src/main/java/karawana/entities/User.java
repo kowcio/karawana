@@ -30,8 +30,8 @@ public class User {
 
     @CreatedDate
     private LocalDateTime createdDate;
-    @Column(name = "GROUP_ID")
-    private Long user_id;
+    @Column(name = "group_id")
+    private Long group_id;
 
 
 
