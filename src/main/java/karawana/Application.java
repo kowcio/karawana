@@ -7,7 +7,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
@@ -15,7 +14,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan
 @EnableAutoConfiguration
 @EnableJpaRepositories(basePackages = {"karawana"})
-@PropertySource({"classpath:application.properties"})
+//@PropertySource({"classpath:/profiles/dev/application.properties"})
 public class Application extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
