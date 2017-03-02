@@ -144,7 +144,7 @@
                             <webResources>
                                 <resource>
                                     <filtering>true</filtering>
-                                    <directory>src/main/reources/profile/openshift</directory>
+                                    <directory>src/main/resources/profile/openshift</directory>
                                     <includes>
                                         <include>*.properties</include>
                                         <!-- include any other file types you want to filter -->
@@ -211,7 +211,7 @@
                             <webResources>
                                 <resource>
                                     <filtering>true</filtering>
-                                    <directory>src/main/reources/profile/openshift</directory>
+                                    <directory>src/main/resources/profile/openshift</directory>
                                     <includes>
                                         <include>*</include>
                                         <!-- include any other file types you want to filter -->
