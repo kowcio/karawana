@@ -21,7 +21,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     //@Column(name="uid")
     private Long id = 0L;
-    @Column
+    @Column(unique=true)
     private String name;
     @Version
     private Long version;
@@ -30,16 +30,15 @@ public class User {
 
     @CreatedDate
     private LocalDateTime createdDate;
-
-    @Column(name = "GROUP_ID")
-    private Long user_id;
+    @Column(name = "group_id")
+    private Long group_id;
 
 
 
     @Singular("location")
     @OrderBy("id")
     @OneToMany(cascade=CascadeType.ALL , fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName ="id")//by field name
+    @JoinColumn(name = "USER_ID")//by field name
     private List<Location> locations = new ArrayList<>();
 
     public User addLocation(Location location){

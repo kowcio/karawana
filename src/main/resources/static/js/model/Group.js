@@ -14,9 +14,11 @@ Group.prototype.updateMyLocation = function() {
         contentType: 'application/json; charset=utf-8',
         async: true,
         success: function(msg) {
+
+
+
         var users = msg.users
-//        var users = users
-        this.group = msg;
+        thisObj.group = msg;
         console.log("Users");
         console.log(users);
         for (var i = 0 ; i < users.length ; i++) {
@@ -34,7 +36,7 @@ Group.prototype.updateMyLocation = function() {
     }
 Group.prototype.showLatestMarker = function() {
         var users = this.group.users;
-        for (var i = 0 ; i < users.length-1 ; i++) {
+        for (var i = 0 ; i < users.length ; i++) {
         console.log(users[i]);
             var lastLoc = users[i].locations.length-1;
             var lat = parseFloat(users[i].locations[lastLoc].lat)+0.0003;
@@ -112,14 +114,14 @@ Group.prototype.showUsers = function() {
 }
 
 function localDateTimePrint(date){
-var dateString="";
+var dateString="<br />";
     dateString += "Time:";
-    dateString += date.hour+"-";
+    dateString += date.hour+":";
     dateString += date.minute;
     dateString += " Date:";
     dateString += date.dayOfMonth+"-";
     dateString += date.month.$name+"-";
-    dateString += date.year+"-";
+    dateString += date.year
 
 return dateString;
 }

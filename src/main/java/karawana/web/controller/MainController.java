@@ -1,7 +1,6 @@
 package karawana.web.controller;
 
 import karawana.entities.Group;
-import karawana.entities.Location;
 import karawana.entities.User;
 import karawana.service.GroupService;
 import karawana.service.LocationService;
@@ -10,17 +9,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class MainController {
@@ -34,19 +34,22 @@ public class MainController {
     LocationService locationService;
     @Autowired
     UserService userService;
+    @Autowired
+    Environment environment;
+
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView mainPage(HttpSession session) {
         checkCache();
         ModelAndView mav = new ModelAndView("/pages/main");
-        User generatedUserIDKeptInSession = userService.getRandomUser();
+//        User generatedUserIDKeptInSession = userService.getRandomUser();
         String sessionId = session.getId();
         //check user if it is already in DB
         //make ID as string ? UUID ?
         String groupName = "group" + sessionId.substring(0, 4);
 //        String groupName = "groupMocked1";
 
-        String userName = "User" + sessionId.substring(0, 4) + new SecureRandom().nextInt(12233);
+        String userName = "User" + sessionId.substring(0, 4);
         User user = User.builder()
                 .name(userName)
                 .color(new SecureRandom().nextInt(800000) + 100000)
@@ -69,11 +72,13 @@ public class MainController {
         if (groupId == null || userId == null) {
             group = groupService.saveGroup(group);
             groupId = group.getId();
+            userId = group.getUsers().iterator().next().getId();
             session.setAttribute(SESSION_VAR.GROUP_ID, groupId);
-            session.setAttribute(SESSION_VAR.USER_ID, groupId);
+            session.setAttribute(SESSION_VAR.USER_ID, userId);
             log.info("Created new group for new user = {}", group.toString());
         } else {
             group = groupService.getGroupById(groupId).get();
+            user = userService.getUserById(userId);
         }
 
 
@@ -86,6 +91,11 @@ public class MainController {
         mav.addObject("countdown", sessionTimeLeft);
 
         //redirect na grupe ?
+        log.info("PROFILES!!! = {}", environment.getActiveProfiles());
+        log.info("PROFILES!!! = {}", environment.getDefaultProfiles());
+        log.info("PROFILES!!! = {}", environment.getProperty("profileActiveMaven"));
+        log.info("PROFILES!!! = {}", environment.getProperty("activatedProperties"));
+
         return mav;
     }
 
@@ -99,7 +109,7 @@ public class MainController {
     @ResponseBody
     @RequestMapping(value = "/ws", method = RequestMethod.GET)
     public String testWS() {
-        System.out.println("CONTROLLER IS ON ! ");
+        log.info("CONTROLLER IS ON ! ");
 
 
         return "s";

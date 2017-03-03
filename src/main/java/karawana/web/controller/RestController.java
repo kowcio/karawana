@@ -3,7 +3,6 @@ package karawana.web.controller;
 import karawana.entities.Group;
 import karawana.entities.Location;
 import karawana.entities.User;
-import karawana.repositories.UserRepository;
 import karawana.service.GroupService;
 import karawana.service.LocationService;
 import karawana.service.UserService;
@@ -18,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Optional;
 
 @Controller
 @ResponseBody
@@ -51,11 +50,13 @@ public class RestController {
             HttpSession session,
             @RequestBody Location location
     ) {
-        System.out.println(httpServletRequest.getSession().getId());
-        System.out.println(location.toString());
         Long userId = (Long) session.getAttribute(SESSION_VAR.USER_ID);
         Long groupId = (Long) session.getAttribute(SESSION_VAR.GROUP_ID);
 
+        if(userId == null)
+            log.info("UserID from session is null. WTF !? ");
+        if(groupId == null )
+            log.info("groupId from session is null. WTF !? ");
 
         location.setCreatedDate(LocalDateTime.now());
         location.setUser_id(userId);
@@ -66,7 +67,8 @@ public class RestController {
 //        Group group = groupService.getGroupById(groupId).get().addUser(user);
 //        group = groupService.saveGroup(group);
 
-        return groupService.getGroupById(groupId).get();
+        Group group = groupService.getGroupById(groupId).get();
+        return group;
 
     }
 
