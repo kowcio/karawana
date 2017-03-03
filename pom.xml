@@ -96,13 +96,6 @@
             <version>2.8</version>
         </dependency>
 
-        <!-- for populating pojos with random data -->
-        <dependency>
-            <groupId>uk.co.jemos.podam</groupId>
-            <artifactId>podam</artifactId>
-            <version>3.6.0.RELEASE</version>
-        </dependency>
-
         <!-- easier base class creating -->
         <dependency>
             <groupId>org.projectlombok</groupId>
