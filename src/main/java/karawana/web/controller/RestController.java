@@ -53,14 +53,15 @@ public class RestController {
         Long userId = (Long) session.getAttribute(SESSION_VAR.USER_ID);
         Long groupId = (Long) session.getAttribute(SESSION_VAR.GROUP_ID);
 
-        if(userId == null)
+        if (userId == null)
             log.info("UserID from session is null. WTF !? ");
-        if(groupId == null )
+        if (groupId == null)
             log.info("groupId from session is null. WTF !? ");
 
         location.setCreatedDate(LocalDateTime.now());
         location.setUser_id(userId);
         locationService.saveUserLocation(location);
+        log.info("Updated location={}", location);
 //        User user = userService
 //                .getUserById(userId)
 //                .addLocation(location);
