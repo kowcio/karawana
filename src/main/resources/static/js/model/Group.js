@@ -14,9 +14,7 @@ Group.prototype.updateMyLocation = function() {
         contentType: 'application/json; charset=utf-8',
         async: true,
         success: function(msg) {
-
-
-
+        //gere we could return a rendered whole ajax html element in controller, no variables
         var users = msg.users
         thisObj.group = msg;
         console.log("Users");
@@ -30,8 +28,6 @@ Group.prototype.updateMyLocation = function() {
 
         }
 
-//        $("#log").append(msg+"<br />");
-//        console.log(msg);
         })
     }
 Group.prototype.showLatestMarker = function() {
@@ -106,21 +102,20 @@ Group.prototype.showUsers = function() {
     var html="";
         for (var i = 0 ; i < users.length ; i++) {
         var date = localDateTimePrint(users[i].createdDate);
-        html += "<label class='label label-info'>User: </label>";
-        html += "<div style='color:#"+users[i].color+"'>"+users[i].name+" Last: "  + date +"</div>"
+        html += "<label class='label label-danger'>User: </label>";
+        html += "<div class='notTransparent' style='color:#"+users[i].color+"'>"+users[i].name+"" + date +"</div>"
           }
     $("#users").html(html);
 
 }
 
 function localDateTimePrint(date){
-var dateString="<br />";
-    dateString += "Time:";
+var dateString=" ";
+    dateString += "Date:";
     dateString += date.hour+":";
-    dateString += date.minute;
-    dateString += " Date:";
+    dateString += date.minute+", ";
     dateString += date.dayOfMonth+"-";
-    dateString += date.month.$name+"-";
+    dateString += date.month+"-";
     dateString += date.year
 
 return dateString;

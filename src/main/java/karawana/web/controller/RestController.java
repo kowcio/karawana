@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -27,7 +26,6 @@ public class RestController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-
     @Autowired
     GroupService groupService;
     @Autowired
@@ -35,13 +33,6 @@ public class RestController {
     @Autowired
     UserService userService;
 
-
-    @RequestMapping(value = "/newgroup/", method = RequestMethod.POST)
-    public ModelAndView addGroup() {
-        ModelAndView mav = new ModelAndView("/pages/main");
-        mav.addObject("User", userService.getRandomUser());
-        return mav;
-    }
 
     @RequestMapping(value = "/updateMyLocation", method = RequestMethod.POST)
     @ResponseBody
@@ -62,31 +53,11 @@ public class RestController {
         location.setUser_id(userId);
         locationService.saveUserLocation(location);
         log.info("Updated location={}", location);
-//        User user = userService
-//                .getUserById(userId)
-//                .addLocation(location);
-//        Group group = groupService.getGroupById(groupId).get().addUser(user);
-//        group = groupService.saveGroup(group);
 
         Group group = groupService.getGroupById(groupId).get();
         return group;
 
     }
-
-//    @RequestMapping(value = "/getGroupLocation", method = RequestMethod.POST)
-//    @ResponseBody
-//    public Group getGroupLocation(
-//            HttpServletRequest httpServletRequest,
-//            HttpSession session
-//    ) {
-//        Long groupId = (Long) session.getAttribute(SESSION_VAR.GROUP_ID);
-//        Optional<Group> group = groupService.getGroupById(groupId);
-//        if (group.isPresent()) {
-//            Group gr = group.get();
-//            return gr;
-//        } else
-//            return new Group();
-//    }
 
 
     @RequestMapping(value = "/changeGroup/{groupName}", method = RequestMethod.POST)

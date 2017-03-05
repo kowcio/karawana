@@ -7,11 +7,14 @@
 
 <body>
 
-<!-- <div th:replace="fragments/fragments :: social"></div> -->
+
 <div th:replace="fragments/fragments :: top"></div>
 
 
 <div layout:fragment="content" class="content"></div>
+
+
+<div th:replace="fragments/fragments :: contentBelowMap"></div>
 
 
 <div th:replace="fragments/fragments :: footer"></div>
