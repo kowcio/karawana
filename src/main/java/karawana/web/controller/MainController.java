@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
@@ -42,7 +44,7 @@ public class MainController {
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView mainPage(HttpSession session) {
+    public ModelAndView mainPage(HttpSession session, HttpServletRequest req, HttpServletResponse response) {
         checkCache();
         ModelAndView mav = new ModelAndView("/pages/main");
 //        User generatedUserIDKeptInSession = userService.getRandomUser();
@@ -55,7 +57,7 @@ public class MainController {
 
 
             String sessionId = sessionID;
-            String userName = "User" + sessionId.substring(0, 4);
+            String userName = "User" + sessionId;
             group = TestObjectFabric.getGroupEmpty();
             user = TestObjectFabric.getUser(userName);
             group.builder().user(user).build();

@@ -21,11 +21,11 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/js/**", "/fonts/**", "/console", "/console/**").permitAll()
                 .and()
                 .sessionManagement()
-                .maximumSessions(1)
-                .maxSessionsPreventsLogin(true)
-                .and()
-                .sessionCreationPolicy(SessionCreationPolicy.NEVER)
-                .and().csrf().disable();
+//                .maximumSessions(1)
+//                .maxSessionsPreventsLogin(true)
+//                .and()
+                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
+//                .and().csrf().disable();
         http.headers().frameOptions().disable();
     }
 
