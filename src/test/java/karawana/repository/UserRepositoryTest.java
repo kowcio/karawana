@@ -1,11 +1,12 @@
 package karawana.repository;
 
 import karawana.Application;
-import karawana.TestObjectFabric;
+import karawana.utils.TestObjectFabric;
 import karawana.entities.Group;
 import karawana.entities.User;
 import karawana.repositories.GroupRepository;
 import karawana.repositories.UserRepository;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -16,18 +17,15 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.transaction.Transactional;
-import java.security.SecureRandom;
-import java.time.LocalDateTime;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {Application.class})
 @Transactional
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@Ignore
+@Ignore
 public class UserRepositoryTest {
 
     @Autowired

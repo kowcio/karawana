@@ -5,6 +5,8 @@ import karawana.entities.User;
 import karawana.service.GroupService;
 import karawana.service.LocationService;
 import karawana.service.UserService;
+import karawana.utils.TestObjectFabric;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class MainController {
@@ -43,61 +46,48 @@ public class MainController {
         checkCache();
         ModelAndView mav = new ModelAndView("/pages/main");
 //        User generatedUserIDKeptInSession = userService.getRandomUser();
-        String sessionId = session.getId();
-        //check user if it is already in DB
-        //make ID as string ? UUID ?
-        String groupName = "group" + sessionId.substring(0, 4);
-//        String groupName = "groupMocked1";
 
-        String userName = "User" + sessionId.substring(0, 4);
-        User user = User.builder()
-                .name(userName)
-                .color(new SecureRandom().nextInt(800000) + 100000)
-                .createdDate(LocalDateTime.now())
-                .build();
-        List<User> users = new ArrayList<>();
-        users.add(user);
-//TODO session restore and etc
-        Group group = Group.builder()
-                .groupName(groupName)
-                .createdDate(LocalDateTime.now())
-                .users(users)
-                .build();
+        String sessionID = session.getId();
+        Group group;
+        User user = null;
+
+        if (session.isNew()) {
 
 
-        Long groupId = (Long) session.getAttribute(SESSION_VAR.GROUP_ID);
-        Long userId = (Long) session.getAttribute(SESSION_VAR.USER_ID);
-
-
-        if (groupId == null || userId == null) {
+            String sessionId = sessionID;
+            String userName = "User" + sessionId.substring(0, 4);
+            group = TestObjectFabric.getGroupEmpty();
+            user = TestObjectFabric.getUser(userName);
+            group.builder().user(user).build();
             group = groupService.saveGroup(group);
-            groupId = group.getId();
-            userId = group.getUsers().iterator().next().getId();
-            session.setAttribute(SESSION_VAR.GROUP_ID, groupId);
-            session.setAttribute(SESSION_VAR.USER_ID, userId);
-            log.info("Created new group for new user = {}", group.toString());
-        } else {
-            group = groupService.getGroupById(groupId).get();
-            user = userService.getUserById(userId);
-        }
 
+            session.setAttribute(sessionID, group.getGroupName());
+            session.setAttribute(sessionID, group.getUsers());
+
+            log.info("Created new group for new user = {}", group.toString());
+
+        } else {
+            String groupName = session.getAttribute(sessionID).toString();
+            Optional<Group> groupOptional = groupService.getGroupByName(groupName);
+            if (groupOptional.isPresent()) {
+                group = groupOptional.get();
+            } else {
+                throw new RuntimeException("We did not found the group by the groupname for given session ID, It should always be  in the database. Created when we first use the service. ");
+            }
+        }
 
 //        session.setAttribute(SESSION_VAR.latestLocations(groupId), new HashMap<Long, Location>(0));
         long sessionTimeLeft = System.currentTimeMillis() - session.getLastAccessedTime();
         //if session  20 min
         mav.addObject("group", group);
         mav.addObject("user", user);
-        mav.addObject(SESSION_VAR.SESSION_ID, sessionId);
+        mav.addObject(SESSION_VAR.SESSION_ID, sessionID);
         mav.addObject("countdown", sessionTimeLeft);
 
-        //redirect na grupe ?
-//        log.info("PROFILES!!! = {}", environment.getActiveProfiles());
-//        log.info("PROFILES!!! = {}", environment.getDefaultProfiles());
-//        log.info("PROFILES!!! = {}", environment.getProperty("profileActiveMaven"));
-//        log.info("PROFILES!!! = {}", environment.getProperty("activatedProperties"));
-
         return mav;
+
     }
+
 
     private void checkCache() {
         log.info("Checking cache = {}", cacheManager.getCacheNames());
@@ -110,8 +100,6 @@ public class MainController {
     @RequestMapping(value = "/ws", method = RequestMethod.GET)
     public String testWS() {
         log.info("CONTROLLER IS ON ! ");
-
-
         return "s";
     }
 

@@ -1,4 +1,4 @@
-package karawana;
+package karawana.utils;
 
 import karawana.entities.Group;
 import karawana.entities.User;
