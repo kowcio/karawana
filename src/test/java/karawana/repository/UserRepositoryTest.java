@@ -19,6 +19,8 @@ import javax.transaction.Transactional;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -37,53 +39,26 @@ public class UserRepositoryTest {
     @Test
     public void addGroupThenAddUser() {
 
-        String groupName = TestObjectFabric.TEST_GROUP_NAME_PREFIX + new SecureRandom().nextInt(99);
         Group group = TestObjectFabric.getGroupWithOneUser();
 
         group = groupRepository.save(group);
-
         log.info(group.toString());
 
-        group = groupRepository.findByGroupName(groupName);
-        log.info(group.toString());
+        Group groupAfterSave = groupRepository.findByGroupName(group.getGroupName());
+        log.info(groupAfterSave.getGroupName());
 
-    }
+        assertEquals("Group name mismatch.", group, groupAfterSave);
 
-    @Test
-    public void checkIfGroupInDB() {
-        Group group = groupRepository.findByGroupName("testGroupName");
-        log.info(group.toString());
-        assertTrue(group.getId() != null);
-    }
-
-    //    @Ignore
-    @Test
-    public void addGroupWithNullUserList() {
-
-        Group group = Group.builder()
-                .groupName("testGroupName")
-                .createdDate(LocalDateTime.now())
-//                .users(users)
-                .build();
-
-        group = groupRepository.save(group);
-        log.info(group.toString());
-        assertTrue(group.getId() != null);
     }
 
     //    @Ignore
     @Test
     public void testSaveSingleUser() {
 
-        User user = User.builder()
-                .name("testUserName")
-                .color(new SecureRandom().nextInt(800000) + 100000)
-                .createdDate(LocalDateTime.now())
-                .build();
+        User user = TestObjectFabric.getUser();
         user = userRepository.save(user);
-
         log.info(user.toString());
-        assertTrue(user.getId() != null);
+        assertTrue("Usee has no ID from hibernate ", user.getId()!= null) ;
 
 
     }

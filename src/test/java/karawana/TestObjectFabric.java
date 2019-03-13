@@ -5,6 +5,7 @@ import karawana.entities.User;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 
 public class TestObjectFabric {
 
@@ -40,8 +41,10 @@ public class TestObjectFabric {
 
 
     public static Group getGroupWithOneUser() {
-        Group group = getGroupEmpty();
-        group.addUser(getUser());
+        Group group = getGroupEmpty()
+                .builder()
+                .user(getUser())
+                .build();
         return group;
     }
 

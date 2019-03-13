@@ -11,13 +11,13 @@ import java.util.Set;
 
 
 @Data
-@Entity
+@Entity(name = "Group")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
 @Table(name = "group_table")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,7 +41,10 @@ public class Group {
     private LocalDateTime createdDate;
 
     public Group addUser(User user){
-        users.add(user);
+//        users.add(user);
+//        this.users = new HashSet<>(users);
+        this.users.add(user);
         return this;
+
     }
 }
