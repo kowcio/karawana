@@ -18,7 +18,7 @@ public class GroupService {
     private GroupRepository groupRepository;
 
     public Optional<Group> getGroupById(Long groupId) {
-        return Optional.of(groupRepository.findById(groupId));
+        return Optional.of(groupRepository.getOne(groupId));
     }
 
     public Optional<Group> getGroupByName(String groupName) {

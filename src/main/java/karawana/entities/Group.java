@@ -1,5 +1,6 @@
 package karawana.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -16,6 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Table(name = "group_table")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

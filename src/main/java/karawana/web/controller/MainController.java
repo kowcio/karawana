@@ -91,10 +91,10 @@ public class MainController {
         mav.addObject("countdown", sessionTimeLeft);
 
         //redirect na grupe ?
-        log.info("PROFILES!!! = {}", environment.getActiveProfiles());
-        log.info("PROFILES!!! = {}", environment.getDefaultProfiles());
-        log.info("PROFILES!!! = {}", environment.getProperty("profileActiveMaven"));
-        log.info("PROFILES!!! = {}", environment.getProperty("activatedProperties"));
+//        log.info("PROFILES!!! = {}", environment.getActiveProfiles());
+//        log.info("PROFILES!!! = {}", environment.getDefaultProfiles());
+//        log.info("PROFILES!!! = {}", environment.getProperty("profileActiveMaven"));
+//        log.info("PROFILES!!! = {}", environment.getProperty("activatedProperties"));
 
         return mav;
     }
