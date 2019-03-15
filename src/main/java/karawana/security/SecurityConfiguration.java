@@ -26,6 +26,7 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                .and()
                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
 //                .and().csrf().disable();
+
         http.headers().frameOptions().disable();
     }
 

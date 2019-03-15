@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @ToString
 @EqualsAndHashCode
 @JsonInclude(JsonInclude.Include.NON_NULL)
+
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Location {
 

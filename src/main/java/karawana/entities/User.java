@@ -16,6 +16,7 @@ import java.util.List;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
+
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
 
@@ -37,13 +38,24 @@ public class User {
 
 
 
-    @Singular("location")
+//    @Singular("location")
     @OrderBy("id")
     @OneToMany(cascade=CascadeType.ALL , fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")//by field name
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    @Builder.Default
     private List<Location> locations = new ArrayList<>();
 
-    public User addLocation(Location location){
+    public List<Location> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(List<Location> locations) {
+        this.locations = locations;
+    }
+
+    public User location(Location location){
         locations.add(location);
         return this;
     }

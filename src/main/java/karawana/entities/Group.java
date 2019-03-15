@@ -17,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Table(name = "group_table")
-//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,19 +32,26 @@ public class Group {
 
     @OneToMany(cascade = CascadeType.ALL)//, targetEntity = User.class, mappedBy = "gid", fetch = FetchType.LAZY)
     @OrderBy("id")
-    @Singular("user")
+//    @Singular("user")
     @JoinColumn(name = "group_id")//, referencedColumnName = "uid")//by field name
 //    @CollectionTable
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    @Builder.Default
     private Set<User> users = new HashSet<>();
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void user(Set<User> users) {
+        this.users = users;
+    }
 
     @CreatedDate
     private LocalDateTime createdDate;
 
-    public Group addUser(User user){
-//        users.add(user);
-//        this.users = new HashSet<>(users);
-        this.users.add(user);
-        return this;
 
-    }
+
+
 }

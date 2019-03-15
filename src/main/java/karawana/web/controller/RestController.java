@@ -75,10 +75,10 @@ public class RestController {
             session.setAttribute(SESSION_VAR.GROUP_ID, newGroup.getId());
             Long userId = (Long) session.getAttribute(SESSION_VAR.USER_ID);
             User user = userService.getUserById(userId);
-            Group group = newGroup.addUser(user);
-            group = groupService.saveGroup(group);
-            log.info("Saved group with new user. Debug ! = {} ", group.toString());
-            return group;
+            newGroup.getUsers().add(user);
+            newGroup = groupService.saveGroup(newGroup);
+            log.info("Saved group with new user. Debug ! = {} ", newGroup.toString());
+            return newGroup;
         }
         return new Group();
 

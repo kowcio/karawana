@@ -19,20 +19,25 @@ import javax.transaction.Transactional;
 public class UserService {
 
 
-@Autowired
+    @Autowired
     UserRepository userRepository;
 
-    public  User getRandomUser() {
+    public User getRandomUser() {
         PodamFactory factory = new PodamFactoryImpl();
         return factory.manufacturePojo(User.class);
 
     }
-    public User getUserById(Long id){
+
+    public User getUserById(Long id) {
         return userRepository.getOne(id);
     }
 
-    public  User saveUser(User user){
-       return userRepository.save(user);
+    public User getUserByName(String userName) {
+        return userRepository.findByName(userName);
+    }
+
+    public User saveUser(User user) {
+        return userRepository.save(user);
     }
 
 }

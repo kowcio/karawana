@@ -24,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,40 +45,47 @@ public class MainController {
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView mainPage(HttpSession session, HttpServletRequest req, HttpServletResponse response) {
-        checkCache();
+    public ModelAndView mainPage(HttpSession session,
+                                 HttpServletRequest req,
+                                 HttpServletResponse response
+//                                 Model model
+    ) {
         ModelAndView mav = new ModelAndView("/pages/main");
+        checkCache();
 //        User generatedUserIDKeptInSession = userService.getRandomUser();
 
         String sessionID = session.getId();
-        Group group;
+        Group group = null;
         User user = null;
 
         if (session.isNew()) {
 
-
-            String sessionId = sessionID;
-            String userName = "User" + sessionId;
-            group = TestObjectFabric.getGroupEmpty();
+            String userName = "UserTestName";
             user = TestObjectFabric.getUser(userName);
-            group.builder().user(user).build();
+            group = TestObjectFabric.getGroupEmpty();
+            group.getUsers().add(user);
+
             group = groupService.saveGroup(group);
+            user.setGroup_id(group.getId());
+            Iterator<User> iterator = group.getUsers().iterator();
+            user = iterator.next();
 
-            session.setAttribute(sessionID, group.getGroupName());
-            session.setAttribute(sessionID, group.getUsers());
-
+            session.setAttribute("groupId", group.getId());
+            session.setAttribute("userName", user.getName());
             log.info("Created new group for new user = {}", group.toString());
+            session.setAttribute("sessionId", sessionID);
 
         } else {
-            String groupName = session.getAttribute(sessionID).toString();
-            Optional<Group> groupOptional = groupService.getGroupByName(groupName);
+            String groupName = session.getAttribute("groupId").toString();
+            Optional<Group> groupOptional = groupService.getGroupById(Long.valueOf(groupName));
             if (groupOptional.isPresent()) {
                 group = groupOptional.get();
             } else {
                 throw new RuntimeException("We did not found the group by the groupname for given session ID, It should always be  in the database. Created when we first use the service. ");
             }
+            user = userService.getUserByName((String) session.getAttribute("userName"));
+            log.info("Group for established session \n {}", group.toString());
         }
-
 //        session.setAttribute(SESSION_VAR.latestLocations(groupId), new HashMap<Long, Location>(0));
         long sessionTimeLeft = System.currentTimeMillis() - session.getLastAccessedTime();
         //if session  20 min

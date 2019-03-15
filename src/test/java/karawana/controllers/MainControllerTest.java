@@ -1,6 +1,7 @@
 package karawana.controllers;
 
 import karawana.Application;
+import karawana.entities.User;
 import karawana.repositories.GroupRepository;
 import karawana.repositories.UserRepository;
 import org.junit.Assert;
@@ -54,10 +55,24 @@ public class MainControllerTest {
                 .getRequest()
                 .getSession();
 
+        // original request
+
+        // check session and all
+
+        // make another request from different session to check if session works
+        // this can be done in selenium actually - different browser same user
+
+
+
+        assertTrue(session.getId().equals("1"));
+        User user = (User) session.getAttribute("userName");
+        log.info("{}", user);
+
+        assertTrue(user != null);
+
         MockHttpServletResponse response = mvcResult.getResponse();
 
-        assertTrue(session.getId() .equals("1"));
-
+        log.info("{}", response);
 
     }
 

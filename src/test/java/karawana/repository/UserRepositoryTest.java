@@ -52,12 +52,10 @@ public class UserRepositoryTest {
     //    @Ignore
     @Test
     public void testSaveSingleUser() {
-
         User user = TestObjectFabric.getUser();
         user = userRepository.save(user);
         log.info(user.toString());
         assertTrue("Usee has no ID from hibernate ", user.getId()!= null) ;
-
 
     }
 }
