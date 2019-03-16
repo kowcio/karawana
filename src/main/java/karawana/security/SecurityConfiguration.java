@@ -19,15 +19,30 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/**", "/css/**",
                         "/js/**", "/fonts/**", "/console", "/console/**").permitAll()
+
                 .and()
                 .sessionManagement()
+
 //                .maximumSessions(1)
 //                .maxSessionsPreventsLogin(true)
 //                .and()
-                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
-//                .and().csrf().disable();
+                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+//                .invalidSessionUrl("/");
 
+//                .and().csrf().disable();
+;
         http.headers().frameOptions().disable();
+
+//        http
+//                .sessionManagement()
+//                .maximumSessions(1)
+//                .expiredUrl("/")
+//                .maxSessionsPreventsLogin(true)
+//                .and()
+//                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
+
+
+
     }
 
 //    @Autowired

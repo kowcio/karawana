@@ -6,6 +6,7 @@ import karawana.service.GroupService;
 import karawana.service.LocationService;
 import karawana.service.UserService;
 import karawana.utils.TestObjectFabric;
+import org.apache.catalina.session.StandardSession;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,8 @@ import java.util.Optional;
 @Controller
 public class MainController {
 
+    public static final String GROUP_ID = "groupId";
+    public static final String USER_NAME = "userName";
     private final Logger log = LoggerFactory.getLogger(getClass());
     @Autowired
     CacheManager cacheManager;
@@ -57,7 +60,7 @@ public class MainController {
         String sessionID = session.getId();
         Group group = null;
         User user = null;
-
+        log.info("Is session new ? : {}", session.isNew());
         if (session.isNew()) {
 
             String userName = "UserTestName";
@@ -65,25 +68,38 @@ public class MainController {
             group = TestObjectFabric.getGroupEmpty();
             group.getUsers().add(user);
 
+            log.info("Saving user #{}", user.hashCode());
+            log.info("Saving user {}", user);
+            log.info("Saving group #{}", group.hashCode());
+            log.info("Saving group {}", group);
+
             group = groupService.saveGroup(group);
             user.setGroup_id(group.getId());
             Iterator<User> iterator = group.getUsers().iterator();
             user = iterator.next();
 
-            session.setAttribute("groupId", group.getId());
-            session.setAttribute("userName", user.getName());
+            session.setAttribute(GROUP_ID, group.getId());
+            session.setAttribute(USER_NAME, user.getId());
             log.info("Created new group for new user = {}", group.toString());
             session.setAttribute("sessionId", sessionID);
 
         } else {
-            String groupName = session.getAttribute("groupId").toString();
+            if (session == null) {
+                log.info("Session is null ? We need to create a new one. ");
+            }
+//            log.info("Saving user #{}", user.hashCode());
+//            log.info("Saving user {}", user);
+//            log.info("Saving group #{}", group.hashCode());
+//            log.info("Saving group {}", group);
+
+            String groupName = session.getAttribute(GROUP_ID).toString();
             Optional<Group> groupOptional = groupService.getGroupById(Long.valueOf(groupName));
             if (groupOptional.isPresent()) {
                 group = groupOptional.get();
             } else {
                 throw new RuntimeException("We did not found the group by the groupname for given session ID, It should always be  in the database. Created when we first use the service. ");
             }
-            user = userService.getUserByName((String) session.getAttribute("userName"));
+            user = userService.getUserById(Long.valueOf(session.getAttribute(USER_NAME).toString()));
             log.info("Group for established session \n {}", group.toString());
         }
 //        session.setAttribute(SESSION_VAR.latestLocations(groupId), new HashMap<Long, Location>(0));

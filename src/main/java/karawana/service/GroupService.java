@@ -3,6 +3,8 @@ package karawana.service;
 
 import karawana.entities.Group;
 import karawana.repositories.GroupRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,7 @@ import java.util.Optional;
 @Service
 @Transactional
 public class GroupService {
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired(required = true)
     private GroupRepository groupRepository;
@@ -33,8 +36,7 @@ public class GroupService {
 //                .filter(c->c.getGid()==null)
 //                .forEach(c -> c.setGid(group.getId()))
 
-
-        ;
+        log.info("Saving group with data : {}", group.toString());
         return groupRepository.save(group);
     }
 

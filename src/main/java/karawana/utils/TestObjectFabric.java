@@ -2,6 +2,8 @@ package karawana.utils;
 
 import karawana.entities.Group;
 import karawana.entities.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
@@ -11,6 +13,7 @@ public class TestObjectFabric {
 
     public static final String TEST_USER_NAME_PREFIX = "testUserName";
     public static final String TEST_GROUP_NAME_PREFIX = "testGroupName";
+    private final static Logger log = LoggerFactory.getLogger(TestObjectFabric.class);
 
     public static User getUser() {
         int color = new SecureRandom().nextInt(800000) + 100000;
