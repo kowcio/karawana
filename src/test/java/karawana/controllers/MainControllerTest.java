@@ -4,6 +4,7 @@ import karawana.Application;
 import karawana.entities.User;
 import karawana.repositories.GroupRepository;
 import karawana.repositories.UserRepository;
+import karawana.web.controller.MainController;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
@@ -47,32 +49,55 @@ public class MainControllerTest {
 
     @Test
     public void exampleTest() throws Exception {
-        MvcResult mvcResult = this.mvc.perform(
+            MvcResult mvcResult = this.mvc.perform(
                 MockMvcRequestBuilders.get("/"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
         HttpSession session = mvcResult
                 .getRequest()
                 .getSession();
+        ModelAndView modelAndView = mvcResult.getModelAndView();
 
-        // original request
-
-        // check session and all
-
-        // make another request from different session to check if session works
-        // this can be done in selenium actually - different browser same user
-
-
-
+        //given - original request
         assertTrue(session.getId().equals("1"));
-        User user = (User) session.getAttribute("userName");
-        log.info("{}", user);
+        session.getAttribute(MainController.USER_NAME);
+        session.getAttribute(MainController.GROUP_ID);
+        log.info("SessionID:{}", session.getId());
+        log.info("SessionIsNew:{}", session.isNew());
 
-        assertTrue(user != null);
+        //when 1 - reload to check session stored
+        MvcResult mvcResultReload = this.mvc.perform(
+                MockMvcRequestBuilders.get("/"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+        HttpSession sessionReload = mvcResultReload
+                .getRequest()
+                .getSession();
+        ModelAndView modelAndViewReload = mvcResultReload.getModelAndView();
 
-        MockHttpServletResponse response = mvcResult.getResponse();
+        log.info("SessionID sessionReload:{}", sessionReload.getId());
+        log.info("SessionIsNew sessionReload:{}", sessionReload.isNew());
 
-        log.info("{}", response);
+        assertTrue("Sessions should be the same.", sessionReload.getId().equals(sessionReload.getId()));
+        assertTrue("Model and view should be the same.", modelAndView.equals(modelAndViewReload));
+
+        //when 2 - session ivalidated
+        session.invalidate();
+
+        MvcResult mvcResultNew = this.mvc.perform(
+                MockMvcRequestBuilders.get("/"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+        HttpSession sessionNew = mvcResult
+                .getRequest()
+                .getSession();
+
+        log.info("SessionID sessionNew :{}", sessionNew.getId());
+        log.info("SessionIsNew sessionNew:{}", sessionNew.isNew());
+        assertTrue("Sessions should be different.", !sessionReload.getId().equals(sessionNew.getId()));
+
+        //then - load user from scratch - new one generated
+
 
     }
 

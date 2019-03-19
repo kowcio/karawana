@@ -138,6 +138,11 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-tomcat</artifactId>
                 </dependency>
+                <!-- https://mvnrepository.com/artifact/org.springframework.session/spring-session -->
+                <dependency>
+                    <groupId>org.springframework.session</groupId>
+                    <artifactId>spring-session</artifactId>
+                </dependency>
             </dependencies>
             <build>
                 <resources>

@@ -19,16 +19,14 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/**", "/css/**",
                         "/js/**", "/fonts/**", "/console", "/console/**").permitAll()
-
                 .and()
                 .sessionManagement()
-
 //                .maximumSessions(1)
 //                .maxSessionsPreventsLogin(true)
 //                .and()
-                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .sessionFixation().migrateSession()
 //                .invalidSessionUrl("/");
-
 //                .and().csrf().disable();
 ;
         http.headers().frameOptions().disable();

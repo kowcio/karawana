@@ -99,7 +99,9 @@ public class MainController {
             } else {
                 throw new RuntimeException("We did not found the group by the groupname for given session ID, It should always be  in the database. Created when we first use the service. ");
             }
-            user = userService.getUserById(Long.valueOf(session.getAttribute(USER_NAME).toString()));
+            Long userId = (Long) session.getAttribute(USER_NAME);
+            log.info("userId {}", userId);
+            user = userService.getUserById(userId);
             log.info("Group for established session \n {}", group.toString());
         }
 //        session.setAttribute(SESSION_VAR.latestLocations(groupId), new HashMap<Long, Location>(0));
