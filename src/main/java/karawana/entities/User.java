@@ -18,7 +18,6 @@ import java.util.List;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-@SessionScope
 @SessionAttributes
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {

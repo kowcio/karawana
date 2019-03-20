@@ -60,7 +60,7 @@ public class MainController {
                                  HttpServletResponse response
 //                                 Model model
     ) {
-         httpSession = request.getSession();
+        httpSession = request.getSession();
 //
         HttpSession session = request.getSession();
         if (request.getParameter("JSESSIONID") != null) {
@@ -72,14 +72,13 @@ public class MainController {
             response.addCookie(userCookie);
         }
 //
-
+        User user = null;
         ModelAndView mav = new ModelAndView("/pages/main");
         checkCache();
 //        User generatedUserIDKeptInSession = userService.getRandomUser();
 
         String sessionID = httpSession.getId();
         Group group = null;
-        User user = null;
         log.info("Is httpSession new ? : {}", httpSession.isNew());
         if (httpSession.isNew()) {
             log.info("sessionId:{}", sessionID);
@@ -91,8 +90,7 @@ public class MainController {
 
             group = groupService.saveGroup(group);
             user.setGroup_id(group.getId());
-            Iterator<User> iterator = group.getUsers().iterator();
-            user = iterator.next();
+            user = group.getUsers().iterator().next();
 
             httpSession.setAttribute(GROUP_ID, group.getId());
             httpSession.setAttribute(USER_NAME, user.getId());
@@ -109,10 +107,11 @@ public class MainController {
             } else {
                 throw new RuntimeException("We did not found the group by the groupname for given httpSession ID, It should always be  in the database. Created when we first use the service. ");
             }
-            Long userId = (Long) httpSession.getAttribute(USER_NAME);
             log.info("sessionId:{}", sessionID);
-            user = userService.getUserById(userId);
+
+            user = userService.getUserById((Long) httpSession.getAttribute(USER_NAME));
             log.info("Group for established httpSession \n {}", group.toString());
+            log.info("User for established httpSession \n {}", user.toString());
         }
 //        httpSession.setAttribute(SESSION_VAR.latestLocations(groupId), new HashMap<Long, Location>(0));
         long sessionTimeLeft = System.currentTimeMillis() - httpSession.getLastAccessedTime();
@@ -122,6 +121,7 @@ public class MainController {
         mav.addObject(SESSION_VAR.SESSION_ID, sessionID);
         mav.addObject("countdown", sessionTimeLeft);
         mav.addObject("httpSession", httpSession);
+
 
         return mav;
 
