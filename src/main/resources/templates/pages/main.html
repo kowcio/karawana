@@ -9,6 +9,7 @@
     <script th:inline="javascript">
     window.group = [[${group}]];
     window.user = [[${user}]];
+    window.user = [[${sessionId}]];
     </script>
 
 
@@ -41,7 +42,7 @@
 
 
     <div class="row " id="bottom">
-
+        <div id="sessionId" th:text="${sessionId}"></div>
         <label for="groupId">GroupID:</label>
         <div class="label label-info" id="groupId" th:text="${group.id}">Default</div>
         <label for="userId">UserID:</label>

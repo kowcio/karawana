@@ -3,6 +3,8 @@ package karawana.entities;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.context.annotation.SessionScope;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -16,7 +18,8 @@ import java.util.List;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-
+@SessionScope
+@SessionAttributes
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
 
