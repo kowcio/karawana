@@ -19,8 +19,7 @@ import java.util.Set;
 @EqualsAndHashCode
 @Table(name = "group_table")
 @SessionScope
-
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties(ignoreUnknown=true,value={"hibernateLazyInitializer", "handler"})
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

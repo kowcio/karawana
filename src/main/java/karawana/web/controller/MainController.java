@@ -1,43 +1,30 @@
 package karawana.web.controller;
 
-import karawana.entities.Group;
+import karawana.entities.BeanUser;
 import karawana.entities.User;
 import karawana.service.GroupService;
 import karawana.service.LocationService;
 import karawana.service.UserService;
-import karawana.utils.TestObjectFabric;
-import org.apache.catalina.session.StandardSession;
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.core.env.Environment;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.annotation.SessionScope;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.thymeleaf.spring5.context.webflux.IReactiveDataDriverContextVariable;
+import org.thymeleaf.spring5.context.webflux.ReactiveDataDriverContextVariable;
+import reactor.core.publisher.Flux;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
-import java.security.SecureRandom;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
 
 @Controller
-@SessionScope
-@PreAuthorize("hasAuthority('ROLE_ANONYMOUS')")
-//@Scope("session")
-//@Scope(value= WebApplicationContext.SCOPE_SESSION, proxyMode= ScopedProxyMode.TARGET_CLASS)
 public class MainController {
 
     public static final String GROUP_ID = "groupId";
@@ -54,76 +41,44 @@ public class MainController {
     @Autowired
     Environment environment;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView mainPage(HttpSession httpSession,
-                                 HttpServletRequest request,
-                                 HttpServletResponse response
-//                                 Model model
+//    @Inject
+//    BeanUser beanUser;
+
+
+    @RequestMapping(
+            value = "/"
+//            ,method = RequestMethod.GET
+//            ,produces = MediaType.TEXT_EVENT_STREAM_VALUE
+ )
+    public String mainPage(
+//            HttpSession httpSession,
+                          final Model mav
     ) {
-        httpSession = request.getSession();
-//
-        HttpSession session = request.getSession();
-        if (request.getParameter("JSESSIONID") != null) {
-            Cookie userCookie = new Cookie("JSESSIONID", request.getParameter("JSESSIONID"));
-            response.addCookie(userCookie);
-        } else {
-            String sessionId = session.getId();
-            Cookie userCookie = new Cookie("JSESSIONID", sessionId);
-            response.addCookie(userCookie);
-        }
-//
-        User user = null;
-        ModelAndView mav = new ModelAndView("/pages/main");
-        checkCache();
-//        User generatedUserIDKeptInSession = userService.getRandomUser();
-
-        String sessionID = httpSession.getId();
-        Group group = null;
-        log.info("Is httpSession new ? : {}", httpSession.isNew());
-        if (httpSession.isNew()) {
-            log.info("sessionId:{}", sessionID);
-
-            String userName = "UserTestName";
-            user = TestObjectFabric.getUser(userName);
-            group = TestObjectFabric.getGroupEmpty();
-            group.getUsers().add(user);
-
-            group = groupService.saveGroup(group);
-            user.setGroup_id(group.getId());
-            user = group.getUsers().iterator().next();
-
-            httpSession.setAttribute(GROUP_ID, group.getId());
-            httpSession.setAttribute(USER_NAME, user.getId());
-            log.info("Created new group for new user = {}", group.toString());
-            httpSession.setAttribute("sessionId", sessionID);
-
-        } else {
-            log.info("Session is not new !!  ");
-
-            String groupName = httpSession.getAttribute(GROUP_ID).toString();
-            Optional<Group> groupOptional = groupService.getGroupById(Long.valueOf(groupName));
-            if (groupOptional.isPresent()) {
-                group = groupOptional.get();
-            } else {
-                throw new RuntimeException("We did not found the group by the groupname for given httpSession ID, It should always be  in the database. Created when we first use the service. ");
-            }
-            log.info("sessionId:{}", sessionID);
-
-            user = userService.getUserById((Long) httpSession.getAttribute(USER_NAME));
-            log.info("Group for established httpSession \n {}", group.toString());
-            log.info("User for established httpSession \n {}", user.toString());
-        }
-//        httpSession.setAttribute(SESSION_VAR.latestLocations(groupId), new HashMap<Long, Location>(0));
-        long sessionTimeLeft = System.currentTimeMillis() - httpSession.getLastAccessedTime();
+//        String user = beanUser.getUser().toString();
+//        log.info("SessionId:{}", httpSession.getId());
+//        log.info("User:{}", beanUser.getUser());
         //if httpSession  20 min
-        mav.addObject("group", group);
-        mav.addObject("user", user);
-        mav.addObject(SESSION_VAR.SESSION_ID, sessionID);
-        mav.addObject("countdown", sessionTimeLeft);
-        mav.addObject("httpSession", httpSession);
+//        mav.addAttribute("user", beanUser.getUser());
+//        mav.addAttribute(SESSION_VAR.SESSION_ID, httpSession.getId());
+//        mav.addAttribute(SESSION_VAR.SESSION_ID, "qweasdzxc");
+//        mav.addAttribute("user", "qweasdzxc");
+
+        // data streaming, data driven mode.
+
+        IReactiveDataDriverContextVariable reactiveDataDrivenMode =
+                new ReactiveDataDriverContextVariable(
+                        userService.findAll(), 1);
+
+        mav.addAttribute("users", reactiveDataDrivenMode);
+
+        return "layout";
+    }
 
 
-        return mav;
+    @GetMapping(path = "/users",
+            produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<User> feed() {
+        return this.userService.findAll();
 
     }
 

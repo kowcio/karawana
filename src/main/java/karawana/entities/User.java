@@ -2,6 +2,7 @@ package karawana.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.context.annotation.SessionScope;
@@ -18,19 +19,21 @@ import java.util.List;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-@SessionAttributes
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//@SessionScope
+@JsonIgnoreProperties(ignoreUnknown=true,value={"hibernateLazyInitializer", "handler"})
+@Getter
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     //@Column(name="uid")
     private Long id = 0L;
-    private String name;
+    public String name;
     @Version
-    private Long version;
+    @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
+    private Long version=0L;
     @Max(999999)
-    private int color;
+    public int color;
 
     @CreatedDate
     private LocalDateTime createdDate;
