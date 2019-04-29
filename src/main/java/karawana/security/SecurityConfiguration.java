@@ -1,49 +1,33 @@
 //package karawana.security;
 //
 //import org.springframework.context.annotation.Configuration;
+//import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 //import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 //import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-//import org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository;
+//import org.springframework.security.config.http.SessionCreationPolicy;
 //
 //
 //@Configuration
+//@EnableWebSecurity
+////@EnableGlobalMethodSecurity
 //class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //
 //    @Override
 //    protected void configure(HttpSecurity http) throws Exception {
-//
-//
-//                http
-//			    .authorizeRequests()
-//                .anyRequest()
-////                        .authenticated()
+//        http.authorizeRequests().antMatchers("/").permitAll();
+////                .antMatchers("/", "/*", "/*/*", "/css/**",
+////                        "/js/**", "/fonts/**", "/console", "/console/**").permitAll()
 ////                .and()
-////                .formLogin()
-////                .and()
-//// @formatter:on
-//
-////        http
-////                .csrf().disable()
-////                .formLogin()
-////                .and()
-////                .authorizeRequests()
-////                .anyRequest()
-//                .permitAll()
 ////                .sessionManagement()
-////                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-////                .sessionFixation().migrateSession()
-////                .expiredUrl("/sessionExpired.html")
-////                .invalidSessionUrl("/invalidSession.html");
-////                .maxSessionsPreventsLogin(true)
-////                .and()
-////                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-////                .sessionFixation().migrateSession()
-////                .sessionFixation().none()
-////                .maximumSessions(1)
-//
-////                .invalidSessionUrl("/");
-////                .and().csrf().disable();
-////.build();
+//////                .maximumSessions(1)
+//////                .maxSessionsPreventsLogin(true)
+//////                .and()
+//////                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+//////                .sessionFixation().migrateSession()
+//////                .invalidSessionUrl("/");
+//////                .and().csrf().disable();
+////;
 ////        http.headers().frameOptions().disable();
 //
 ////        http

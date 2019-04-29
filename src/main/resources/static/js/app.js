@@ -1,24 +1,24 @@
 /**
-Initiate base function.
-*/
-var lat,lon,map,pos, iw;
+ Initiate base function.
+ */
+var lat, lon, map, pos, iw;
 //var window.pos;
 
-$( document ).ready(function() {
+$(document).ready(function () {
 
-window.isTest = "prod";
+    window.isTest = "prod";
 
-if(window.isTest=="prod"){
-console.log("Init run for map creation.");
- window.map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 45.518, lng: -122.672},
-    zoom: 16,
-    mapTypeId: 'roadmap',
-    heading: 90,
-    tilt: 45
-  });
-window.iw = new google.maps.InfoWindow({map: window.map});
-}
+    if (window.isTest == "prod") {
+        console.log("Init run for map creation.");
+        window.map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 45.518, lng: -122.672},
+            zoom: 16,
+            mapTypeId: 'roadmap',
+            heading: 90,
+            tilt: 45
+        });
+        window.iw = new google.maps.InfoWindow({map: window.map});
+    }
 
 ////musi byc w onload doc
 //$( "#changePosition" ).click( changePosition );
@@ -28,9 +28,9 @@ window.iw = new google.maps.InfoWindow({map: window.map});
 //console.log("Moved position to " + window.pos.lat);
 //};
 //test model map access
-console.log("Test start");
-console.log(window.group);
-console.log(window.pos);
+    console.log("Test start");
+    console.log(window.group);
+    console.log(window.pos);
 //var group = new Group(window.group,window.pos);
 //console.log(group);
 //group.updateMyLocation();
@@ -39,62 +39,67 @@ console.log(window.pos);
 //console.log(window.group.createdDate);
 
 
+    $("#groupChangeSubmit").click(function () {
+        var newGroupName = $("#groupName").val();
+        var group = new Group(window.group, window.pos);
+        console.log("Changing group name to = " + newGroupName);
+        group.changeGroup(newGroupName);
 
-$( "#groupChangeSubmit" ).click(function() {
-var newGroupName = $("#groupName").val();
-var group = new Group(window.group,window.pos);
-console.log("Changing group name to = "+ newGroupName);
-group.changeGroup(newGroupName);
-
-});
-
-
-
+    });
 
 
 }); //END DOCUMENT ON LOAD
 
 
-
-setInterval(initMap,7000);
+setInterval(initMap, 7000);
 function initMap() {
-console.log("Update Map func - " + window.isTest );
+    console.log("Update Map func - " + window.isTest);
 
-        if (navigator.geolocation) {
+    var x = document.getElementById("userFrontTestLocation");
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+    function showPosition(position) {
+        x.innerHTML = "Latitude: " + position.coords.latitude +
+            "<br>Longitude: " + position.coords.longitude;
+    }
+
+
+    if (navigator.geolocation) {
 //        navigator.geolocation.watchPosition(function(position) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-          if (window.isTest == "test"){
-           window.pos.lng = window.pos.lng  +  0.0002;
+        navigator.geolocation.getCurrentPosition(function (position) {
+            if (window.isTest == "test") {
+                window.pos.lng = window.pos.lng + 0.0002;
 
-            var offset=0
-            if(window.user != undefined){
-            console.log(window.user);
-            offset = window.user.id*2/10000;
-            }
-            else offset=0;
+                var offset = 0
+                if (window.user != undefined) {
+                    console.log(window.user);
+                    offset = window.user.id * 2 / 10000;
+                }
+                else offset = 0;
 
-           window.pos.lat = window.pos.lat  +  0.0001 + offset;
-           window.pos.lng = window.pos.lng  +  offset*2;
-           window.pos = {
-              lat: window.pos.lat,
-              lng: window.pos.lng
-            };
+                window.pos.lat = window.pos.lat + 0.0001 + offset;
+                window.pos.lng = window.pos.lng + offset * 2;
+                window.pos = {
+                    lat: window.pos.lat,
+                    lng: window.pos.lng
+                };
             }
-            if (window.isTest == "prod"){
-           window.pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
+            if (window.isTest == "prod") {
+                window.pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
             }
-          if (window.isTest == "prod")
+            if (window.isTest == "prod")
                 window.isTest = "test";
 
-            if (window.pos != "undefined"){
-            var group = new Group(window.group,window.pos);
-            console.log("Position : " + JSON.stringify(window.pos));
-            console.log(group.currentUserPosition);
-            group.updateMyLocation();
-            console.log("Updating map position to Lat:"+pos.lat+" Lng:"+pos.lng);
+            if (window.pos != "undefined") {
+                var group = new Group(window.group, window.pos);
+                group.updateMyLocation();
+                console.log("Updating map position to Lat:" + pos.lat + " Lng:" + pos.lng);
             }
 
 
@@ -109,23 +114,20 @@ console.log("Update Map func - " + window.isTest );
 //            });
 
 
-
-
 //            infoWindow.setPosition(pos);
 //            infoWindow.setContent('Twoja lokalizacja.');
 //            + window.pos.lat + " - " + window.pos.lng   );
-            map.setCenter   (pos);
-          }, function(failure) {
-          console.log("Error.");
-          console.log(failure);
-         $("#test").text("Browser not suporting geo, user denied or unsecure location = NOT HTTPS");
+//             map.setCenter(pos);
+        }, function (failure) {
+            console.log(failure);
+            $("#test").text("Browser not suporting geo, user denied or unsecure location = NOT HTTPS");
 //            handleLocationError(true, infoWindow, map.getCenter());
-          });
-        } else {
-          // Browser doesn't support Geolocation
-          $("#test").text("Browser not suporting geo.");
+        });
+    } else {
+        // Browser doesn't support Geolocation
+        $("#test").text("Browser not suporting geo.");
 //          handleLocationError(false, infoWindow, map.getCenter());
-        }
+    }
 //CHECK IT AFTER
 //        map = new google.maps.Map(document.getElementById("map_canvas"), map.options);
 //    TestMarker();
@@ -152,11 +154,9 @@ console.log("Update Map func - " + window.isTest );
 //};
 
 
-
-
 /**
-        COUNTER
-*/
+ COUNTER
+ */
 //var timestamp = $("countdown").text();
 //timestamp /= 1000;
 //$("#test").text(timestamp);

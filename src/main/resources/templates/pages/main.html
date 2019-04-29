@@ -1,69 +1,46 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="layout">
+      layout:decorator="layout.html">
 
 
-<div class="container-fluid content" layout:fragment="content">
+<!--<div class="container-fluid content" layout:fragment="content">-->
+<div th:fragment="content" class="container-fluid content">
 
 
     <div class="row">
-        <div class="col-md-12" th:text="${user}">
-            Welcome header
-        </div>
-
-    </div>
-
-    <table id="allMovies" class="table table-striped">
-        <thead>
-        <tr>
-            <th width="70%">Name</th>
-            <th>Score</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="result" data-th-each="movie : ${users}">
-            <td>[[${movie.name}]]</td>
-            <td>[[${movie.color}]]</td>
-        </tr>
-        </tbody>
-    </table>
-    <div class="row text-center col-md-4 col-md-offset-4 transparent" id="top">
-        <div class="">
-            <!--<input type="text" class="btn-lg" id="groupName"-->
-            <!--th:value="${group.groupName}"-->
-            <!--th:placeholder="${group.groupName}"/>-->
-            <!--<input type="text" class="" id="groupPassword"-->
-            <!--th:value="${group.password}"-->
-            <!--placeholder="password"/>-->
-            <button type="button" id="groupChangeSubmit" class="btn btn-danger btn-lg">Find them !</button>
+        <div class="col-md-12">
+            Welcome header : ${sessionId} = [[${sessionId}]]
+            <div id="sess" th:text="${sessionId}" th:placeholder="${sessionId}"></div>
+            <div id="gr" th:text="${group}" th:placeholder="${group}"></div>
         </div>
     </div>
 
-    <div id="users" class="col-md-2 pull-left transparent"></div>
-
-    <div class="row text-center content">
-        <div id="map" class=""></div>
+    <div id="users" class="col-md-12 container-fluid">
+        <table id="allUsers" class="table table-striped">
+            <tr th:each="item : ${users}">
+                <td th:text="${item.name}">
+                <td th:text="${item.color}">
+                <td>
+                    <div th:each="location : ${item.locations}">
+                        <li th:text="'ID:'+${location.id}+' LAT:'+${location.lat}+' LNG:'+${location.lng}">
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div id="userFrontTestLocation"></div>
     </div>
 
 
-    <!--<div class="row " id="bottom">-->
-    <!--<div id="sessionId" th:text="${sessionId}">Q</div>-->
-    <!--<label for="groupId">GroupID:</label>-->
-    <!--<div class="label label-info" id="groupId" th:text="${group.id}">Default</div>-->
-    <!--<label for="userId">UserID:</label>-->
-    <!--<div class="label label-info" id="userId" th:text="${user.name} +'('+ ${user.id} +')'">Default</div>-->
-    <!--<label for="groupNameSh">GroupName:</label>-->
-    <!--<div class="label label-info" id="groupNameSh" th:text="${group.groupName}">Default</div>-->
-    <!---->
-    <!--<p id="countdown" th:text="${countdown}"></p>-->
-    <p id="test"></p>
-    <p id="location"></p>
+    <div class="row " id="bottom">
+        <table id="allUsers" class="table table-striped">
+            <tr th:each="item : ${users}">
+                <td th:text="${item}">...</td>
+            </tr>
+        </table>
 
-    <div class="" id="log"></div>
+        <div class="" id="test">Test</div>
+        <div class="" id="test2">Test2</div>
+    </div>
+
+
 </div>
-
-
-</html>

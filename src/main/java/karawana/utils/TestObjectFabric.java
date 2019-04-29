@@ -1,12 +1,16 @@
 package karawana.utils;
 
 import karawana.entities.Group;
+import karawana.entities.Location;
 import karawana.entities.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class TestObjectFabric {
 
@@ -17,10 +21,17 @@ public class TestObjectFabric {
 
     public static User getUser() {
         int color = new SecureRandom().nextInt(800000) + 100000;
+        List<Location> locations = new ArrayList<>();
+//        locations.add(getLocation(Long.valueOf(color)));
+        locations.add(getLocation());
+//        locations.add(getLocation(Long.valueOf(color)));
+
         User user = User.builder()
-                .name(TEST_USER_NAME_PREFIX)
+//                .id(Long.valueOf(color))
+                .name(TEST_USER_NAME_PREFIX + color + "")
                 .color(color)
                 .createdDate(LocalDateTime.now())
+                .locations(locations)
                 .build();
         return user;
     }
@@ -29,6 +40,23 @@ public class TestObjectFabric {
         User user = getUser();
         user.setName(userName);
         return user;
+    }
+
+    public static Location getLocation() {
+        Double longitute = ThreadLocalRandom.current().nextDouble(54, 55);
+        Double latitude = ThreadLocalRandom.current().nextDouble(18, 19);
+        Location location = Location.builder()
+                .lat(latitude)
+                .lng(longitute)
+                .createdDate(LocalDateTime.now())
+                .build();
+        return location;
+    }
+
+    public static Location getLocation(Long userId) {
+        Location location = getLocation();
+//        location.setUser_id(userId);
+        return location;
     }
 
 

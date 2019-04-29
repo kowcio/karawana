@@ -2,10 +2,8 @@ package karawana.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
-import org.springframework.context.annotation.Bean;
+import org.hibernate.annotations.Proxy;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.context.annotation.SessionScope;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -14,38 +12,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+//@Data
 @Builder
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-//@SessionScope
-@JsonIgnoreProperties(ignoreUnknown=true,value={"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
+@Setter
+@Proxy(lazy = false)
 public class User {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     //@Column(name="uid")
     private Long id = 0L;
-    public String name;
+    private String name;
     @Version
-    @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
-    private Long version=0L;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long version;
     @Max(999999)
-    public int color;
+    private int color;
 
     @CreatedDate
-    private LocalDateTime createdDate;
-    @Column(name = "group_id")
+    private LocalDateTime createdDate = LocalDateTime.now();
+//    @Column(name = "group_id", nullable = false)
+//    @Column(nullable = false)
     private Long group_id;
 
 
-
-//    @Singular("location")
-    @OrderBy("id")
-    @OneToMany(cascade=CascadeType.ALL , fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID")//by field name
+    //    @Singular("location")
+    @OrderBy("id desc")
+    @OneToMany(cascade = CascadeType.ALL
+            , fetch = FetchType.EAGER
+    )
+    @JoinColumn(name = "user_id")//by field name
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @Builder.Default
@@ -59,9 +59,26 @@ public class User {
         this.locations = locations;
     }
 
-    public User location(Location location){
+    public List<Location> addLocation(Location locations) {
+        this.locations.add(locations);
+        return this.locations;
+    }
+
+    public User location(Location location) {
         locations.add(location);
         return this;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", version=" + version +
+                ", color=" + color +
+                ", createdDate=" + createdDate +
+                ", group_id=" + group_id +
+                ", locations=" + locations +
+                '}';
+    }
 }

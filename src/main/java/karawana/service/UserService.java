@@ -7,12 +7,11 @@ import karawana.utils.TestObjectFabric;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
-import uk.co.jemos.podam.api.PodamFactory;
-import uk.co.jemos.podam.api.PodamFactoryImpl;
+import reactor.core.publisher.Mono;
 
 import javax.transaction.Transactional;
 import java.time.Duration;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -20,16 +19,12 @@ import java.util.List;
  */
 
 @Service
-@Transactional
 public class UserService {
 
 
     @Autowired
     UserRepository userRepository;
 
-    public User getRandomUser() {
-       return TestObjectFabric.getUser("RandomTest");
-    }
 
     public User getUserById(Long id) {
         return userRepository.getOne(id);
@@ -43,18 +38,29 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    //WEBFLUX TESTING
 
-    public static List<User> movie = new ArrayList<User>(){{
-        add(TestObjectFabric.getUser("Flux 1"));
-        add(TestObjectFabric.getUser("Flux 2"));
-        add(TestObjectFabric.getUser("Flux 3"));
-        add(TestObjectFabric.getUser("Flux 4"));
-        add(TestObjectFabric.getUser("Flux 5"));
+    private static List<User> users = Arrays.asList(
+            TestObjectFabric.getUser(),
+            TestObjectFabric.getUser(),
+            TestObjectFabric.getUser(),
+            TestObjectFabric.getUser()
+    );
 
-    }};
 
-    public Flux<User> findAll() {
-        return Flux.fromIterable(movie).delayElements(Duration.ofSeconds(2));
+    public Flux<User> findAllRxTest() {
+        //Simulate big list of data, streaming it every 2 second delay
+        return Flux.fromIterable(this.users).delayElements(Duration.ofSeconds(2));
+    }
+
+    public Flux<User> findAllFromDB() {
+        //Simulate big list of data, streaming it every 2 second delay
+        return Flux.fromStream(userRepository.findAll().stream());
+    }
+
+    public Mono<User> findMonoUserByID() {
+        //Simulate big list of data, streaming it every 2 second delay
+        return Mono.just(TestObjectFabric.getUser("MonoUser"));
     }
 
 }

@@ -18,6 +18,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.transaction.Transactional;
 
+import java.util.Optional;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -25,7 +27,7 @@ import static org.junit.Assert.assertTrue;
 @ContextConfiguration(classes = {Application.class})
 @Transactional
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Ignore
+//@Ignore
 public class UserRepositoryTest {
 
     @Autowired
@@ -42,10 +44,10 @@ public class UserRepositoryTest {
         group = groupRepository.save(group);
         log.info(group.toString());
 
-        Group groupAfterSave = groupRepository.findByGroupName(group.getGroupName());
-        log.info(groupAfterSave.getGroupName());
+        Optional<Group> groupAfterSave = groupRepository.findByGroupName(group.getGroupName());
+        log.info(groupAfterSave.get().getGroupName());
 
-        assertEquals("Group name mismatch.", group, groupAfterSave);
+        assertEquals("Group name mismatch.", group, groupAfterSave.get());
 
     }
 
