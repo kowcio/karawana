@@ -1,49 +1,53 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout.html">
 
-<div class="container-fluid" layout:fragment="content">
+
+<!--<div class="container-fluid content" layout:fragment="content">-->
+<div th:fragment="content" class="container-fluid content">
 
 
-    <script th:inline="javascript">
-    window.group = [[${group}]];
-    window.user = [[${user}]];
-    </script>
-
-    <div class="row text-center">
-            <label for="groupId">GroupID:</label>
-            <div class="label label-info" id="groupId" th:text="${group.id}">Default</div>
-            <label for="userId">UserID:</label>
-            <div class="label label-info" id="userId" th:text="${user.name} +'('+ ${user.id} +')'">Default</div>
-            <label for="groupNameSh">GroupName:</label>
-            <div class="label label-info" id="groupNameSh" th:text="${group.groupName}">Default</div>
-
-        <div class="row">
-            <div class="form-group text-center col-md-2 col-md-offset-5 pull-left">
-                <input type="text" class="form-control" id="groupName" th:value="${group.groupName}"/>
-                <button type="button" id="groupChangeSubmit" class="btn btn-info ">Find them !</button>
-            </div>
+    <div class="row">
+        <div class="col-md-12">
+            Welcome header : ${sessionId} = [[${sessionId}]]
+            <div id="sess" th:text="${sessionId}" th:placeholder="${sessionId}"></div>
+            <div id="gr" th:text="${group}" th:placeholder="${group}"></div>
         </div>
-                <p id="countdown" th:text="${countdown}"></p>
-                <p id="test"></p>
-                <p id="location"></p>
-
-
     </div>
 
-        <div class="row text-center">
-            <div id="users" class="col-md-3"></div>
-            <div id="map" class="col-md-6 col-md-offset-3"></div>
-        </div>
-
-
-            <div class="row " id="bottom">
-                <div class="" id="log"></div>
-            </div>
-
-
-
+    <div id="users" class="col-md-12 container-fluid">
+        <table id="allUsers" class="table table-striped">
+            <tr th:each="item : ${users}">
+                <td th:text="${item.name}">
+                <td th:text="${item.color}">
+                <td>
+                    <div th:each="location : ${item.locations}">
+                        <li th:text="'ID:'+${location.id}+' LAT:'+${location.lat}+' LNG:'+${location.lng}">
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div id="userFrontTestLocation"></div>
     </div>
-</html>
+
+
+    <div class="row " id="bottom">
+        <table id="allUsers" class="table table-striped">
+            <tr th:each="item : ${users}">
+                <td th:text="${item}">...</td>
+            </tr>
+        </table>
+
+        <table id="infinite" class="table table-striped">
+            <tr th:each="item : ${infinite}">
+                <td th:text="${item}">...</td>
+            </tr>
+        </table>
+
+        <div class="" id="test">Test</div>
+        <div class="" id="test2">Test2</div>
+        <div class="" id="infinite">Test2</div>
+    </div>
+
+
+</div>

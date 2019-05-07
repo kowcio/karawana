@@ -1,52 +1,59 @@
-package karawana.security;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
-
-
-@Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                .antMatchers("/", "/**", "/css/**",
-                        "/js/**", "/fonts/**", "/console", "/console/**").permitAll()
-                .and()
-                .sessionManagement()
-                .maximumSessions(1)
-                .maxSessionsPreventsLogin(true)
-                .and()
-                .sessionCreationPolicy(SessionCreationPolicy.NEVER)
-                .and().csrf().disable();
-        http.headers().frameOptions().disable();
-    }
-
-//    @Autowired
-//    UserDetailsService userDS;
+//package karawana.security;
 //
-//    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//        auth
-//                .userDetailsService(userDS);
-//    }
+//import org.springframework.context.annotation.Configuration;
+//import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+//import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+//import org.springframework.security.config.http.SessionCreationPolicy;
+//
+//
+//@Configuration
+//@EnableWebSecurity
+////@EnableGlobalMethodSecurity
+//class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //
 //    @Override
-//    protected UserDetailsService userDetailsService() {
-//        return userDS;
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.authorizeRequests().antMatchers("/").permitAll();
+////                .antMatchers("/", "/*", "/*/*", "/css/**",
+////                        "/js/**", "/fonts/**", "/console", "/console/**").permitAll()
+////                .and()
+////                .sessionManagement()
+//////                .maximumSessions(1)
+//////                .maxSessionsPreventsLogin(true)
+//////                .and()
+//////                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+//////                .sessionFixation().migrateSession()
+//////                .invalidSessionUrl("/");
+//////                .and().csrf().disable();
+////;
+////        http.headers().frameOptions().disable();
+//
+////        http
+////                .sessionManagement()
+////                .maximumSessions(1)
+////                .expiredUrl("/")
+////                .maxSessionsPreventsLogin(true)
+////                .and()
+////                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
+//
+//
+//
 //    }
-
-}
+//
+////    @Autowired
+////    UserDetailsService userDS;
+////
+////    @Autowired
+////    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+////        auth
+////                .userDetailsService(userDS);
+////    }
+////
+////    @Override
+////    protected UserDetailsService userDetailsService() {
+////        return userDS;
+////    }
+//
+//}

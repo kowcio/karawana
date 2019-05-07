@@ -1,76 +1,123 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
 
-<head th:fragment="head(title)">
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title th:text="${title}">Base site</title>
 
-<!--  MAIN -->
+<head th:fragment="head">
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>Base site</title>
 
-<meta name="author" content="Piotr Kowalski" />
-<meta name="keywords" content="" />
-<meta name="description" content="" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <!--  MAIN -->
 
-<!--  CSS  -->
-<link th:href="@{/css/all.css}" rel="stylesheet" type="text/css" media="all"/>
+    <meta name="author" content="Piotr Kowalski"/>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
 
-<script th:replace="fragments/fragments :: annalytics"></script>
+    <!--  CSS  -->
+    <link th:href="@{/css/all.css}" rel="stylesheet" type="text/css" media="all"/>
 
-<!--<script src="../../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>-->
-<script src="../../static/js/jquery-2.1.3.min.js" th:src="@{/js/jquery-2.1.3.min.js}"></script>
-<script src="../../static/js/bootstrap-3.3.7.js"  th:src="@{/js/bootstrap-3.3.7.js}"></script>
+    <!--<script src="../../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>-->
+    <script th:src="@{/js/jquery-2.1.3.min.js}"></script>
+    <script th:src="@{/js/bootstrap-3.3.7.js}"></script>
 
-    <script type="text/javascript"
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0xqJrcVce8iwow60hy5aGrIszqGicfcE"/>
+    <!--<script type="text/javascript"-->
+    <!--src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0xqJrcVce8iwow60hy5aGrIszqGicfcE"/>-->
 
-<script src="../../static/js/sockjs-0.3.4.js"   th:src="@{/js/sockjs-0.3.4.js}"></script>
-<script src="../../static/js/websockets.js"     th:src="@{/js/websockets.js}"></script>
-<script src="../../static/js/websockets.js"     th:src="@{/js/stomp.js}"></script>
+
+    <!--<link rel="stylesheet" href="https://openlayers.org/en/v5.3.0/css/ol.css" type="text/css">-->
+
+    <!-- Load Leaflet from CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+          integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+            integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+            crossorigin=""></script>
+    <!-- Load Esri Leaflet from CDN -->
+    <style>
+        #map {
+            height: 250px;
+            height: 250px;
+        }
+    </style>
+
+    <script th:src="@{/js/sockjs-0.3.4.js}"></script>
+    <script th:src="@{/js/websockets.js}"></script>
+    <script th:src="@{/js/stomp.js}"></script>
 
     <!-- MODELS -->
-    <script src="../../static/js/model/Group.js"    th:src="@{/js/model/Group.js}"></script>
+    <script th:src="@{/js/model/Group.js}"></script>
+
+    <!-- REACT -->
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
 
     <!-- LOGIC and stuff -->
-    <script src="../../static/js/app.js"            th:src="@{/js/app.js}"></script>
+    <!--<script th:src="@{/js/app.js}"></script>-->
+    <script th:src="@{/js/appOL.js}"></script>
 
 </head>
 
 
-
-
-<div th:fragment="top" class="">
-
-
-    <div class="row" style="height:100%; width:100%;">
-    </div>
-
-
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-
-
+<div th:fragment="top" class="container-fluid">
+    <form>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="userName">Name</label>
+                <input type="userName" class="form-control" id="userName" th:placeholder="${userName}">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="groupName">Group</label>
+                <input type="groupName" class="form-control" id="groupName" th:placeholder="${groupName}">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            </div>
+            <div class="form-group col-md-2">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
 </div>
 
 
+<div th:fragment="map" class="container-fluid">
+    <div id="map" class="container-fluid"></div>
+</div>
 
 
+<div th:fragment="users" id="users" class="col-md-2 pull-left">
+    <h1>Users : </h1>
+    <ul>
+        <th:block th:object="${users}" th:each="user : ${users}">
+            <li th:text="${user.name}">User:</li>
+            <li th:text="${user.group_id}">Group:</li>
+        </th:block>
+    </ul>
+</div>
+
+<div th:fragment="groups" id="groups" class="col-md-2 pull-left">
+    <h1>Groups : </h1>
+    <ul>
+        <th:block th:object="${groups}" th:each="group : ${groups}">
+            <li th:text="${group.id}">Group:</li>
+            <li th:text="${group.name}">GroupName:</li>
+            <li th:text="${group.version}">GroupName:</li>
+            <ul>
+                <th:block th:object="${group.users}" th:each="user : ${group.users}">
+                    <li th:text="${user.name}">User name:</li>
+                    <li th:text="${user.id}">User id:</li>
+                    <li th:text="${user.locations}">Locations:</li>
+                </th:block>
+            </ul>
+        </th:block>
+    </ul>
+</div>
 
 
 <div th:fragment="footer">
-
-    <footer class="footer">
-      <div class="">
-        <p class="text-muted">
-        </p>
-      </div>
+    <footer class="log" id="logs">
+        Static footer text to be changed
     </footer>
 </div>
-
-
-
-
-
-
-</html>
