@@ -1,50 +1,53 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout.html">
 
 
-<html xmlns:th="http://www.thymeleaf.org" 
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
+<!--<div class="container-fluid content" layout:fragment="content">-->
+<div th:fragment="content" class="container-fluid content">
 
-<body>
-    <div class="container" layout:fragment="content">
-    
-    
-  
-        <div class="main-wrapper container-fluid table-bordered">
-          <div class="col-sm-8">
-          
-                main wrapper 
-          
-          <div>
-    <div>
-        <button id="connect" onclick="connect();">Connect</button>
-        <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
+
+    <div class="row">
+        <div class="col-md-12">
+            Welcome header : ${sessionId} = [[${sessionId}]]
+            <div id="sess" th:text="${sessionId}" th:placeholder="${sessionId}"></div>
+            <div id="gr" th:text="${group}" th:placeholder="${group}"></div>
+        </div>
     </div>
-    <div id="conversationDiv">
-        <label>What is your name?</label><input type="text" id="name" />
-        <button id="sendName" onclick="sendName();">Send</button>
-        <p id="response"></p>
+
+    <div id="users" class="col-md-12 container-fluid">
+        <table id="allUsers" class="table table-striped">
+            <tr th:each="item : ${users}">
+                <td th:text="${item.name}">
+                <td th:text="${item.color}">
+                <td>
+                    <div th:each="location : ${item.locations}">
+                        <li th:text="'ID:'+${location.id}+' LAT:'+${location.lat}+' LNG:'+${location.lng}">
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div id="userFrontTestLocation"></div>
     </div>
+
+
+    <div class="row " id="bottom">
+        <table id="allUsers" class="table table-striped">
+            <tr th:each="item : ${users}">
+                <td th:text="${item}">...</td>
+            </tr>
+        </table>
+
+        <table id="infinite" class="table table-striped">
+            <tr th:each="item : ${infinite}">
+                <td th:text="${item}">...</td>
+            </tr>
+        </table>
+
+        <div class="" id="test">Test</div>
+        <div class="" id="test2">Test2</div>
+        <div class="" id="infinite">Test2</div>
+    </div>
+
+
 </div>
-
-
-          <div class="row">
-    <div>
-        <button id="connect" onclick="connectTest();">Connect</button>
-        <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
-    </div>
-
-</div>
-
-
-
-
-
-          </div>
-
-          
-            </div>
-            
-            
-    </div>
-</body>
-</html>

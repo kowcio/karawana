@@ -1,14 +1,18 @@
-package allinone.repositories;
+package karawana.repositories;
 
 
-import allinone.entities.Location;
-import allinone.entities.User;
+import karawana.entities.Location;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
+
 @Repository
+@Transactional
 public interface LocationRepository extends JpaRepository<Location, Long> {
-	User findByName(String name);
+    Location getOne(Long id);
+
+    Location getTop10ById(Long id);
 }
 
 
