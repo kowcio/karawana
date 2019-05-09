@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout.html">
+
+
+<head th:replace="/fragments/fragments.html :: head"></head>
+
+<body>
+
+
+<div th:replace="/fragments/fragments.html :: top"></div>
+
+
+<!--<div layout:fragment="content" class="content"></div>-->
+<div th:replace="/fragments/fragments.html :: groups"></div>
+
+<div th:replace="/fragments/fragments.html :: contentBelowMap"></div>
+
+
+<div th:replace="/fragments/fragments.html :: footer"></div>
+
+
+</body>
+</html>

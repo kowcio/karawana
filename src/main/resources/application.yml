@@ -1,0 +1,25 @@
+spring:
+  rabbitmq:
+    host: bulldog.rmq.cloudamqp.com
+    port: 1883
+    username: cksfjsfl:cksfjsfl
+    password: w3DKiQBs1kr4XRGiu3NrjpUTFr1ASIhi
+#
+destinations:
+  queues:
+    NYSE:
+      exchange: nyse
+      routing-key: NYSE
+#    IBOV:
+#      exchange: ibov
+#      routing-key: IBOV
+  topics:
+    weather:
+      exchange: alerts
+      routing-key: WEATHER
+
+
+
+
+
+
