@@ -5,19 +5,12 @@ import karawana.repositories.GroupRepository;
 import karawana.web.controller.SESSION_VAR;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
-import org.springframework.web.server.WebSession;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.inject.Inject;
-
 import java.util.Optional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -29,6 +22,11 @@ public class GroupHandler {
 
     @Inject
     private GroupRepository groupRepository;
+
+    @Autowired
+    public GroupHandler(GroupRepository groupRepository) {
+        this.groupRepository = groupRepository;
+    }
 
 
     public Mono<ServerResponse> getGroupByIdRouter(ServerRequest request) {
