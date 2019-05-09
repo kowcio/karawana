@@ -33,7 +33,9 @@ function initMap() {
     }
 
     window.isTest = "test";
+    console.log("navigator issue ?");
     if (navigator.geolocation) {
+        console.log("navigator ");
 //        navigator.geolocation.watchPosition(function(position) {
         navigator.geolocation.getCurrentPosition(function (position) {
 
