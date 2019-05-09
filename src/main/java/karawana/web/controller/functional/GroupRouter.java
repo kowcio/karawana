@@ -14,6 +14,7 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
@@ -22,6 +23,7 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 
 @Slf4j
 @Controller
+@Transactional
 public class GroupRouter {
 
     @Autowired
@@ -66,6 +68,7 @@ public class GroupRouter {
         final Optional<Group> oneById = groupRepository.getOneById(id);
         Group one = oneById.get();
         Mono<Group> people = Mono.just(one);
+        one.getUsers().forEach(c -> log.info("Location size :{},", c.getLocations().size()));
         log.info("one:{}, webSessionIDRouter:{}", one, request.session().block().getId());
         return ok().contentType(APPLICATION_JSON).body(people, Group.class);
     }

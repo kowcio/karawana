@@ -2,6 +2,7 @@ package karawana.entities;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
+import org.hibernate.annotations.Proxy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -18,6 +19,8 @@ import java.time.LocalDateTime;
 @ToString
 @EqualsAndHashCode
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Proxy(lazy=true)
+@PersistenceContext(type= PersistenceContextType.EXTENDED)
 public class Location {
 
     @Id

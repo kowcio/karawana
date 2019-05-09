@@ -21,7 +21,8 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
 @Setter
-@Proxy(lazy = false)
+@Proxy(lazy = true)
+@PersistenceContext(type= PersistenceContextType.EXTENDED)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -50,7 +51,7 @@ public class User {
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @Builder.Default
-//    @BatchSize(size=16)
+    @BatchSize(size=3)
     private List<Location> locations = new ArrayList<>();
 
     public List<Location> getLocations() {

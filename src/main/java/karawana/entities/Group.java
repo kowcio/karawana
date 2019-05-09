@@ -3,6 +3,7 @@ package karawana.entities;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Proxy;
 import org.springframework.data.annotation.CreatedDate;
@@ -26,7 +27,8 @@ import static javax.persistence.CascadeType.*;
 @Table(name = "group_table")
 @JsonSerialize
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Proxy(lazy = false)
+@Proxy(lazy = true)
+@PersistenceContext(type= PersistenceContextType.EXTENDED)
 @ToString
 public class Group {
     @Id

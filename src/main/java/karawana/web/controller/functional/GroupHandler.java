@@ -11,6 +11,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -18,6 +19,7 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 
 @Service
 @Slf4j
+@Transactional
 public class GroupHandler {
 
     @Inject
