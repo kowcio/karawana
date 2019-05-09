@@ -5,17 +5,22 @@ import io.lettuce.core.resource.Delay;
 import karawana.entities.Group;
 import karawana.repositories.GroupRepository;
 import karawana.repositories.ReactiveGroupRepository;
+import karawana.utils.TestObjectFabric;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.server.WebSession;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.transaction.Transactional;
 import java.time.Duration;
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 
 @Service
@@ -40,10 +45,9 @@ public class GroupService {
 //        return reactiveGroupRepository.findById(id).g;
 //    }
 
-
     public Flux<Group> getTopGroupsReactive() {
         Flux<Group> groupFlux = Flux.fromIterable
-                (reactiveGroupRepository.findTop15ByOrderByIdDesc())
+                (reactiveGroupRepository.findTop3ByOrderByIdDesc())
                 .delayElements(Duration.ofSeconds(2));
         return groupFlux;
     }
@@ -60,4 +64,16 @@ public class GroupService {
     }
 
 
+    public Flux<Group> streamGroups(
+    ) {
+        Flux<Long> interval = Flux.interval(Duration.ofSeconds(1));
+        Flux<Group> events =
+                Flux.fromStream(Stream.generate(
+                        () -> TestObjectFabric
+                                .getGroupWithOneUser(
+                                        LocalDateTime.now().toString())));
+        return Flux.zip(events, interval, (Group key, Long value) -> key);
+
+
+    }
 }

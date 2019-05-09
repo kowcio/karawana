@@ -11,16 +11,14 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @Configuration
-@EnableScheduling
 @ComponentScan
 //@EnableAutoConfiguration
 @ConfigurationProperties
 @EnableJpaRepositories(basePackages = {"karawana"})
-@PropertySource({"classpath:application.properties", "classpath:hibernate.properties", "classpath:application.yml"})
+@PropertySource({"classpath:application.properties", "classpath:hibernate.properties"})
 public class Application extends SpringBootServletInitializer {
 
     public static void main(String[] args) {

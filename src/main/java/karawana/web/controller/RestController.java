@@ -11,7 +11,6 @@ import karawana.utils.TestObjectFabric;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,15 +19,15 @@ import org.springframework.web.server.WebSession;
 import org.thymeleaf.spring5.context.webflux.ReactiveDataDriverContextVariable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Schedulers;
+import reactor.core.publisher.ReplayProcessor;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
-import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Controller
 @RequestMapping(value = "/api", method = RequestMethod.GET)
@@ -63,13 +62,6 @@ public class RestController {
             Model mav,
             WebSession session
     ) {
-
-        //test add lat = display
-
-        location.setLat(location.getLat() + new SecureRandom().nextDouble() / 100);
-
-        // test add lat for display
-
         location.setCreatedDate(LocalDateTime.now());
         log.info("session : {}", session.getId());
         //set group
@@ -77,7 +69,7 @@ public class RestController {
         //user should be present at this point - all created at first request
         User userUpdate = userService.getUserByName(userName);
         location.setUser_id(userUpdate.getId());
-        Optional<Location> savedLocation = locationService.saveUserLocation(location);
+        locationService.saveUserLocation(location);
         Long groupId = session.getAttribute("groupId");
         Optional<Group> group = groupService.getGroupById(groupId);
         Group group1 = group.get();
@@ -88,7 +80,6 @@ public class RestController {
 //                1);
 //        mav.addAttribute("users",                reactiveDataDriverContextVariable);
 //this is blocked by JDBC anyway, move this wrap to the repository level ?
-        log.info("Updated location for user : {}, Location : {}", userUpdate.getName(), savedLocation.get().printCoords());
         Mono<Group> just = Mono.just(groupService.getGroupById(groupId).get());
         return just;
     }
@@ -103,14 +94,12 @@ public class RestController {
         log.info("session : {}", session.getId());
         Flux<Group> groupMono = groupService.getTopGroupsReactive();
         ReactiveDataDriverContextVariable attributeValue = new ReactiveDataDriverContextVariable(
-
-                groupService.
-                        getTopGroupsReactive()
-                        .delayElements(Duration.ofSeconds(2)), 1);
+                groupMono.delayElements(Duration.ofSeconds(2)), 1);
         mav.addAttribute("groups",
                 attributeValue);
         return groupMono;
     }
+
 
     @RequestMapping(value = "/changeGroup/{groupName}", method = RequestMethod.POST)
     @ResponseBody
@@ -146,134 +135,54 @@ public class RestController {
             existingGroup.getUsers().add(userService.getUserById(Long.valueOf(userID)));
             existingGroup = groupService.saveGroup(existingGroup);
             session.getAttributes().put(SESSION_VAR.GROUP_ID, existingGroup.getId());
-            log.info("Saved group with new user.{} ", existingGroup.toString());
+            log.info("Saved group with new user. Debug ! = {} ", existingGroup.toString());
             return existingGroup;
         }
 
         return TestObjectFabric.getGroupEmpty();
+
     }
 
+
+    private ReplayProcessor<ServerSentEvent<Group>> replayProcessor =
+            ReplayProcessor.<ServerSentEvent<Group>>create(100);
+
     @ResponseBody
-    @GetMapping("/react/{groupName}")
-    public Flux<ServerSentEvent<Group>> streamEvents(
-            WebSession webSession,
-            @PathVariable String groupName
+    @GetMapping(path = "/gr/{groupName}", produces = "text/event-stream")
+    public Flux<ServerSentEvent<Group>> subscribeChatMessages_spring5(
+            @PathVariable("groupName") String groupName,
+            WebSession webSession
+//            @RequestHeader(name = "last-event-id", required = false) String lastEventId
     ) {
-
+        log.info("Subscribing for data.... {}", webSession.getId());
         Optional<Group> groupByName = groupService.getGroupByName(groupName);
+        Group msg;
         if (groupByName.isPresent())
-            return Flux.interval(Duration.ofSeconds(1))
-                    .map(sequence -> ServerSentEvent.<Group>builder()
-                            .id(String.valueOf(sequence))
-                            .event("Data for group " + groupName)
-                            .data(groupByName.get())
-                            .build());
+            msg = groupByName.get();
+        else msg = TestObjectFabric.getGroupWithOneUser("grNameTest");
+        ServerSentEvent<Group> event = ServerSentEvent.builder(msg)
+                .event("sending group update")
+                .id(String.valueOf(msg.getId())).build();
+        replayProcessor.onNext(event);
 
-        return Flux.interval(Duration.ofSeconds(1))
-                .map(sequence -> ServerSentEvent.<Group>builder()
-                        .id(String.valueOf(sequence))
-                        .event("periodic-event")
-                        .data(TestObjectFabric.getGroupWithOneUser("TestGroupNotInDb"))
-                        .build());
-    }
-
-
-//    @Autowired
-//    private KafkaTemplate<String, Object> kafkaTemplate = new KafkaTemplate<String, String>();
-//
-//    @KafkaListener(topics = "topic1")
-//    public void receiveTopic1(ConsumerRecord<?, ?> consumerRecord) {
-//        System.out.println("Receiver on topic1: "+consumerRecord.toString());
-//    }
-//
-//    public void send(String topic, String payload) {
-//        kafkaTemplate.send(topic, payload);
-//        System.out.println("Message: "+payload+" sent to topic: "+topic);
-//    }
-//
-
-    /**
-     * TODO - works and quite after elving the browser. Basic for updating the users.
-     * Problem - a lot of threads spawning for constant updates.
-     *
-     * @return
-     */
-    @ResponseBody
-    @GetMapping(path = "/stream-flux", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<List<Group>> streamFlux() {
-
-        List<Group> groups = reactiveGroupRepository.findTop15ByOrderByIdDesc();
-        log.info("Groups count : {}", groups.size());
-
-        Flux<List<Group>> map = Flux.interval(Duration.ofSeconds(5)
-                , Schedulers.newElastic("Infinite stream flux.")
-        )
-                .map(sequence -> {
-
-//                            Group group = groupService.getGroupById(1L).get();
-//                            List<Group> liveGroups = reactiveGroupRepository.findTop15ByOrderByIdDesc() ;
-                            Mono<List<Group>> blockingWrapper = Mono.fromCallable(() -> {
-                                return reactiveGroupRepository.findTop15ByOrderByIdDesc();
-                            });
-
-                            List<Group> liveGroups = blockingWrapper
-                                    .subscribeOn(Schedulers.newElastic("Infinite stream flux."))
-                                    .single().block(Duration.ofSeconds(2));//block and timeout at 2 seconds for sql to grab the data
-
-//                            reactor.netty.ioWorkerCount
-//                            reactor.netty.ioSelectCount
-//                            reactor.netty.pool.maxConnections
-                            liveGroups.forEach(group -> {
-                                log.info("Group:{}, users:{}, locations:{}",
-                                        group.getGroupName(),
-                                        group.getUsers().size(),
-                                        group.getUsers()
-                                                .stream()
-                                                .mapToInt(u -> u.getLocations().size()).sum()
-                                );
-                            });
-                            return liveGroups;
-                        }
-                ).subscribeOn(Schedulers.newElastic("new ELastic"));
-        return map;
-    }
-
-    //    https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html#webflux-fn
-//    public String handle(@SessionAttribute User user) {
-    @GetMapping("/stream-sse")
-    public Flux<ServerSentEvent<String>> streamEvents() {
-        Flux<ServerSentEvent<String>> map = Flux.interval(Duration.ofSeconds(1))
-                .map(sequence -> ServerSentEvent.<String>builder()
-                        .id(String.valueOf(sequence))
-                        .event("periodic-event")
-                        .data("SSE - " + LocalTime.now().toString())
-                        .build());
-        return map;
+//        Integer lastId = (lastEventId != null) ? Integer.parseInt(lastEventId) : null;
+        return replayProcessor;//.filter(x -> lastId == null || x.data().getId()> lastId);
     }
 
     @ResponseBody
-    @GetMapping(path = "/infinite", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<Group> getStreamOfGroups() {
-
-
-        return Flux.generate(sink ->
-                sink.next(
-//            TestObjectFabric.getGroupWithOneUser("TestGroupNotInDb"+LocalDateTime.now())
-                        groupService.getGroupById(1L).get()
-                ));
-
-
+    @GetMapping(path = "/gr1/{groupName}", produces = "text/event-stream")
+    public Flux<Group> test2(
+            @PathVariable("groupName") String groupName,
+            WebSession webSession
+//            @RequestHeader(name = "last-event-id", required = false) String lastEventId
+    ) {
+        log.info("Subscribing for data.... {}", webSession.getId());
+        Flux<Long> interval = Flux.interval(Duration.ofSeconds(1));
+        Flux<Group> events =
+                Flux.fromStream(Stream.generate(
+                        () -> TestObjectFabric.getGroupWithOneUser(LocalDateTime.now().toString())));
+        return Flux.zip(events, interval, (Group key, Long value) -> key);
     }
-
-
-
-
-
-
-
-
-
-
 
 
 }

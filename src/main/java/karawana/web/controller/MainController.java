@@ -8,23 +8,19 @@ import karawana.service.GroupService;
 import karawana.service.LocationService;
 import karawana.service.UserService;
 import karawana.utils.TestObjectFabric;
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.session.ReactiveSessionRepository;
-import org.springframework.session.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.WebSession;
-import org.thymeleaf.spring5.context.webflux.IReactiveDataDriverContextVariable;
 import org.thymeleaf.spring5.context.webflux.ReactiveDataDriverContextVariable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -32,7 +28,6 @@ import reactor.core.publisher.Mono;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import java.time.Duration;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -75,6 +70,7 @@ public class MainController {
     ) {
         Group group;
         User user;
+
         boolean sessionIsNew = !session.isStarted();
         if (sessionIsNew) {
             log.info("New session : {}", session.getId());
@@ -110,37 +106,16 @@ public class MainController {
         mav.addAttribute("userName", userName);
         mav.addAttribute("groupName", group.getGroupName());
         Set<User> users = group.getUsers();
-//        mav.addAttribute("users",
-//                new ReactiveDataDriverContextVariable(Flux.fromIterable(
-//                        users
-//                ).delayElements(Duration.ofSeconds(2)), 1));
-
-
-        mav.addAttribute("infinite",
-                new ReactiveDataDriverContextVariable(Flux.interval(Duration.ofSeconds(2))
-                        .map(sequence -> {
-                                    Group groupInfinite = groupService.getGroupById(1L).get();
-                                    log.info("Group:{}, users:{}, locations:{}",
-                                            groupInfinite.getGroupName(),
-                                            groupInfinite.getUsers().size(),
-                                            groupInfinite.getUsers()
-                                                    .stream()
-                                                    .mapToInt(u -> u.getLocations().size()).sum()
-                                    );
-                                    return groupInfinite;
-                                }
-                        ), 1));
-
-
+        mav.addAttribute("users",
+                new ReactiveDataDriverContextVariable(Flux.fromIterable(
+                        users)
+                        .delayElements(Duration.ofSeconds(2)),
+                        1));
         mav.addAttribute("group", group);
-        mav.addAttribute("view", "/pages/main");
 
-//        return "layout";
+
         return "layout";
-
-
     }
-
 
     @ResponseBody
     @RequestMapping(value = "/m/")

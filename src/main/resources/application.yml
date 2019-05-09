@@ -1,22 +1,39 @@
 spring:
   rabbitmq:
-    host: bulldog.rmq.cloudamqp.com
-    port: 1883
-    username: cksfjsfl:cksfjsfl
-    password: w3DKiQBs1kr4XRGiu3NrjpUTFr1ASIhi
-#
+    #    host: bulldog.rmq.cloudamqp.com
+    #    port: 5672
+    #    username: cksfjsfl:cksfjsfl
+    #    password: w3DKiQBs1kr4XRGiu3NrjpUTFr1ASIhi
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+
+    maxConnections: 10
+    maxConcurrentConsumers: 5
+    indentJson: true
+
 destinations:
   queues:
     NYSE:
       exchange: nyse
       routing-key: NYSE
-#    IBOV:
-#      exchange: ibov
-#      routing-key: IBOV
+    NYSE2:
+      exchange: nyse
+      routing-key: NYSE2
+    Central:
+        exchange: central
+        routing-key: central
+    CopyAllHereByFanout:
+      exchange: CopyAllHereByFanout
+      routing-key: CopyAllHereByFanout
   topics:
     weather:
       exchange: alerts
       routing-key: WEATHER
+    backupCopy:
+      exchange: backupCopy
+      routing-key: backupCopy
 
 
 

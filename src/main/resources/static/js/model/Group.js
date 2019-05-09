@@ -11,9 +11,9 @@ Group.prototype.updateMyLocation = function () {
         // groupName: "groupTestFromFront",
         //     id: 6,
         //     user_id: 1,
-        lat: position.latitude,
-        lng: position.longitude,
-        // createdDate: "2019-03-03T03:03"
+            lat: position.lat,
+            lng: position.lng,
+            // createdDate: "2019-03-03T03:03"
     };
     console.log(dataToSend);
 
@@ -33,33 +33,12 @@ Group.prototype.updateMyLocation = function () {
             //gere we could return a rendered whole ajax html element in controller, no variables
             var users = msg.users;
             var group = msg;
-            var mapx, mapy;
+            console.log("Users");
+            console.log(group);
             for (var i = 0; i < users.length; i++) {
-                $("#test").append("UserName:" + users[i].name + " L_ID:" + users[i].locations[0].id + "  " + " -Position:- " + users[i].locations[0].lat + " -- " + users[i].locations[0].lng + "<br />");
-
-                console.log(users[i].locations[0].lat);
-                console.log(users[i].locations[0].lng);
-
-                mapx = users[i].locations[0].lat;
-                mapy = users[i].locations[0].lat;
-
-                // L.marker([users[i].locations[0].lat, users[i].locations[0].lng]).addTo(window.map);
-                var latlngs  = new Array(10);
-
-                for (var j = 0; j < users[i].locations.length; j++) {
-                    latlngs[j] = [  users[i].locations[j].lat  ,   users[i].locations[j].lng  ];
-                }
-                var line = L.polyline(latlngs, {color: "#" + users[i].color, weight: 20}).addTo(window.map);
-                window.map.fitBounds(line.getBounds());
-
+                $("#test").append("UserName:" + users[i].name + " L_ID:"+ users[i].locations[0].id +"  "+" -Position:- " + users[i].locations[0].lat + " -- " + users[i].locations[0].lng + "<br />");
             }
 
-            // window.map.panTo([ users[i].locations[0].lat,users[i].locations[0].lng]);
-
-
-            window.map.panTo([mapx, mapy]);
-
-            this.group = group
             // thisObj.showLatestMarker();
             // thisObj.showUsers();
 

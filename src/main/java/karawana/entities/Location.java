@@ -21,14 +21,14 @@ import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
 @Setter
-@Proxy(lazy = false)
+@Proxy(lazy=false)
 public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // @Column(name="lid")
+   // @Column(name="lid")
     private Long id = 0L;
-    //    @NotNull
+//    @NotNull
 //    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    @JoinColumn(name="id")
 //    @Column(name = "user_id")
@@ -38,7 +38,4 @@ public class Location {
     private Double lat;
     private Double lng;
 
-    public Object printCoords() {
-        return "lat:" + lat + ",lng:" + lng;
-    }
 }

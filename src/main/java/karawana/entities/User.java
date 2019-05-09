@@ -2,7 +2,6 @@ package karawana.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
-import net.sourceforge.jtds.jdbc.DateTime;
 import org.hibernate.annotations.Proxy;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -43,7 +42,6 @@ public class User {
 
     //    @Singular("location")
     @OrderBy("id desc")
-
     @OneToMany(cascade = CascadeType.ALL
             , fetch = FetchType.EAGER
     )
