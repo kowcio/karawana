@@ -45,12 +45,6 @@ public class GroupService {
 //        return reactiveGroupRepository.findById(id).g;
 //    }
 
-    public Flux<Group> getTopGroupsReactive() {
-        Flux<Group> groupFlux = Flux.fromIterable
-                (reactiveGroupRepository.findTop3ByOrderByIdDesc())
-                .delayElements(Duration.ofSeconds(2));
-        return groupFlux;
-    }
 
     //http://stackoverflow.com/questions/11881479/how-do-i-update-an-entity-using-spring-data-jpa
     public Group saveGroup(Group group) {
@@ -75,5 +69,17 @@ public class GroupService {
         return Flux.zip(events, interval, (Group key, Long value) -> key);
 
 
+    }
+
+//    public Mono<Group> getOneReactive(Long id) {
+//        return reactiveGroupRepository.findById(id).g;
+//    }
+
+
+    public Flux<Group> getTopGroupsReactive() {
+        Flux<Group> groupFlux = Flux.fromIterable
+                (reactiveGroupRepository.findTop15ByOrderByIdDesc())
+                .delayElements(Duration.ofSeconds(2));
+        return groupFlux;
     }
 }

@@ -198,7 +198,7 @@ public class AmqpReactiveController {
      */
     @PostMapping(value = "/topic/{name}")
     public Mono<ResponseEntity<?>> sendMessageToTopic(@PathVariable String name, @RequestBody String payload
-    , WebSession sessionIsOK) {
+            , WebSession sessionIsOK) {
 
         // Lookup exchange details
         final DestinationInfo d = destinationsConfig.getTopics()

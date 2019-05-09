@@ -38,8 +38,15 @@
             </tr>
         </table>
 
+        <table id="infinite" class="table table-striped">
+            <tr th:each="item : ${infinite}">
+                <td th:text="${item}">...</td>
+            </tr>
+        </table>
+
         <div class="" id="test">Test</div>
         <div class="" id="test2">Test2</div>
+        <div class="" id="infinite">Test2</div>
     </div>
 
 

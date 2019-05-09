@@ -118,7 +118,7 @@ public class WebFluxControllerTest {
         WebTestClient webTestClient = this.webTestClient;
 
 //        EntityExchangeResult<Group> groupEntityExchangeResult =
-                webTestClient
+        webTestClient
                 .mutate().responseTimeout(Duration.ofMillis(30000))
                 .build().get()
                 .uri("/")

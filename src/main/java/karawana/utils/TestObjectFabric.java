@@ -43,8 +43,8 @@ public class TestObjectFabric {
     }
 
     public static Location getLocation() {
-        Double longitute = ThreadLocalRandom.current().nextDouble(54, 55);
-        Double latitude = ThreadLocalRandom.current().nextDouble(18, 19);
+        Double longitute = ThreadLocalRandom.current().nextDouble(18,19);
+        Double latitude = ThreadLocalRandom.current().nextDouble(54, 55);
         Location location = Location.builder()
                 .lat(latitude)
                 .lng(longitute)

@@ -21,6 +21,7 @@ public interface ReactiveGroupRepository extends JpaRepository<Group, Long> {
 //    @Query("select top 10 * from Group_table u")
 //    List<Group> findTop10ById();
     List<Group> findTop3ByOrderByIdDesc();
+    List<Group> findTop15ByOrderByIdDesc();
 
 }
 

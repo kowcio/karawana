@@ -10,15 +10,14 @@ $(document).ready(function () {
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
         // maxZoom: 15,
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-        '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-        'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+            'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         id: 'mapbox.streets'
     }).addTo(window.map);
 
 });
 
-
-setInterval(initMap, 7000);
+setInterval(initMap, 5000);
 function initMap() {
     console.log("Update Map func - " + window.isTest);
 
@@ -34,26 +33,19 @@ function initMap() {
     }
 
     window.isTest = "test";
+    console.log("navigator issue ?");
     if (navigator.geolocation) {
+        console.log("navigator ");
 //        navigator.geolocation.watchPosition(function(position) {
         navigator.geolocation.getCurrentPosition(function (position) {
-            pos = position.coords;
-
-            window.pos.lng = position.coords.longitude + 0.001;
-            window.pos.lat = position.coords.latitude + 0.0001;
-
 
             // var polyline = L.polyline(window.latlngs, {color: 'red'}).addTo(map);
-            console.log(window.pos);
-            console.log(window.pos.lat);
-            console.log(window.pos.lng);
-            window.map.panTo([window.pos.lat, window.pos.lng]);
-            L.marker([window.pos.lat, window.pos.lng]).addTo(window.map);
+            // window.map.panTo([window.pos.lat, window.pos.lng]);
+            // L.marker([window.pos.lat, window.pos.lng]).addTo(window.map);
 
             if (window.pos != "undefined") {
-                var group = new Group(window.group, window.pos);
+                var group = new Group(window.group, position.coords);
                 group.updateMyLocation();
-                console.log("Updating map position to Lat:" + pos.lat + " Lng:" + pos.lng);
             }
 
 
