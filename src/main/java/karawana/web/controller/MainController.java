@@ -31,6 +31,7 @@ import reactor.core.publisher.Mono;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
@@ -38,6 +39,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
+@Transactional
 public class MainController {
 
     public static final String GROUP_ID = "groupId";
@@ -56,16 +58,14 @@ public class MainController {
 
     @Autowired
     GroupRepository groupRepository;
-    //    @Inject
-//    UserBean userBean;
+
     @Inject
     ReactiveSessionRepository reactiveSessionRepository;
 
     private static final String DELAY_SERVICE_URL = "http://localhost:8080";
     private final WebClient client = WebClient.create(DELAY_SERVICE_URL);
 
-    //    @RequestMapping(value = "/", method = RequestMethod.GET)
-    @RequestMapping(value = "/")
+    @RequestMapping(value = "/", method = RequestMethod.GET)
 //    , produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public String mainPage(
 //            @RequestParam(defaultValue = "") String groupName,
@@ -120,7 +120,7 @@ public class MainController {
                 new ReactiveDataDriverContextVariable(Flux.fromIterable(
                         groupService.getGroupById(1L).get().getUsers()
 
-                ).delayElements(Duration.ofSeconds(2)),1));
+                ).delayElements(Duration.ofSeconds(2)), 1));
         //logging data
         Group groupInfinite = groupService.getGroupById(1L).get();
         log.info("Group:{}, users:{}, locations:{}",

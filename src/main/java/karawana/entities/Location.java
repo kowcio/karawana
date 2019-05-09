@@ -31,9 +31,8 @@ public class Location {
     private Long version;
 
 
-    @Column(name = "USER_ID")
-
-    private Long user_id;
+//    @Column(name = "USER_ID")
+    private Long userId;
     @CreatedDate
     private LocalDateTime createdDate;
     private Double lat;

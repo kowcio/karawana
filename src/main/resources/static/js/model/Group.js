@@ -10,7 +10,7 @@ Group.prototype.updateMyLocation = function () {
         // userName: "testAjaxRequestUpdateToServerUser",
         // groupName: "groupTestFromFront",
         //     id: 6,
-        //     user_id: 1,
+        //     userId: 1,
         lat: position.latitude,
         lng: position.longitude,
         // createdDate: "2019-03-03T03:03"

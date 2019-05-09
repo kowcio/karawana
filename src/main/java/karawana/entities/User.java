@@ -2,6 +2,7 @@ package karawana.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Proxy;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -43,12 +44,13 @@ public class User {
     //    @Singular("location")
     @OrderBy("id desc")
     @OneToMany(cascade = CascadeType.ALL
-            , fetch = FetchType.EAGER
+            , fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "user_id")//by field name
+    @JoinColumn(name = "userId")//by field name
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @Builder.Default
+//    @BatchSize(size=16)
     private List<Location> locations = new ArrayList<>();
 
     public List<Location> getLocations() {

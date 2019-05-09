@@ -1,4 +1,4 @@
-package karawana.web.controller.handlers;
+package karawana.web.controller.functional;
 
 import karawana.entities.Group;
 import karawana.repositories.GroupRepository;
@@ -45,5 +45,6 @@ public class GroupHandler {
         log.info("one:{}, webSessionIDRouter:{}", one, request.session().block().getId());
         return ok().contentType(APPLICATION_JSON).body(people, Group.class);
     }
+
 
 }

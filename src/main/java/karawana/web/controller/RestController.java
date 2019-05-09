@@ -76,7 +76,7 @@ public class RestController {
         String userName = session.getAttribute("userName");
         //user should be present at this point - all created at first request
         User userUpdate = userService.getUserByName(userName);
-        location.setUser_id(userUpdate.getId());
+        location.setUserId(userUpdate.getId());
         Optional<Location> savedLocation = locationService.saveUserLocation(location);
         Long groupId = session.getAttribute("groupId");
         Optional<Group> group = groupService.getGroupById(groupId);

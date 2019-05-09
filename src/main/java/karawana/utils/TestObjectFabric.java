@@ -55,7 +55,7 @@ public class TestObjectFabric {
 
     public static Location getLocation(Long userId) {
         Location location = getLocation();
-//        location.setUser_id(userId);
+//        location.setUserId(userId);
         return location;
     }
 
