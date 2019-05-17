@@ -95,44 +95,21 @@ public class RestController {
         Group group1 = group.get();
 
 
-        //create topic and a queue in rabbit
+
         //SEND MESSAGE TO QUEUE - create stuff in main controller
         Properties queueProperties = amqpAdmin.getQueueProperties(userName);
-        if (queueProperties == null) {
-            log.info("[I54] Creating directExchange:{}", session.getId());
-            Exchange ex = ExchangeBuilder.topicExchange("defaultExchangeCreated" + session.getId())
-                    .durable(true)
-                    .build();
-            amqpAdmin.declareExchange(ex);
 
-            Queue q = QueueBuilder.durable(userName).build();
-            amqpAdmin.declareQueue(q);
-            Binding b = BindingBuilder.bind(q)
-                    .to(new FanoutExchange("asdqweqwe" + session.getId()))
-//                .with(group1.getGroupName())
-//                .noargs()
-                    ;
-//                ;
-            amqpAdmin.declareBinding(b);
-            log.info("[I70] Binding successfully created.");
-        } else {
-            log.info("Queue not nulll, using the queue. ");
-        }
-//check here !!
+        //send data
         final DestinationsConfig.DestinationInfo d = destinationsConfig.getQueues().get(userName);
-        amqpTemplate.convertAndSend(d.getExchange(), d.getRoutingKey(), location.toString());
+        amqpTemplate.convertAndSend(group1.getGroupName(), group1.getGroupName(), location.toString());
 
-        //grab data from queue as an update
-        MessageListenerContainer mlc = messageListenerContainerFactory
-                .createMessageListenerContainer(userName);
-        mlc.setupMessageListener(m -> {
-            String qname = m.getMessageProperties().getConsumerQueue();
-            String payload = new String(m.getBody());
-            log.info("[I137] Message received, queue={}, payload={}", qname, payload);
 
-        });
-
+        //grab data with other locations (instead of repo sql query)
+       String msg = (String) amqpTemplate.receiveAndConvert(userUpdate.getName());
+       log.info("Received msg = {}", msg);
         //end rabbitmq declarations
+
+
 
 
 //        mav.addAttribute("users", group1.getUsers());

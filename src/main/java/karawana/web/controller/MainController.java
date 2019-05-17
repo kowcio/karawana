@@ -1,5 +1,7 @@
 package karawana.web.controller;
 
+import karawana.config.DestinationsConfig;
+import karawana.config.MessageListenerContainerFactory;
 import karawana.entities.Group;
 import karawana.entities.Location;
 import karawana.entities.User;
@@ -11,6 +13,7 @@ import karawana.utils.TestObjectFabric;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.core.env.Environment;
@@ -35,6 +38,7 @@ import javax.transaction.Transactional;
 import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -61,6 +65,17 @@ public class MainController {
 
     @Inject
     ReactiveSessionRepository reactiveSessionRepository;
+    @Inject
+    private AmqpTemplate amqpTemplate;
+
+    @Inject
+    private AmqpAdmin amqpAdmin;
+
+    @Inject
+    private DestinationsConfig destinationsConfig;
+
+    @Inject
+    private MessageListenerContainerFactory messageListenerContainerFactory;
 
     private static final String DELAY_SERVICE_URL = "http://localhost:8080";
     private final WebClient client = WebClient.create(DELAY_SERVICE_URL);
@@ -133,6 +148,45 @@ public class MainController {
 
         mav.addAttribute("group", group);
         mav.addAttribute("view", "/pages/main");
+
+
+
+        //CREATE fanout for group and QUEUE  IN USER - not durable
+
+        Properties queueProperties = amqpAdmin.getQueueProperties(userName);
+
+        if (queueProperties == null) {
+            log.info("[I54] Creating group fanout:{}", session.getId());
+
+            Exchange ex = ExchangeBuilder.fanoutExchange(group.getGroupName())
+                    .durable(true)
+                    .build();
+            amqpAdmin.declareExchange(ex);
+
+            Queue q = QueueBuilder.durable(userName).build();
+            amqpAdmin.declareQueue(q);
+
+            Binding b = BindingBuilder.bind(q)
+                    .to(ex)
+                    .with(group.getGroupName())
+                    .noargs();
+            amqpAdmin.declareBinding(b);
+
+            log.info("[I70] Binding successfully created.");
+        } else {
+            log.info("Queue {} is present.",userName);
+        }
+
+
+
+
+
+
+
+
+
+        //CREATE QUEUE END
+
 
 //        return "layout";
         return "layout";
