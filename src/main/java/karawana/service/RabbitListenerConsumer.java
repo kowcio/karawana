@@ -1,26 +1,24 @@
 package karawana.service;
 
 
-import karawana.web.controller.AmqpReactiveController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.Properties;
 
 @Service
-public class RabbitTestConsumer {
+public class RabbitListenerConsumer {
 
 
     @Autowired
     private AmqpAdmin amqpAdmin;
 
-    private static Logger log = LoggerFactory.getLogger(RabbitTestConsumer.class);
+    private static Logger log = LoggerFactory.getLogger(RabbitListenerConsumer.class);
 
 //    @Scheduled(fixedRate = 5000)
     @RabbitListener(queues = "NYSE")

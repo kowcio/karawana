@@ -1,5 +1,7 @@
 package karawana.web.controller;
 
+import karawana.config.DestinationsConfig;
+import karawana.config.MessageListenerContainerFactory;
 import karawana.entities.Group;
 import karawana.entities.Location;
 import karawana.entities.User;
@@ -10,6 +12,8 @@ import karawana.service.UserService;
 import karawana.utils.TestObjectFabric;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.*;
+import org.springframework.amqp.rabbit.listener.MessageListenerContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
@@ -29,6 +33,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
 
 @Controller
 @RequestMapping(value = "/api", method = RequestMethod.GET)
@@ -46,6 +51,17 @@ public class RestController {
     ReactiveGroupRepository reactiveGroupRepository;
     @Autowired
     UserService userService;
+    @Autowired
+    private AmqpTemplate amqpTemplate;
+
+    @Autowired
+    private AmqpAdmin amqpAdmin;
+
+    @Autowired
+    private DestinationsConfig destinationsConfig;
+
+    @Autowired
+    private MessageListenerContainerFactory messageListenerContainerFactory;
 
     @ResponseBody
     @RequestMapping(value = "/updateMyLocation"
@@ -63,24 +79,63 @@ public class RestController {
             Model mav,
             WebSession session
     ) {
-
         //test add lat = display
-
         location.setLat(location.getLat() + new SecureRandom().nextDouble() / 100);
-
         // test add lat for display
-
         location.setCreatedDate(LocalDateTime.now());
         log.info("session : {}", session.getId());
         //set group
-        String userName = session.getAttribute("userName");
+        String userName = session.getAttribute(SESSION_VAR.USER_NAME);
         //user should be present at this point - all created at first request
         User userUpdate = userService.getUserByName(userName);
-        location.setUserId(userUpdate.getId());
+        Long userId = userUpdate.getId();
+        location.setUserId(userId);
         Optional<Location> savedLocation = locationService.saveUserLocation(location);
-        Long groupId = session.getAttribute("groupId");
+        Long groupId = session.getAttribute(SESSION_VAR.GROUP_ID);
         Optional<Group> group = groupService.getGroupById(groupId);
         Group group1 = group.get();
+
+
+        //create topic and a queue in rabbit
+        //SEND MESSAGE TO QUEUE - create stuff in main controller
+        Properties queueProperties = amqpAdmin.getQueueProperties(userName);
+        if (queueProperties == null) {
+            log.info("[I54] Creating directExchange:{}", session.getId());
+            Exchange ex = ExchangeBuilder.topicExchange("defaultExchangeCreated" + session.getId())
+                    .durable(true)
+                    .build();
+            amqpAdmin.declareExchange(ex);
+
+            Queue q = QueueBuilder.durable(userName).build();
+            amqpAdmin.declareQueue(q);
+            Binding b = BindingBuilder.bind(q)
+                    .to(new FanoutExchange("asdqweqwe" + session.getId()))
+//                .with(group1.getGroupName())
+//                .noargs()
+                    ;
+//                ;
+            amqpAdmin.declareBinding(b);
+            log.info("[I70] Binding successfully created.");
+        } else {
+            log.info("Queue not nulll, using the queue. ");
+        }
+//check here !!
+        final DestinationsConfig.DestinationInfo d = destinationsConfig.getQueues().get(userName);
+        amqpTemplate.convertAndSend(d.getExchange(), d.getRoutingKey(), location.toString());
+
+        //grab data from queue as an update
+        MessageListenerContainer mlc = messageListenerContainerFactory
+                .createMessageListenerContainer(userName);
+        mlc.setupMessageListener(m -> {
+            String qname = m.getMessageProperties().getConsumerQueue();
+            String payload = new String(m.getBody());
+            log.info("[I137] Message received, queue={}, payload={}", qname, payload);
+
+        });
+
+        //end rabbitmq declarations
+
+
 //        mav.addAttribute("users", group1.getUsers());
 //        mav.addAttribute("group", group1);
 //        ReactiveDataDriverContextVariable reactiveDataDriverContextVariable = new ReactiveDataDriverContextVariable(Flux.fromIterable(
@@ -264,16 +319,6 @@ public class RestController {
 
 
     }
-
-
-
-
-
-
-
-
-
-
 
 
 }
