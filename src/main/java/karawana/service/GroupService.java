@@ -4,6 +4,7 @@ package karawana.service;
 import io.lettuce.core.resource.Delay;
 import karawana.entities.Group;
 import karawana.repositories.GroupRepository;
+import karawana.repositories.LocationRepository;
 import karawana.repositories.ReactiveGroupRepository;
 import karawana.utils.TestObjectFabric;
 import org.slf4j.Logger;
@@ -29,6 +30,9 @@ public class GroupService {
 
     @Autowired(required = true)
     private GroupRepository groupRepository;
+
+    @Autowired
+    private LocationRepository locationRepository;
 
     @Autowired(required = true)
     private ReactiveGroupRepository reactiveGroupRepository;
@@ -84,4 +88,16 @@ public class GroupService {
                 .delayElements(Duration.ofSeconds(2));
         return groupFlux;
     }
+
+    public Group getGrouptWith10LatestLocations(Long groupId) {
+        Group one = groupRepository
+                .getOne(groupId);
+        one
+                .getUsers()
+                .forEach(u -> u.setLocations(locationRepository.getTop10ByUserId(u.getId())));
+        return one;
+
+    }
+
+
 }

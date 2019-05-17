@@ -1,6 +1,7 @@
 package karawana.web.controller.functional;
 
 import karawana.entities.Group;
+import karawana.entities.User;
 import karawana.repositories.GroupRepository;
 import karawana.repositories.LocationRepository;
 import karawana.web.controller.SESSION_VAR;
@@ -14,8 +15,13 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Transient;
 import javax.transaction.Transactional;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -63,13 +69,16 @@ public class GroupRouter {
         return ok().contentType(APPLICATION_JSON).body(people, Group.class);
     }
 
+
+    @Transactional
     public Mono<ServerResponse> getPaths(ServerRequest request) {
         Long id = Long.valueOf(request.pathVariable("id"));
-        final Optional<Group> oneById = groupRepository.getOneById(id);
-        Group one = oneById.get();
-        Mono<Group> people = Mono.just(one);
-        one.getUsers().forEach(c -> log.info("Location size :{},", c.getLocations().size()));
-        log.info("one:{}, webSessionIDRouter:{}", one, request.session().block().getId());
+        Group oneById = groupRepository.getOne(id);
+
+
+        Mono<Group> people = Mono.just(oneById);
+        oneById.getUsers().forEach(c -> log.info("Location size :{},", c.getLocations().size()));
+        log.info("one:{}, webSessionIDRouter:{}", oneById, request.session().block().getId());
         return ok().contentType(APPLICATION_JSON).body(people, Group.class);
     }
 

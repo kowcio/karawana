@@ -11,11 +11,13 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.Optional;
 
 
 @Service
+@Transactional
 public class SimulateUsersGpsThread {
 
     private static final Logger log = LoggerFactory.getLogger(SimulateUsersGpsThread.class);
@@ -27,15 +29,14 @@ public class SimulateUsersGpsThread {
     @Inject
     GroupRepository groupRepository;
 
-//    @Scheduled(fixedRate = 15000)
-
+    @Scheduled(fixedRate = 15000)
     public void reportCurrentTime() {
 
 
 //        log.info("Generating users for test group to check and provide data for front end.");
 
-
-        long groupId = 1L;
+for(int i = 1 ; i <3 ; i ++){
+        Long groupId = Long.valueOf(i);
         Optional<Group> groupById = groupRepository.getOneById(groupId);
         Group testedGroup;
         if (groupById.isPresent())
@@ -56,7 +57,7 @@ public class SimulateUsersGpsThread {
 //                .forEach(u -> u.addLocation(TestObjectFabric.getLocation()));
 //        groupService.saveGroup(testedGroup);
 
-    }
+    }}
 
 
 }
