@@ -18,8 +18,11 @@ public class LocationService {
     LocationRepository locationRepository;
 
     public Optional<Location> saveUserLocation(Location location) {
-            return Optional.of(locationRepository.save(location));
+        return Optional.of(locationRepository.save(location));
+    }
 
+    public Location save(Location location) {
+        return locationRepository.save(location);
     }
 
 

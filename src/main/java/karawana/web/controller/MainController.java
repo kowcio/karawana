@@ -112,10 +112,7 @@ public class MainController {
         } else {
             log.info("Established session : {}", session.getId());
             Long groupId = session.getAttribute(SESSION_VAR.GROUP_ID);
-            Optional<Group> groupOpt = groupService.getGroupById(groupId);
-            if (groupOpt.isPresent())
-                group = groupOpt.get();
-            else throw new RuntimeException("Something failed with grabbing a group that should be in the db");
+            group = groupService.getGrouptWith10LatestLocations(groupId);
         }
 
 
@@ -125,19 +122,19 @@ public class MainController {
         mav.addAttribute("userName", userName);
         mav.addAttribute("groupName", group.getGroupName());
         Set<User> users = group.getUsers();
-//        mav.addAttribute("users",
-//                new ReactiveDataDriverContextVariable(Flux.fromIterable(
-//                        users
-//                ).delayElements(Duration.ofSeconds(2)), 1));
-
-
-        mav.addAttribute("infinite",
+        mav.addAttribute("users",
                 new ReactiveDataDriverContextVariable(Flux.fromIterable(
-                        groupService.getGroupById(1L).get().getUsers()
-
+                        users
                 ).delayElements(Duration.ofSeconds(2)), 1));
+
+
+//        mav.addAttribute("infinite",
+//                new ReactiveDataDriverContextVariable(Flux.fromIterable(
+//                        groupService.getGroupById(1L).get().getUsers()
+//
+//                ).delayElements(Duration.ofSeconds(2)), 1));
         //logging data
-        Group groupInfinite = groupService.getGroupById(1L).get();
+        Group groupInfinite = groupService.getGroupById(group.getId()).get();
         log.info("Group:{}, users:{}, locations:{}",
                 groupInfinite.getGroupName(),
                 groupInfinite.getUsers().size(),

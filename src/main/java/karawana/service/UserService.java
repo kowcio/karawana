@@ -2,6 +2,7 @@ package karawana.service;
 
 
 import karawana.entities.User;
+import karawana.repositories.LocationRepository;
 import karawana.repositories.UserRepository;
 import karawana.utils.TestObjectFabric;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.time.Duration;
 import java.util.Arrays;
@@ -19,19 +21,24 @@ import java.util.List;
  */
 
 @Service
+@Transactional
 public class UserService {
 
 
     @Autowired
     UserRepository userRepository;
-
+    @Inject
+    LocationRepository locationRepository;
 
     public User getUserById(Long id) {
         return userRepository.getOne(id);
     }
 
     public User getUserByName(String userName) {
-        return userRepository.findByName(userName);
+
+        User byName = userRepository.findByName(userName);
+        byName.setLocations(locationRepository.getTop10ByUserId(byName.getId()));
+        return byName;
     }
 
     public User saveUser(User user) {

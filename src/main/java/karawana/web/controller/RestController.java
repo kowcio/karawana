@@ -37,6 +37,7 @@ import java.util.Properties;
 
 @Controller
 @RequestMapping(value = "/api", method = RequestMethod.GET)
+@Transactional
 public class RestController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
@@ -83,30 +84,28 @@ public class RestController {
         location.setLat(location.getLat() + new SecureRandom().nextDouble() / 100);
         // test add lat for display
         location.setCreatedDate(LocalDateTime.now());
-        log.info("session : {}", session.getId());
+        log.info("Update location : {}", session.getId());
         //set group
         String userName = session.getAttribute(SESSION_VAR.USER_NAME);
         //user should be present at this point - all created at first request
         User userUpdate = userService.getUserByName(userName);
-//        location.setUserId(userUpdate.getId());
-        Optional<Location> savedLocation = locationService.saveUserLocation(location);
+        location.setUserId(userUpdate.getId());
+//        userUpdate.addLocation(location);
+        Location savedLocation = locationService.save(location);
         Long groupId = session.getAttribute(SESSION_VAR.GROUP_ID);
-        Optional<Group> group = groupService.getGroupById(groupId);
-        Group group1 = group.get();
+        Group group = groupService.getGrouptWith10LatestLocations(groupId);
 
 
-
+        log.info("Send location {} to queue {}", location,userName);
         //SEND MESSAGE TO QUEUE - create stuff in main controller
         Properties queueProperties = amqpAdmin.getQueueProperties(userName);
-
+        log.info("Properties for queue userName:{}",  queueProperties);
         //send data
-        final DestinationsConfig.DestinationInfo d = destinationsConfig.getQueues().get(userName);
-        amqpTemplate.convertAndSend(group1.getGroupName(), group1.getGroupName(), location.toString());
-
-
+//        final DestinationsConfig.DestinationInfo d = destinationsConfig.getQueues().get(userName);
+        amqpTemplate.convertAndSend(group.getGroupName(), group.getGroupName(), location.toString());
         //grab data with other locations (instead of repo sql query)
-       String msg = (String) amqpTemplate.receiveAndConvert(userUpdate.getName());
-       log.info("Received msg = {}", msg);
+       String msg = (String) amqpTemplate.receiveAndConvert(userName);
+       log.info("Received msg from rabbit = {}", msg);
         //end rabbitmq declarations
 
 
@@ -119,7 +118,7 @@ public class RestController {
 //                1);
 //        mav.addAttribute("users",                reactiveDataDriverContextVariable);
 //this is blocked by JDBC anyway, move this wrap to the repository level ?
-        log.info("Updated location for user : {}, Location : {}", userUpdate.getName(), savedLocation.get().printCoords());
+        log.info("Updated location for user : {}, Location : {}", userName, location.printCoords());
         Mono<Group> just = Mono.just(groupService.getGroupById(groupId).get());
         return just;
     }

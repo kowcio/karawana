@@ -1,18 +1,20 @@
-#spring:
-#  rabbitmq:
-#    #    host: bulldog.rmq.cloudamqp.com
-#    #    port: 5672
-#    #    username: cksfjsfl:cksfjsfl
-#    #    password: w3DKiQBs1kr4XRGiu3NrjpUTFr1ASIhi
-#    host: 127.0.0.1
-#    port: 5672
-#    username: guest
-#    password: guest
-#
-#    maxConnections: 10
-#    maxConcurrentConsumers: 5
-#    indentJson: true
-#
+spring:
+  rabbitmq:
+    host: bulldog.rmq.cloudamqp.com
+    #    port: 5672
+    username: cksfjsfl
+    password: w3DKiQBs1kr4XRGiu3NrjpUTFr1ASIhi
+    virtual-host: cksfjsfl
+    vhost: cksfjsfl
+    #    host: 127.0.0.1
+    #    port: 5672
+    #    username: guest
+    #    password: guest
+
+    maxConnections: 10
+    maxConcurrentConsumers: 5
+    indentJson: true
+
 #destinations:
 #  queues:
 #    NYSE:
@@ -22,8 +24,8 @@
 #      exchange: nyse
 #      routing-key: NYSE2
 #    Central:
-#        exchange: central
-#        routing-key: central
+#      exchange: central
+#      routing-key: central
 #    CopyAllHereByFanout:
 #      exchange: CopyAllHereByFanout
 #      routing-key: CopyAllHereByFanout
@@ -35,8 +37,8 @@
 #      exchange: backupCopy
 #      routing-key: backupCopy
 #
-#
-#
-#
-#
-#
+
+
+
+
+
