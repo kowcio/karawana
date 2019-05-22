@@ -119,7 +119,17 @@ public class RestController {
 //        mav.addAttribute("users",                reactiveDataDriverContextVariable);
 //this is blocked by JDBC anyway, move this wrap to the repository level ?
         log.info("Updated location for user : {}, Location : {}", userName, location.printCoords());
-        Mono<Group> just = Mono.just(groupService.getGroupById(groupId).get());
+        Group groupWith10Locations = groupService.getGrouptWith10LatestLocations(groupId);
+        Mono<Group> just = Mono.just(groupWith10Locations);
+        groupWith10Locations
+                .getUsers()
+                .stream()
+                .peek(u -> log.info("g:{}, u:{}, l:{}, lid:{}",
+                        u.getGroupId(), u.getName(), u.getLocations().size(),
+                        u.getLocations().get(0).getId()))
+                .count()
+        ;
+
         return just;
     }
 
