@@ -6,11 +6,12 @@ var Group = function (group, position) {
 Group.prototype.updateMyLocation = function () {
     var thisObj = this;
     var position = this.currentUserPosition;
+    var lines = [];
     var dataToSend = {
         // userName: "testAjaxRequestUpdateToServerUser",
         // groupName: "groupTestFromFront",
         //     id: 6,
-        //     userId: 1,
+        //     user_id: 1,
         lat: position.latitude,
         lng: position.longitude,
         // createdDate: "2019-03-03T03:03"
@@ -34,31 +35,48 @@ Group.prototype.updateMyLocation = function () {
             var users = msg.users;
             var group = msg;
             var mapx, mapy;
+
+//clearing the map from all the layers so we can add from scratch the latest 10 locations per user
+            for (i in window.map._layers) {
+                if (window.map._layers[i]._path != undefined) {
+                    try {
+                        window.map.removeLayer(window.map._layers[i]);
+                    }
+                    catch (e) {
+                        console.log("problem with " + e + window.map._layers[i]);
+                    }
+                }
+            }
+            mapx = position.latitude;
+            mapy = position.longitude;
+            var items = [mapx, mapy];
+
             for (var i = 0; i < users.length; i++) {
                 $("#test").append("UserName:" + users[i].name + " L_ID:" + users[i].locations[0].id + "  " + " -Position:- " + users[i].locations[0].lat + " -- " + users[i].locations[0].lng + "<br />");
-
-                console.log(users[i].locations[0].lat);
-                console.log(users[i].locations[0].lng);
-
-                mapx = users[i].locations[0].lat;
-                mapy = users[i].locations[0].lat;
-
                 // L.marker([users[i].locations[0].lat, users[i].locations[0].lng]).addTo(window.map);
-                var latlngs  = new Array(2);
-
+                var latlngs = [];//  = new Array(10);
                 for (var j = 0; j < users[i].locations.length; j++) {
-                    latlngs[j] = [  users[i].locations[j].lat  ,   users[i].locations[j].lng  ];
+                    // var items = [  users[i].locations[j].lat  ,   users[i].locations[j].lng  ];
+                    items = [users[i].locations[j].lat, users[i].locations[j].lng];
+                    latlngs.push(items);
+                    // console.log(j + ":" + latlngs[j]);
+                    // if(j == users[i].locations.length-1)
+                    // var popup = L.popup()
+                    //     .setLatLng([mapx, mapy])
+                    //     .setContent('<p>Hello'+users[i].name +'</p>Locs:'+users[i].locations.length+'User:'+1+'/'+users.length)
+                    //     .openOn(map)
+                    //     .update();
                 }
-                var line = L.polyline(latlngs, {color: "#" + users[i].color, weight: 20}).addTo(window.map);
-                window.map.fitBounds(line.getBounds());
+                var line = L.polyline(latlngs, {color: "#" + users[i].color, weight: 2}).addTo(window.map);
+                // line.addLatLng(items);//adding latlng and redraw the line
+                line.setLatLngs(latlngs);
+                // lines.push(line);
+                // window.map.fitBounds(line.getBounds());
+
 
             }
-
             // window.map.panTo([ users[i].locations[0].lat,users[i].locations[0].lng]);
-
-
-            window.map.panTo([mapx, mapy]);
-
+            window.map.flyTo(items);
             this.group = group
             // thisObj.showLatestMarker();
             // thisObj.showUsers();
