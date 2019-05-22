@@ -94,7 +94,7 @@ public class GroupService {
                 .getOne(groupId);
         one
                 .getUsers()
-                .forEach(u -> u.setLocations(locationRepository.getTop10ByUserId(u.getId())));
+                .forEach(u -> u.setLocations(locationRepository.getTop10ByUserIdOrderByCreatedDateDesc(u.getId())));
         return one;
 
     }
