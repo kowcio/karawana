@@ -17,7 +17,7 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
     Location getTop10ById(Long id);
     List<Location> getTop5ByUserIdOrderByCreatedDateDesc(Long userId);
     List<Location> getTop10ByUserId(Long userId);
-
+    List<Location> getTop10ByUserIdOrderByCreatedDateDesc(Long userId);
 
 
 
