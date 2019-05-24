@@ -93,7 +93,7 @@ public class MainController {
         boolean sessionIsNew = !session.isStarted();
         if (sessionIsNew) {
             log.info("New session : {}", session.getId());
-            group = TestObjectFabric.getGroupWithOneUser("group " + session.getId().substring(0, 6));
+            group = TestObjectFabric.getGroupWithOneUser("group" + session.getId().substring(0, 6));
             user = TestObjectFabric.getUser("test user " + session.getId().substring(0, 6));
 
 

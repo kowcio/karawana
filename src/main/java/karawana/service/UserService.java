@@ -55,6 +55,13 @@ public class UserService {
     );
 
 
+    public User changeUserGroup(Long userId , Long groupId){
+        User one = userRepository.getOne(userId);
+        one.setGroupId(groupId);
+        return userRepository.save(one);
+
+    }
+
     public Flux<User> findAllRxTest() {
         //Simulate big list of data, streaming it every 2 second delay
         return Flux.fromIterable(this.users).delayElements(Duration.ofSeconds(2));

@@ -29,7 +29,7 @@ public class SimulateUsersGpsThread {
     @Inject
     GroupRepository groupRepository;
 
-    @Scheduled(fixedRate = 15000)
+//    @Scheduled(fixedRate = 15000)
     public void reportCurrentTime() {
 
 

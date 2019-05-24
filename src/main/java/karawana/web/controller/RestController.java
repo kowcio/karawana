@@ -96,19 +96,17 @@ public class RestController {
         Group group = groupService.getGrouptWith10LatestLocations(groupId);
 
 
-        log.info("Send location {} to queue {}", location,userName);
+        log.info("Send location {} to queue {}", location, userName);
         //SEND MESSAGE TO QUEUE - create stuff in main controller
         Properties queueProperties = amqpAdmin.getQueueProperties(userName);
-        log.info("Properties for queue userName:{}",  queueProperties);
+        log.info("Properties for queue userName:{}", queueProperties);
         //send data
 //        final DestinationsConfig.DestinationInfo d = destinationsConfig.getQueues().get(userName);
         amqpTemplate.convertAndSend(group.getGroupName(), group.getGroupName(), location.toString());
         //grab data with other locations (instead of repo sql query)
-       String msg = (String) amqpTemplate.receiveAndConvert(userName);
-       log.info("Received msg from rabbit = {}", msg);
+        String msg = (String) amqpTemplate.receiveAndConvert(userName);
+        log.info("User {}, received : {}",userName, msg);
         //end rabbitmq declarations
-
-
 
 
 //        mav.addAttribute("users", group1.getUsers());
@@ -163,31 +161,33 @@ public class RestController {
     ) {
 
         Long userID = session.getAttribute(SESSION_VAR.USER_ID);
-
-        log.info("Session : {}, user : '{}'", session.getId(), userID);
-        if (userID == null || userID == 0L) {
-            User newUser = TestObjectFabric.getUser("newUserGroupOnChangeGroupRequest");
-//            userId = userService.saveUser(newUser).getId();
-            Group groupEmpty = TestObjectFabric.getGroupEmpty();
-            groupEmpty.addUser(newUser);
-            Group group = groupService.saveGroup(groupEmpty);
-            group = groupService.getGroupById(group.getId()).get();
-            session.getAttributes().put(SESSION_VAR.USER_ID, userID);
-            session.getAttributes().put(SESSION_VAR.GROUP_ID, group.getId());
-            log.info("Saved group with new user. {} ", group.toString());
-            log.info(groupName);
-            return group;
-        }
+        Long oldGroupId = session.getAttribute(SESSION_VAR.GROUP_ID);
+        log.info("User : {}, new group:{} session:{}'", userID, groupName, session.getId());
+//        if (userID == null || userID == 0L) {
+//            User newUser = TestObjectFabric.getUser("newUserGroupOnChangeGroupRequest");
+////            userId = userService.saveUser(newUser).getId();
+//            Group groupEmpty = TestObjectFabric.getGroupEmpty();
+//            groupEmpty.addUser(newUser);
+//            Group group = groupService.saveGroup(groupEmpty);
+//            group = groupService.getGroupById(group.getId()).get();
+//            session.getAttributes().put(SESSION_VAR.USER_ID, userID);
+//            session.getAttributes().put(SESSION_VAR.GROUP_ID, group.getId());
+//            log.info("Saved group with new user. {} ", group.toString());
+//            log.info(groupName);
+//            return group;
+//        }
 
         Optional<Group> optNewGroup = groupService.getGroupByName(groupName);
 
         if (optNewGroup.isPresent()) {
             Group existingGroup = optNewGroup.get();
-            existingGroup.getUsers().add(userService.getUserById(Long.valueOf(userID)));
-            existingGroup = groupService.saveGroup(existingGroup);
-            session.getAttributes().put(SESSION_VAR.GROUP_ID, existingGroup.getId());
-            log.info("Saved group with new user.{} ", existingGroup.toString());
-            return existingGroup;
+            if (!existingGroup.getId().equals(oldGroupId)) {
+                log.info("User changed group {}->{} ", oldGroupId, existingGroup.getId());
+                userService.changeUserGroup(userID, existingGroup.getId());
+                session.getAttributes().put(SESSION_VAR.GROUP_ID, existingGroup.getId());
+            }
+            Group grouptWith10LatestLocations = groupService.getGrouptWith10LatestLocations(existingGroup.getId());
+            return grouptWith10LatestLocations;
         }
 
         return TestObjectFabric.getGroupEmpty();

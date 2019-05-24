@@ -17,13 +17,13 @@ $(document).ready(function () {
 
 });
 
-setInterval(initMap, 5000);
+setInterval(initMap, 7000);
 function initMap() {
     console.log("Update Map func - " + window.isTest);
 
     var x = document.getElementById("userFrontTestLocation");
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
+    if (window.window.navigator.geolocation) {
+        window.navigator.geolocation.getCurrentPosition(showPosition);
     } else {
         x.innerHTML = "Geolocation is not supported by this browser.";
     }
@@ -33,11 +33,11 @@ function initMap() {
     }
 
     window.isTest = "test";
-    console.log("navigator issue ?");
-    if (navigator.geolocation) {
-        console.log("navigator ");
-//        navigator.geolocation.watchPosition(function(position) {
-        navigator.geolocation.getCurrentPosition(function (position) {
+    console.log("window.navigator issue ?");
+    if (window.navigator.geolocation) {
+        console.log("window.navigator ");
+//        window.navigator.geolocation.watchPosition(function(position) {
+        window.navigator.geolocation.getCurrentPosition(function (position) {
 
             // var polyline = L.polyline(window.latlngs, {color: 'red'}).addTo(map);
             // window.map.panTo([window.pos.lat, window.pos.lng]);

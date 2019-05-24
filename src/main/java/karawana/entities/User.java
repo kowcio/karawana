@@ -39,7 +39,9 @@ public class User {
     private LocalDateTime createdDate = LocalDateTime.now();
 //    @Column(name = "group_id", nullable = false)
 //    @Column(nullable = false)
-    private Long group_id;
+    @Getter
+    @Column(name="groupId")
+    private Long groupId;
 
 
     //    @Singular("location")
@@ -80,7 +82,7 @@ public class User {
                 ", version=" + version +
                 ", color=" + color +
                 ", createdDate=" + createdDate +
-                ", group_id=" + group_id +
+                ", groupId=" + groupId +
                 ", locations=" + locations +
                 '}';
     }

@@ -49,7 +49,7 @@ public class Group {
             , fetch = FetchType.EAGER
     )//, targetEntity = User.class, mappedBy = "gid", fetch = FetchType.LAZY)
     @OrderBy("id")
-    @JoinColumn(name = "group_id", referencedColumnName="id")
+    @JoinColumn(name = "groupId")//, referencedColumnName="id")
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @Builder.Default
