@@ -29,7 +29,7 @@ public class SimulateUsersGpsThread {
     @Inject
     GroupRepository groupRepository;
 
-//    @Scheduled(fixedRate = 15000)
+    @Scheduled(fixedRate = 15000)
     public void reportCurrentTime() {
 
 
@@ -43,7 +43,7 @@ for(int i = 1 ; i <3 ; i ++){
             testedGroup = groupById.get();
         else
             testedGroup = TestObjectFabric.getGroupEmpty();
-        if (testedGroup.getUsers().size() <= 4)
+        if (testedGroup.getUsers().size() <= 3)
             testedGroup.addUser(TestObjectFabric.getUser("userBot"));
         testedGroup.getUsers()
                 .stream()

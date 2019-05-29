@@ -1,15 +1,15 @@
 spring:
   rabbitmq:
-    host: bulldog.rmq.cloudamqp.com
-    #    port: 5672
-    username: cksfjsfl
-    password: w3DKiQBs1kr4XRGiu3NrjpUTFr1ASIhi
-    virtual-host: cksfjsfl
-    vhost: cksfjsfl
-    #    host: 127.0.0.1
-    #    port: 5672
-    #    username: guest
-    #    password: guest
+    #    host: bulldog.rmq.cloudamqp.com
+    port: 5672
+    #    username: cksfjsfl
+    #    password: w3DKiQBs1kr4XRGiu3NrjpUTFr1ASIhi
+    #    virtual-host: cksfjsfl
+    #    vhost: cksfjsfl
+    host: 127.0.0.1
+    #        port: 5672
+    username: guest
+    password: guest
 
     maxConnections: 10
     maxConcurrentConsumers: 5

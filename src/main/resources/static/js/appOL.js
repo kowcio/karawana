@@ -6,7 +6,7 @@ var lat, lng, map, pos, iw, latlngs;
 
 $(document).ready(function () {
 
-    window.map = L.map("map").setView([37.75, -122.23], 10);
+    window.map = L.map("map").setView([58.75, 19.23], 10);
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
         // maxZoom: 15,
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
@@ -33,7 +33,6 @@ function initMap() {
     }
 
     window.isTest = "test";
-    console.log("window.navigator issue ?");
     if (window.navigator.geolocation) {
         console.log("window.navigator ");
 //        window.navigator.geolocation.watchPosition(function(position) {
