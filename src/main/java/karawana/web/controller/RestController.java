@@ -14,8 +14,6 @@ import karawana.utils.TestObjectFabric;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.*;
-import org.springframework.amqp.rabbit.listener.MessageListenerContainer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.stereotype.Controller;
@@ -39,6 +37,7 @@ import java.util.Properties;
 
 @Controller
 @RequestMapping(value = "/api", method = RequestMethod.GET)
+@Transactional
 public class RestController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
@@ -79,7 +78,7 @@ public class RestController {
 //            produces =Arrays.arrayOf(MediaType.TEXT_EVENT_STREAM_VALUE)
     )
 //    , produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Mono<Group> mainPageWithLocation(
+    public Group mainPageWithLocation(
             @RequestBody Location location,
             Model mav,
             WebSession session
@@ -97,7 +96,7 @@ public class RestController {
 //        userUpdate.addLocation(location);
         Location savedLocation = locationService.save(location);
         Long groupId = session.getAttribute(SESSION_VAR.GROUP_ID);
-        Group group = groupService.getGrouptWith10LatestLocations(groupId);
+        String groupName = groupService.getGroupById2(groupId).getGroupName();
 
 
         log.info("Send location {} to queue {}", location, userName);
@@ -106,7 +105,7 @@ public class RestController {
         log.info("Properties for queue userName:{}", queueProperties);
         //send data
 //        final DestinationsConfig.DestinationInfo d = destinationsConfig.getQueues().get(userName);
-        amqpTemplate.convertAndSend(group.getGroupName(), group.getGroupName(), location.toString());
+        amqpTemplate.convertAndSend(groupName, groupName, location.toString());
         //grab data with other locations (instead of repo sql query)
         String msg = (String) amqpTemplate.receiveAndConvert(userName);
         log.info("User {}, received : {}",userName, msg);
@@ -122,17 +121,17 @@ public class RestController {
 //this is blocked by JDBC anyway, move this wrap to the repository level ?
         log.info("Updated location for user : {}, Location : {}", userName, location.printCoords());
         Group groupWith10Locations = groupService.getGrouptWith10LatestLocations(groupId);
-        Mono<Group> just = Mono.just(groupWith10Locations);
-        groupWith10Locations
-                .getUsers()
-                .stream()
-                .peek(u -> log.info("g:{}, u:{}, l:{}, lid:{}",
-                        u.getGroupId(), u.getName(), u.getLocations().size(),
-                        u.getLocations().get(0).getId()))
-                .count()
-        ;
+//        Mono<Group> just = Mono.just(groupWith10Locations);
+//        groupWith10Locations
+//                .getUsers()
+//                .stream()
+//                .peek(u -> log.info("g:{}, u:{}, l:{}, lid:{}",
+//                        u.getGroupId(), u.getName(), u.getLocations().size(),
+//                        u.getLocations().get(0).getId()))
+//                .count()
+//        ;
 
-        return just;
+        return groupWith10Locations;
     }
 
     @ResponseBody

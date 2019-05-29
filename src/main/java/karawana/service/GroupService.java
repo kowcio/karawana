@@ -17,6 +17,8 @@ import org.springframework.web.server.WebSession;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -25,6 +27,7 @@ import java.util.stream.Stream;
 
 @Transactional
 @Service
+//@Transactional(readOnly = true)
 public class GroupService {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -41,14 +44,16 @@ public class GroupService {
         return Optional.of(groupRepository.getOne(groupId));
     }
 
+    public Group getGroupById2(Long groupId) {
+        return groupRepository.getOne(groupId);
+    }
+
     public Optional<Group> getGroupByName(String groupName) {
         return groupRepository.findByGroupName(groupName);
     }
 
-//    public Mono<Group> getOneReactive(Long id) {
-//        return reactiveGroupRepository.findById(id).g;
-//    }
-
+    @PersistenceContext
+    private EntityManager entityManager;
 
 
     //http://stackoverflow.com/questions/11881479/how-do-i-update-an-entity-using-spring-data-jpa
@@ -96,10 +101,12 @@ public class GroupService {
     //TODO - this breaks and fucks up everything, need to find howto load only 10 variables
     public Group getGrouptWith10LatestLocations(Long groupId) {
         Group one = groupRepository.getOne(groupId);
+//this below fixes issues with iterating on the front - we need to separate this shit
+        entityManager.detach(one);
+        one
+                .getUsers()
+                .forEach(u -> u.setLocations(locationRepository.getTop10ByUserIdOrderByCreatedDateDesc(u.getId())));
 
-//        one
-//                .getUsers()
-//                .forEach(u -> u.setLocations(locationRepository.getTop10ByUserIdOrderByCreatedDateDesc(u.getId())));
         return one;
 
     }

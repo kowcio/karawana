@@ -26,9 +26,9 @@ import static javax.persistence.CascadeType.*;
 @EqualsAndHashCode
 @Table(name = "group_table")
 @JsonSerialize
-@JsonIgnoreProperties(ignoreUnknown = true)
-@Proxy(lazy = true)
-@PersistenceContext(type= PersistenceContextType.EXTENDED)
+//@JsonIgnoreProperties(ignoreUnknown = true)
+@Proxy(lazy = false)
+//@PersistenceContext(type= PersistenceContextType.EXTENDED)
 @ToString
 public class Group {
     @Id

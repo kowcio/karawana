@@ -15,7 +15,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 public interface ReactiveGroupRepository extends JpaRepository<Group, Long> {
 
     //    @Query("SELECT TOP (:tops) * FROM Group_table")

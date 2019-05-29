@@ -10,7 +10,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
-@Transactional
 public interface LocationRepository extends JpaRepository<Location, Long> {
     Location getOne(Long id);
 

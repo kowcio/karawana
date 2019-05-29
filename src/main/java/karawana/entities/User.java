@@ -21,8 +21,8 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
 @Setter
-@Proxy(lazy = true)
-@PersistenceContext(type= PersistenceContextType.EXTENDED)
+//@Proxy(lazy = true)
+//@PersistenceContext(type= PersistenceContextType.EXTENDED)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -83,7 +83,6 @@ public class User {
                 ", color=" + color +
                 ", createdDate=" + createdDate +
                 ", groupId=" + groupId +
-                ", locations=" + locations +
                 '}';
     }
 }

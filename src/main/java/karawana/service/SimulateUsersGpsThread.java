@@ -1,6 +1,7 @@
 package karawana.service;
 
 import karawana.entities.Group;
+import karawana.entities.Location;
 import karawana.repositories.GroupRepository;
 import karawana.utils.TestObjectFabric;
 import org.junit.Test;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.transaction.Transactional;
@@ -39,8 +41,11 @@ public class SimulateUsersGpsThread {
 
     public static boolean firstTimeout = true;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Transactional
-//    @Scheduled(fixedRate = 6000)
+    @Scheduled(fixedRate = 6000)
     public void reportCurrentTime() throws InterruptedException {
 //        log.info("Generating users for test group to check and provide data for front end.");
 
@@ -54,16 +59,22 @@ public class SimulateUsersGpsThread {
             else
                 testedGroup = TestObjectFabric.getGroupEmpty();
 
+
             if (testedGroup.getUsers().size() < 2) {
                 testedGroup.addUser(TestObjectFabric.getUser());
-                groupRepository.save(testedGroup);
+                groupRepository.saveAndFlush(testedGroup);
             }
+            entityManager.detach(testedGroup);
+
             testedGroup.getUsers()
                     .forEach(u ->
-                            locationService.save(TestObjectFabric.getLocation(u.getId())));
+                    {
+                        final Location location = TestObjectFabric.getLocation(u.getId());
+                        final Location save = locationService.save(location);
+                    });
 
 
-            log.info("Added location for all the users on group :{}", groupById);
+            log.info("Added location for all the users on group :{}",testedGroup);
         }
 //        testedGroup = groupService.getGroupById(2L).get();
 //        testedGroup.getUsers()

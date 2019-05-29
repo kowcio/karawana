@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@Transactional
 public interface GroupRepository extends JpaRepository<Group, Long> {
     Group getOne(Long id);
 

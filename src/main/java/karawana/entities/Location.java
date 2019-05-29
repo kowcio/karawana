@@ -19,8 +19,8 @@ import java.time.LocalDateTime;
 @ToString
 @EqualsAndHashCode
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Proxy(lazy=true)
-@PersistenceContext(type= PersistenceContextType.EXTENDED)
+//@Proxy(lazy=true)
+//@PersistenceContext(type= PersistenceContextType.EXTENDED)
 public class Location {
 
     @Id
