@@ -93,11 +93,13 @@ public class GroupService {
         return groupFlux;
     }
 
+    //TODO - this breaks and fucks up everything, need to find howto load only 10 variables
     public Group getGrouptWith10LatestLocations(Long groupId) {
         Group one = groupRepository.getOne(groupId);
-        one
-                .getUsers()
-                .forEach(u -> u.setLocations(locationRepository.getTop10ByUserIdOrderByCreatedDateDesc(u.getId())));
+
+//        one
+//                .getUsers()
+//                .forEach(u -> u.setLocations(locationRepository.getTop10ByUserIdOrderByCreatedDateDesc(u.getId())));
         return one;
 
     }

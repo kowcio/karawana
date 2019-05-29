@@ -37,7 +37,7 @@ public class UserService {
     public User getUserByName(String userName) {
 
         User byName = userRepository.findByName(userName);
-        byName.setLocations(locationRepository.getTop10ByUserId(byName.getId()));
+//        byName.setLocations(locationRepository.getTop10ByUserId(byName.getId()));
         return byName;
     }
 

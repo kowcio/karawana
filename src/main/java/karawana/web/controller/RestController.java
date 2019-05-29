@@ -39,7 +39,6 @@ import java.util.Properties;
 
 @Controller
 @RequestMapping(value = "/api", method = RequestMethod.GET)
-@Transactional
 public class RestController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());

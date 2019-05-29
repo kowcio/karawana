@@ -19,8 +19,10 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
 
     @Query(nativeQuery = true, value = "SELECT TOP 10 * FROM GROUP_TABLE G ORDER BY G.ID DESC")
     List<Group> getTop10();
+
     Optional<Group> getOneById(Long id);
     Optional<Group> findByGroupName(String groupName);
+
 
 
 //	@Query("select top 3 from location where userId in (select id from user where group_id = ?) order by date desc")
