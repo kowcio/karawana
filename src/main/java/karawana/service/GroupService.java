@@ -53,14 +53,14 @@ public class GroupService {
 
     //http://stackoverflow.com/questions/11881479/how-do-i-update-an-entity-using-spring-data-jpa
     public Group saveGroup(Group group) {
-        group
-                .getUsers()
-                .stream().peek(
-                u -> u.getLocations().stream()
-                        .filter(l -> l.getUserId() != null)
-                        .peek(l -> log.info("Location is null ! {}", l.getUserId()))
-        ).count();
-
+//        group
+//                .getUsers()
+//                .stream().peek(
+//                u -> u.getLocations().stream()
+//                        .filter(l -> l.getUserId() != null)
+//                        .peek(l -> log.info("Location is null ! {}", l.getUserId()))
+//        ).count();
+//
 
         return groupRepository.save(group);
     }

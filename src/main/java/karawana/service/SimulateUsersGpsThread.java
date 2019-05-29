@@ -20,7 +20,9 @@ import java.util.Optional;
 
 
 @Service
+@Singleton
 @Transactional
+@PersistenceContext(type = PersistenceContextType.EXTENDED)
 public class SimulateUsersGpsThread {
 
     private static final Logger log = LoggerFactory.getLogger(SimulateUsersGpsThread.class);
@@ -32,17 +34,17 @@ public class SimulateUsersGpsThread {
     @Inject
     GroupRepository groupRepository;
 
+    @Inject
+    LocationService locationService;
+
     public static boolean firstTimeout = true;
 
     @Transactional
-    @Scheduled(fixedRate = 6000)
+//    @Scheduled(fixedRate = 6000)
     public void reportCurrentTime() throws InterruptedException {
 //        log.info("Generating users for test group to check and provide data for front end.");
 
-        if (firstTimeout) {
-            Thread.sleep(20000);
-            firstTimeout = false;
-        }
+
         for (int i = 1; i <= 2; i++) {
             Long groupId = Long.valueOf(i);
             Optional<Group> groupById = groupRepository.getOneById(groupId);
@@ -52,15 +54,16 @@ public class SimulateUsersGpsThread {
             else
                 testedGroup = TestObjectFabric.getGroupEmpty();
 
-            if (testedGroup.getUsers().size() < 2)
-                testedGroup.addUser(TestObjectFabric.getUser("userBot" + groupById));
-
+            if (testedGroup.getUsers().size() < 2) {
+                testedGroup.addUser(TestObjectFabric.getUser());
+                groupRepository.save(testedGroup);
+            }
             testedGroup.getUsers()
-                    .stream()
-                    .forEach(u -> u.addLocation(TestObjectFabric.getLocation()));
+                    .forEach(u ->
+                            locationService.save(TestObjectFabric.getLocation(u.getId())));
 
-            Group group = groupService.saveGroup(testedGroup);
-            log.info("Added location for all the users on group :{}", group);
+
+            log.info("Added location for all the users on group :{}", groupById);
         }
 //        testedGroup = groupService.getGroupById(2L).get();
 //        testedGroup.getUsers()
