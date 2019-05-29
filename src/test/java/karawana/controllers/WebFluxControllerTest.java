@@ -1,18 +1,25 @@
 package karawana.controllers;
 
 import karawana.Application;
+import karawana.entities.Group;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.reactive.server.EntityExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 
 import java.time.Duration;
+import java.time.LocalTime;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -85,6 +92,8 @@ public class WebFluxControllerTest {
 ////        log.info(entityExchangeResult1.toString());
 //        String mainPage = new String(entityExchangeResult1.getResponseBodyContent());
 ////        log.info(mainPage);
+
+
         //return html and headers all in a nice long string, formatted (as website)
         WebTestClient.BodyContentSpec bodyContentSpec =
                 webTestClient
@@ -104,39 +113,25 @@ public class WebFluxControllerTest {
         String htmlPure = new String(entityExchangeResult.getResponseBodyContent());
         log.info(htmlPure);
 
+
     }
 
-    /**
-     * //https://www.callicoder.com/spring-5-reactive-webclient-webtestclient-examples/
-     * Works very nice, can work all api around that !! !! !! !! !! !!
-     *
-     * @throws Exception
-     */
     @Test
-    public void qweasdqwe() throws Exception {
+    public void consumeServerSentEvent() {
 
-        WebTestClient webTestClient = this.webTestClient;
 
-//        EntityExchangeResult<Group> groupEntityExchangeResult =
-        webTestClient
-                .mutate().responseTimeout(Duration.ofMillis(30000))
-                .build().get()
-                .uri("/")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .body(personMono, Person.class)
-                .exchange();
-//                .expectStatus()
-//                .isOk()
-//                .expectBody(Group.class).returnResult();
-//        log.info("Got group : {}", groupEntityExchangeResult.getResponseBody().toString());
-        webTestClient
-                .mutate().responseTimeout(Duration.ofMillis(30000))
-                .build().get()
-                .uri("/api/changeGroup/restTestGroupName").exchange();
-        webTestClient
-                .mutate().responseTimeout(Duration.ofMillis(30000))
-                .build().get()
-                .uri("/api/changeGroup/restTestGroupName23").exchange();
+
+
+                webTestClient
+                        .mutate().responseTimeout(Duration.ofMillis(30000))
+                        .build()
+                        .get()
+                        .uri("/api/stream-flux")
+                        .exchange()
+                        .expectBody(Group.class)
+                        ;
+                ;
+
 
     }
 

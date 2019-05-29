@@ -5,6 +5,7 @@ import karawana.config.MessageListenerContainerFactory;
 import karawana.entities.Group;
 import karawana.entities.Location;
 import karawana.entities.User;
+import karawana.repositories.LocationRepository;
 import karawana.repositories.ReactiveGroupRepository;
 import karawana.service.GroupService;
 import karawana.service.LocationService;
@@ -12,56 +13,56 @@ import karawana.service.UserService;
 import karawana.utils.TestObjectFabric;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.core.*;
-import org.springframework.amqp.rabbit.listener.MessageListenerContainer;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.amqp.core.AmqpAdmin;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.WebSession;
-import org.thymeleaf.spring5.context.webflux.ReactiveDataDriverContextVariable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
-import javax.transaction.Transactional;
+import javax.inject.Inject;
 import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.Properties;
 
 @Controller
 @RequestMapping(value = "/api", method = RequestMethod.GET)
-@Transactional
 public class RestController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    @Autowired
+    @Inject
     GroupService groupService;
-    @Autowired
+    @Inject
     GroupService groupRepository;
-    @Autowired
+    @Inject
     LocationService locationService;
-    @Autowired
+    @Inject
     ReactiveGroupRepository reactiveGroupRepository;
-    @Autowired
+    @Inject
     UserService userService;
-    @Autowired
+
+    @Inject
+    LocationRepository locationRepository;
+
+    @Inject
     private AmqpTemplate amqpTemplate;
 
-    @Autowired
+    @Inject
     private AmqpAdmin amqpAdmin;
 
-    @Autowired
+    @Inject
     private DestinationsConfig destinationsConfig;
 
-    @Autowired
+    @Inject
     private MessageListenerContainerFactory messageListenerContainerFactory;
 
     @ResponseBody
@@ -81,34 +82,38 @@ public class RestController {
             WebSession session
     ) {
         //test add lat = display
-        location.setLat(location.getLat() + new SecureRandom().nextDouble() / 100);
+        location.setLat(location.getLat() + new SecureRandom().nextDouble() / 25);
+
         // test add lat for display
+
         location.setCreatedDate(LocalDateTime.now());
-        log.info("Update location : {}", session.getId());
+        log.info("session : {}", session.getId());
         //set group
-        String userName = session.getAttribute(SESSION_VAR.USER_NAME);
+        String userName = session.getAttribute("userName");
         //user should be present at this point - all created at first request
         User userUpdate = userService.getUserByName(userName);
-        location.setUserId(userUpdate.getId());
-//        userUpdate.addLocation(location);
+        Long userId = userUpdate.getId();
+        if (userId.equals(null)) throw new RuntimeException("UserId nie ma prawa być nullem kurwa");
+        location.setUserId(userId);
         Location savedLocation = locationService.save(location);
-        Long groupId = session.getAttribute(SESSION_VAR.GROUP_ID);
-        Group group = groupService.getGrouptWith10LatestLocations(groupId);
+        Long groupId = session.getAttribute("groupId");
 
 
-        log.info("Send location {} to queue {}", location, userName);
-        //SEND MESSAGE TO QUEUE - create stuff in main controller
-        Properties queueProperties = amqpAdmin.getQueueProperties(userName);
-        log.info("Properties for queue userName:{}", queueProperties);
-        //send data
-//        final DestinationsConfig.DestinationInfo d = destinationsConfig.getQueues().get(userName);
-        amqpTemplate.convertAndSend(group.getGroupName(), group.getGroupName(), location.toString());
-        //grab data with other locations (instead of repo sql query)
-        String msg = (String) amqpTemplate.receiveAndConvert(userName);
-        log.info("User {}, received : {}",userName, msg);
-        //end rabbitmq declarations
+//        log.info("Send location {} to queue {}", location, userName);
+//        //SEND MESSAGE TO QUEUE - create stuff in main controller
+//        Properties queueProperties = amqpAdmin.getQueueProperties(userName);
+//        log.info("Properties for queue userName:{}", queueProperties);
+//        //send data
+//        //final DestinationsConfig.DestinationInfo d = destinationsConfig.getQueues().get(userName);
+//        amqpTemplate.convertAndSend(group.getGroupName(), group.getGroupName(), location.toString());
+//        //grab data with other locations (instead of repo sql query)
+//        String msg = (String) amqpTemplate.receiveAndConvert(userName);
+//        log.info("Received msg from rabbit = {}", msg);
+//        //end rabbitmq declarations
 
 
+//        Optional<Group> group = groupService.getGroupById(groupId);
+//        Group group1 = group.get();
 //        mav.addAttribute("users", group1.getUsers());
 //        mav.addAttribute("group", group1);
 //        ReactiveDataDriverContextVariable reactiveDataDriverContextVariable = new ReactiveDataDriverContextVariable(Flux.fromIterable(
@@ -116,43 +121,58 @@ public class RestController {
 //                1);
 //        mav.addAttribute("users",                reactiveDataDriverContextVariable);
 //this is blocked by JDBC anyway, move this wrap to the repository level ?
-        log.info("Updated location for user : {}, Location : {}", userName, location.printCoords());
+        log.info("Updated location for user : {}, Location : {}", userUpdate.getName(), savedLocation.printCoords());
         Group groupWith10Locations = groupService.getGrouptWith10LatestLocations(groupId);
         Mono<Group> just = Mono.just(groupWith10Locations);
         groupWith10Locations
                 .getUsers()
                 .stream()
-                .peek(u -> log.info("g:{}, u:{}, l:{}, lid:{}",
+                .peek(u -> log.info("g:{}, u:{}, l:{}, fid:{}",
                         u.getGroupId(), u.getName(), u.getLocations().size(),
                         u.getLocations().get(0).getId()))
                 .count()
         ;
 
+
+        //get last ocation and add
         return just;
     }
 
-    @ResponseBody
-    @RequestMapping("/react/groups")
-    public Flux<Group> reactiveUpdateLocatio(
-//            @RequestBody Location location,
-            WebSession session,
-            Model mav
-    ) {
-        log.info("session : {}", session.getId());
-        Flux<Group> groupMono = groupService.getTopGroupsReactive();
-        ReactiveDataDriverContextVariable attributeValue = new ReactiveDataDriverContextVariable(
+//    @ResponseBody
+//    @RequestMapping("/react/groups")
+//    public List<Group> reactiveUpdateLocatio(
+////            @RequestBody Location location,
+//            WebSession session,
+//            Model mav
+//    ) {
+//        log.info("session : {}", session.getId());
+//        List<Group> groupMono = groupService.getTop10();
+////        ReactiveDataDriverContextVariable attributeValue = new ReactiveDataDriverContextVariable(
+////                groupMono
+////                        .delayElements(Duration.ofSeconds(2)), 1);
+////        mav.addAttribute("groups",
+////                attributeValue);
+//        return groupMono;
+//    }
 
-                groupService.
-                        getTopGroupsReactive()
-                        .delayElements(Duration.ofSeconds(2)), 1);
-        mav.addAttribute("groups",
-                attributeValue);
-        return groupMono;
+    @ResponseBody
+    @RequestMapping("/group3/{groupId}")
+    public Group groupByID(
+            WebSession session,
+            @PathVariable String groupId
+    ) {
+
+        log.info("session group3 : {}", session.getId());
+        Long groupId1 = Long.valueOf(groupId);
+        Group groupWith10Locations = groupService.
+                getGrouptWith10LatestLocations(groupId1);
+        log.info(groupWith10Locations.toString());
+        return groupWith10Locations;
     }
+
 
     @RequestMapping(value = "/changeGroup/{groupName}", method = RequestMethod.POST)
     @ResponseBody
-    @Transactional
     public Group changeGroup(
 //            HttpServletRequest httpServletRequest,
 //            HttpSession session,
@@ -161,33 +181,29 @@ public class RestController {
     ) {
 
         Long userID = session.getAttribute(SESSION_VAR.USER_ID);
-        Long oldGroupId = session.getAttribute(SESSION_VAR.GROUP_ID);
-        log.info("User : {}, new group:{} session:{}'", userID, groupName, session.getId());
-//        if (userID == null || userID == 0L) {
-//            User newUser = TestObjectFabric.getUser("newUserGroupOnChangeGroupRequest");
-////            userId = userService.saveUser(newUser).getId();
-//            Group groupEmpty = TestObjectFabric.getGroupEmpty();
-//            groupEmpty.addUser(newUser);
-//            Group group = groupService.saveGroup(groupEmpty);
-//            group = groupService.getGroupById(group.getId()).get();
-//            session.getAttributes().put(SESSION_VAR.USER_ID, userID);
-//            session.getAttributes().put(SESSION_VAR.GROUP_ID, group.getId());
-//            log.info("Saved group with new user. {} ", group.toString());
-//            log.info(groupName);
-//            return group;
-//        }
+
+        log.info("Session : {}, user : '{}'", session.getId(), userID);
+        if (userID == null || userID == 0L) {
+            User newUser = TestObjectFabric.getUser("newUserGroupOnChangeGroupRequest");
+            Group groupEmpty = TestObjectFabric.getGroupEmpty();
+            groupEmpty.addUser(newUser);
+            Group group = groupService.saveGroup(groupEmpty);
+            session.getAttributes().put(SESSION_VAR.USER_ID, userID);
+            session.getAttributes().put(SESSION_VAR.GROUP_ID, group.getId());
+            log.info("Saved group with new user. {} ", group.toString());
+            log.info(grouID);
+            return group;
+        }
 
         Optional<Group> optNewGroup = groupService.getGroupByName(groupName);
 
         if (optNewGroup.isPresent()) {
             Group existingGroup = optNewGroup.get();
-            if (!existingGroup.getId().equals(oldGroupId)) {
-                log.info("User changed group {}->{} ", oldGroupId, existingGroup.getId());
-                userService.changeUserGroup(userID, existingGroup.getId());
-                session.getAttributes().put(SESSION_VAR.GROUP_ID, existingGroup.getId());
-            }
-            Group grouptWith10LatestLocations = groupService.getGrouptWith10LatestLocations(existingGroup.getId());
-            return grouptWith10LatestLocations;
+            existingGroup.getUsers().add(userService.getUserById(Long.valueOf(userID)));
+            existingGroup = groupService.saveGroup(existingGroup);
+            session.getAttributes().put(SESSION_VAR.GROUP_ID, existingGroup.getId());
+            log.info("Saved group with new user.{} ", existingGroup.toString());
+            return existingGroup;
         }
 
         return TestObjectFabric.getGroupEmpty();
@@ -218,7 +234,7 @@ public class RestController {
     }
 
 
-//    @Autowired
+//    @Inject
 //    private KafkaTemplate<String, Object> kafkaTemplate = new KafkaTemplate<String, String>();
 //
 //    @KafkaListener(topics = "topic1")

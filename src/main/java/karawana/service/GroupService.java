@@ -1,7 +1,7 @@
 package karawana.service;
 
 
-import io.lettuce.core.resource.Delay;
+import javassist.ClassPool;
 import karawana.entities.Group;
 import karawana.repositories.GroupRepository;
 import karawana.repositories.LocationRepository;
@@ -10,12 +10,8 @@ import karawana.utils.TestObjectFabric;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.server.WebSession;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import javax.transaction.Transactional;
 import java.time.Duration;
@@ -23,7 +19,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-
+@Transactional
 @Service
 public class GroupService {
     private final Logger log = LoggerFactory.getLogger(getClass());
@@ -50,14 +46,16 @@ public class GroupService {
 //    }
 
 
-
     //http://stackoverflow.com/questions/11881479/how-do-i-update-an-entity-using-spring-data-jpa
     public Group saveGroup(Group group) {
-//        group
-//                .getUsers()
-//                .stream()
-//                .filter(c->c.getGid()==null)
-//                .forEach(c -> c.setGid(group.getId()))
+        group
+                .getUsers()
+                .stream().peek(
+                u -> u.getLocations().stream()
+                        .filter(l -> l.getUserId() != null)
+                        .peek(l -> log.info("Location is null ! {}", l.getUserId()))
+        ).count();
+
 
         return groupRepository.save(group);
     }
@@ -81,8 +79,6 @@ public class GroupService {
 //    }
 
 
-
-
     public Flux<Group> getTopGroupsReactive() {
         Flux<Group> groupFlux = Flux.fromIterable
                 (reactiveGroupRepository.findTop15ByOrderByIdDesc())
@@ -91,8 +87,7 @@ public class GroupService {
     }
 
     public Group getGrouptWith10LatestLocations(Long groupId) {
-        Group one = groupRepository
-                .getOne(groupId);
+        Group one = groupRepository.getOne(groupId);
         one
                 .getUsers()
                 .forEach(u -> u.setLocations(locationRepository.getTop10ByUserIdOrderByCreatedDateDesc(u.getId())));
@@ -101,4 +96,10 @@ public class GroupService {
     }
 
 
+//    public ClassPool getGroupByIdAndInitialize(Long groupId) {
+//        Group group = getGroupById(groupId).get().getUsers()
+//                .stream()
+//                .filter(u -> !u.getId().equals(userUpdate.getId()))
+//                .forEach(u -> u.addLocation(TestObjectFabric.getLocation()));
+//    }
 }

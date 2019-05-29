@@ -1,9 +1,9 @@
 package karawana.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
-import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Proxy;
 import org.springframework.data.annotation.CreatedDate;
@@ -19,23 +19,21 @@ import static javax.persistence.CascadeType.*;
 //@Data
 @Getter
 @Setter
-@Entity(name = "Group")
+@Entity//(name = "group_table")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
 @Table(name = "group_table")
-@JsonSerialize
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Proxy(lazy = true)
-@PersistenceContext(type= PersistenceContextType.EXTENDED)
-@ToString
+@Proxy(lazy = false)
+@PersistenceContext(type = PersistenceContextType.EXTENDED)
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id = 0L;
 
-    @Column(unique = true)
+//    @Column(unique = true)
     private String groupName;
     @Version
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,10 +41,11 @@ public class Group {
     private String password;
 
 
-    @OneToMany(cascade={
-            PERSIST,
-            MERGE, REMOVE, REFRESH, DETACH}
+
+
+    @OneToMany(cascade=CascadeType.ALL
             , fetch = FetchType.EAGER
+//            , mappedBy="group"
     )//, targetEntity = User.class, mappedBy = "gid", fetch = FetchType.LAZY)
     @OrderBy("id")
     @JoinColumn(name = "groupId")//, referencedColumnName="id")
@@ -54,6 +53,9 @@ public class Group {
     @Setter(AccessLevel.NONE)
     @Builder.Default
     private Set<User> users = new HashSet<>();
+
+
+
 
     public void setUsers(Set<User> users) {
         this.users = users;

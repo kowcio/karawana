@@ -1,8 +1,8 @@
 package karawana.web.controller;
 
 import karawana.config.DestinationsConfig;
-import karawana.config.DestinationsConfig.DestinationInfo;
 import karawana.config.MessageListenerContainerFactory;
+import karawana.config.DestinationsConfig.DestinationInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.*;
@@ -10,17 +10,14 @@ import org.springframework.amqp.rabbit.listener.MessageListenerContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.WebSession;
-import org.thymeleaf.spring5.context.webflux.ReactiveDataDriverContextVariable;
+import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.PostConstruct;
 import java.time.Duration;
 import java.util.Map;
-import java.util.Properties;
 
 @RestController
 public class AmqpReactiveController {
@@ -96,7 +93,12 @@ public class AmqpReactiveController {
 
     @PostMapping(value = "/queue/{name}")
     public Mono<ResponseEntity<?>> sendMessageToQueue(
-            @PathVariable String name, @RequestBody String payload) {
+            @PathVariable String name,
+            @RequestBody String payload,
+            @SessionAttribute String groupId
+
+            ) {
+
         // Lookup exchange details
         final DestinationInfo d = destinationsConfig.getQueues()
                 .get(name);
@@ -108,19 +110,12 @@ public class AmqpReactiveController {
         }
 
         return Mono.fromCallable(() -> {
-            Properties queueProperties = amqpAdmin.getQueueProperties(name);
-            log.info("[I51] sendMessageToQueue: queue={}, routingKey={}, " +
-                            "QUEUE_MESSAGE_COUNT={}, QUEUE_CONSUMER_COUNT={}",
-                    d.getExchange(),
-                    d.getRoutingKey(),
-                    queueProperties.get("QUEUE_MESSAGE_COUNT"),
-                    queueProperties.get("QUEUE_CONSUMER_COUNT"));
-            Message msg = MessageBuilder.withBody(payload.getBytes()).build();
-            Message o = amqpTemplate.sendAndReceive(d.getExchange(), d.getRoutingKey(), msg);
-            ResponseEntity<Message> build = ResponseEntity.ok(o).accepted()
+
+            log.info("[I51] sendMessageToQueue: queue={}, routingKey={}", d.getExchange(), d.getRoutingKey());
+            amqpTemplate.convertAndSend(d.getExchange(), d.getRoutingKey(), payload);
+
+            return ResponseEntity.accepted()
                     .build();
-            System.out.println("asdqwe");
-            return build;
 
         });
 
@@ -133,21 +128,20 @@ public class AmqpReactiveController {
      * @param errorHandler
      * @return
      */
-//    @ResponseBody
     @GetMapping(value = "/queue/{name}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<String> receiveMessagesFromQueue(@PathVariable String name) {
+    public Flux<?> receiveMessagesFromQueue(@PathVariable String name) {
 
         DestinationInfo d = destinationsConfig.getQueues()
                 .get(name);
 
         if (d == null) {
             return Flux.just(ResponseEntity.notFound()
-                    .build().toString());
+                    .build());
         }
 
         MessageListenerContainer mlc = messageListenerContainerFactory.createMessageListenerContainer(d.getRoutingKey());
 
-        Flux<String> f = Flux.<String>create(emitter -> {
+        Flux<String> f = Flux.create(emitter -> {
 
             log.info("[I168] Adding listener, queue={}", d.getRoutingKey());
             mlc.setupMessageListener((MessageListener) m -> {
@@ -185,13 +179,12 @@ public class AmqpReactiveController {
         });
 
 
-        Flux<String> stringFlux = Flux.interval(Duration.ofSeconds(5))
+        return Flux.interval(Duration.ofSeconds(5))
                 .map(v -> {
                     log.info("[I209] sending keepalive message...");
                     return "No news is good news";
                 })
                 .mergeWith(f);
-        return stringFlux;
     }
 
     /**
@@ -202,10 +195,8 @@ public class AmqpReactiveController {
      * @return
      */
     @PostMapping(value = "/topic/{name}")
-    public Mono<ResponseEntity<?>> sendMessageToTopic(@PathVariable String name, @RequestBody String payload
-            , WebSession sessionIsOK) {
+    public Mono<ResponseEntity<?>> sendMessageToTopic(@PathVariable String name, @RequestBody String payload) {
 
-        log.info("Session : {}", sessionIsOK.getId());
         // Lookup exchange details
         final DestinationInfo d = destinationsConfig.getTopics()
                 .get(name);
@@ -226,12 +217,9 @@ public class AmqpReactiveController {
         });
     }
 
-    @ResponseBody
     @GetMapping(value = "/topic/{name}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<?> receiveMessagesFromTopic(@PathVariable String name,
-                                            WebSession webSession) {
+    public Flux<?> receiveMessagesFromTopic(@PathVariable String name) {
 
-        log.info("session : {} ", webSession.getId());
         DestinationInfo d = destinationsConfig.getTopics()
                 .get(name);
 

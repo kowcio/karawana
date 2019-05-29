@@ -16,12 +16,12 @@ import java.util.List;
 
 @Service
 @Transactional
+
 public interface ReactiveGroupRepository extends JpaRepository<Group, Long> {
 
     //    @Query("SELECT TOP (:tops) * FROM Group_table")
 //    @Query("select top 10 * from Group_table u")
 //    List<Group> findTop10ById();
-    List<Group> findTop3ByOrderByIdDesc();
     List<Group> findTop15ByOrderByIdDesc();
 
 }
