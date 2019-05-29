@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-
+@Transactional
 @Service
 public class GroupService {
     private final Logger log = LoggerFactory.getLogger(getClass());
@@ -53,11 +53,14 @@ public class GroupService {
 
     //http://stackoverflow.com/questions/11881479/how-do-i-update-an-entity-using-spring-data-jpa
     public Group saveGroup(Group group) {
-//        group
-//                .getUsers()
-//                .stream()
-//                .filter(c->c.getGid()==null)
-//                .forEach(c -> c.setGid(group.getId()))
+        group
+                .getUsers()
+                .stream().peek(
+                u -> u.getLocations().stream()
+                        .filter(l -> l.getUserId() != null)
+                        .peek(l -> log.info("Location is null ! {}", l.getUserId()))
+        ).count();
+
 
         return groupRepository.save(group);
     }
@@ -91,8 +94,7 @@ public class GroupService {
     }
 
     public Group getGrouptWith10LatestLocations(Long groupId) {
-        Group one = groupRepository
-                .getOne(groupId);
+        Group one = groupRepository.getOne(groupId);
         one
                 .getUsers()
                 .forEach(u -> u.setLocations(locationRepository.getTop10ByUserIdOrderByCreatedDateDesc(u.getId())));

@@ -5,6 +5,7 @@ import karawana.config.MessageListenerContainerFactory;
 import karawana.entities.Group;
 import karawana.entities.Location;
 import karawana.entities.User;
+import karawana.repositories.LocationRepository;
 import karawana.repositories.ReactiveGroupRepository;
 import karawana.service.GroupService;
 import karawana.service.LocationService;
@@ -26,6 +27,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
+import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.security.SecureRandom;
 import java.time.Duration;
@@ -42,26 +44,29 @@ public class RestController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    @Autowired
+    @Inject
     GroupService groupService;
-    @Autowired
+    @Inject
     GroupService groupRepository;
-    @Autowired
+    @Inject
     LocationService locationService;
-    @Autowired
+    @Inject
     ReactiveGroupRepository reactiveGroupRepository;
-    @Autowired
+    @Inject
     UserService userService;
-    @Autowired
+    @Inject
+    LocationRepository locationRepository;
+
+    @Inject
     private AmqpTemplate amqpTemplate;
 
-    @Autowired
+    @Inject
     private AmqpAdmin amqpAdmin;
 
-    @Autowired
+    @Inject
     private DestinationsConfig destinationsConfig;
 
-    @Autowired
+    @Inject
     private MessageListenerContainerFactory messageListenerContainerFactory;
 
     @ResponseBody
@@ -84,7 +89,7 @@ public class RestController {
         location.setLat(location.getLat() + new SecureRandom().nextDouble() / 100);
         // test add lat for display
         location.setCreatedDate(LocalDateTime.now());
-        log.info("Update location : {}", session.getId());
+        log.info("session : {}", session.getId());
         //set group
         String userName = session.getAttribute(SESSION_VAR.USER_NAME);
         //user should be present at this point - all created at first request

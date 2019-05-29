@@ -6,7 +6,7 @@ var lat, lng, map, pos, iw, latlngs;
 
 $(document).ready(function () {
 
-    window.map = L.map("map").setView([58.75, 19.23], 10);
+    window.map = L.map("map").setView([37.75, -122.23], 10);
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
         // maxZoom: 15,
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
@@ -17,13 +17,13 @@ $(document).ready(function () {
 
 });
 
-setInterval(initMap, 7000);
+setInterval(initMap, 5000);
 function initMap() {
     console.log("Update Map func - " + window.isTest);
 
     var x = document.getElementById("userFrontTestLocation");
-    if (window.window.navigator.geolocation) {
-        window.navigator.geolocation.getCurrentPosition(showPosition);
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
     } else {
         x.innerHTML = "Geolocation is not supported by this browser.";
     }
@@ -33,10 +33,9 @@ function initMap() {
     }
 
     window.isTest = "test";
-    if (window.navigator.geolocation) {
-        console.log("window.navigator ");
-//        window.navigator.geolocation.watchPosition(function(position) {
-        window.navigator.geolocation.getCurrentPosition(function (position) {
+    if (navigator.geolocation) {
+//        navigator.geolocation.watchPosition(function(position) {
+        navigator.geolocation.getCurrentPosition(function (position) {
 
             // var polyline = L.polyline(window.latlngs, {color: 'red'}).addTo(map);
             // window.map.panTo([window.pos.lat, window.pos.lng]);
@@ -46,7 +45,6 @@ function initMap() {
                 var group = new Group(window.group, position.coords);
                 group.updateMyLocation();
             }
-
 
 //            var marker = new google.maps.Marker({
 //            position: window.pos,

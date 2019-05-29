@@ -25,7 +25,7 @@ import java.util.List;
 public class UserService {
 
 
-    @Autowired
+    @Inject
     UserRepository userRepository;
     @Inject
     LocationRepository locationRepository;

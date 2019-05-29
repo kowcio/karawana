@@ -4,9 +4,7 @@ var Group = function (group, position) {
 };
 
 Group.prototype.updateMyLocation = function () {
-    var thisObj = this;
     var position = this.currentUserPosition;
-    var lines = [];
     var dataToSend = {
         // userName: "testAjaxRequestUpdateToServerUser",
         // groupName: "groupTestFromFront",
@@ -14,11 +12,8 @@ Group.prototype.updateMyLocation = function () {
         //     user_id: 1,
         lat: position.latitude,
         lng: position.longitude,
-        // createdDate: "2019-03-03T03:03"
     };
     console.log(dataToSend);
-
-    //$("#test").load("/api/updateMyLocation");
 
     $.ajax({
         url: '/api/updateMyLocation',
@@ -56,7 +51,7 @@ Group.prototype.updateMyLocation = function () {
                 // L.marker([users[i].locations[0].lat, users[i].locations[0].lng]).addTo(window.map);
                 var latlngs = [];//  = new Array(10);
                 for (var j = 0; j < users[i].locations.length; j++) {
-                    // var items = [  users[i].locations[j].lat  ,   users[i].locations[j].lng  ];
+                    var items = [  users[i].locations[j].lat  ,   users[i].locations[j].lng  ];
                     items = [users[i].locations[j].lat, users[i].locations[j].lng];
                     latlngs.push(items);
                     // console.log(j + ":" + latlngs[j]);
@@ -76,6 +71,7 @@ Group.prototype.updateMyLocation = function () {
 
             }
             // window.map.panTo([ users[i].locations[0].lat,users[i].locations[0].lng]);
+            // window.map.flyTo([position.latitude,position.longitude]);
             window.map.flyTo(items);
             this.group = group
             // thisObj.showLatestMarker();
@@ -114,12 +110,13 @@ Group.prototype.getGroupLocation = function () {
     $.ajax({
         url: '/api/getGroupLocation' + this.group.groupName,
         type: 'GET',
-        data: this.group.password,
+        // data: this.group.password,
         contentType: 'application/json; charset=utf-8',
         async: true,
         success: function (response) {
+            console.log("Got new group update and changed session variables.");
             console.log(response);
-            console.log("Got group update.");
+
         },
         error: function (response) {
             console.log("Error in saving Locationfor user.");
@@ -128,8 +125,9 @@ Group.prototype.getGroupLocation = function () {
 }
 
 
-Group.prototype.changeGroup = function (groupName) {
-    var thisObj = this;
+Group.prototype.changeGroup = function () {
+    var groupName = $("#groupName").text();
+    console.log("GettingGroupName " + groupName)
     $.ajax({
         url: '/api/changeGroup/' + groupName,
         type: 'GET',
