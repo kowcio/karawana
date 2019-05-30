@@ -153,7 +153,7 @@ public class RestController {
         return groupMono;
     }
 
-    @RequestMapping(value = "/changeGroup/{groupName}", method = RequestMethod.POST)
+    @RequestMapping(value = "/changeGroup/{groupName}", method = RequestMethod.GET)
     @ResponseBody
     @Transactional
     public Group changeGroup(

@@ -125,6 +125,7 @@ Group.prototype.getGroupLocation = function () {
 
 
 Group.prototype.changeGroup = function () {
+    console.log("Changing group");
     var groupName = $("#groupName").text();
     console.log("GettingGroupName " + groupName)
     $.ajax({
