@@ -1,6 +1,6 @@
 package karawana.config;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Configuration;
@@ -9,8 +9,8 @@ import org.springframework.core.env.Environment;
 
 @Profile("openshift")
 @Configuration
+@Slf4j
 public class ActiveProfilesLogger extends Throwable implements EnvironmentAware {
-    private final Logger log = Logger.getLogger(getClass());
 
     @Autowired
     Environment env;

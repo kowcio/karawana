@@ -3,6 +3,7 @@ package karawana.service;
 
 import io.lettuce.core.resource.Delay;
 import karawana.entities.Group;
+import karawana.entities.Location;
 import karawana.repositories.GroupRepository;
 import karawana.repositories.LocationRepository;
 import karawana.repositories.ReactiveGroupRepository;
@@ -22,6 +23,7 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -105,7 +107,12 @@ public class GroupService {
         entityManager.detach(one);
         one
                 .getUsers()
-                .forEach(u -> u.setLocations(locationRepository.getTop10ByUserIdOrderByCreatedDateDesc(u.getId())));
+                .forEach(u -> {
+                    final List<Location> locs = locationRepository.getTop10ByUserIdOrderByCreatedDateDesc(u.getId());
+                    log.info("Locations count for userID: {}, count: {}", u.getId(),locs.size());
+                    u.setLocations(locs);
+                });
+        entityManager.detach(one);
 
         return one;
 
