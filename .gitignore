@@ -9,3 +9,5 @@
 *.iml
 /karawana.iml
 some !/src/test/java/karawana/repository/UserRepositoryTest.java
+/vue/node_modules/
+/vue/vue.iml
