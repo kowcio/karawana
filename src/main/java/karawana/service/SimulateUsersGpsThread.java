@@ -49,8 +49,12 @@ public class SimulateUsersGpsThread {
     public void reportCurrentTime() throws InterruptedException {
 //        log.info("Generating users for test group to check and provide data for front end.");
 
+        if (firstTimeout) {
+            Thread.sleep(20000);
+            firstTimeout = false;
+        }
 
-        for (int i = 1; i <= 2; i++) {
+        for (int i = 1; i < 2; i++) {
             Long groupId = Long.valueOf(i);
             Optional<Group> groupById = groupRepository.getOneById(groupId);
             Group testedGroup;

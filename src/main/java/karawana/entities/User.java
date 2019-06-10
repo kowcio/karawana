@@ -53,7 +53,6 @@ public class User {
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @Builder.Default
-    @BatchSize(size=3)
     private List<Location> locations = new ArrayList<>();
 
     public List<Location> getLocations() {

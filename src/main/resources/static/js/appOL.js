@@ -15,6 +15,48 @@ $(document).ready(function () {
         id: 'mapbox.streets'
     }).addTo(window.map);
 
+
+
+
+//here works the button binding
+
+
+    $('#chGroupBtn').on('click',function(event) {
+        // event.preventDefault();
+        console.log("Changing group");
+        var groupName = $("#groupName");
+        console.log("GettingGroupName " + groupName.val());
+        $.ajax({
+            url: '/api/changeGroup/' + groupName,
+            type: 'GET',
+            data: groupName,fix here delete data ?
+            contentType: 'application/json; charset=utf-8',
+            async: true,
+            success: function (response) {
+                this.group = response;
+                console.log(response);
+                $("#groupId").text(response.id);
+                $("#groupNameSh").text(response.groupName);
+                console.log("Got new group update.");
+            },
+            error: function (response) {
+                console.log("Error in updating group for user.");
+            }
+        })
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
 });
 
 setInterval(initMap, 5000);
@@ -136,21 +178,6 @@ function initMap() {
 //        }
 //    });
 //};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -37,7 +37,7 @@ import java.util.Properties;
 
 @Controller
 @RequestMapping(value = "/api", method = RequestMethod.GET)
-@Transactional
+//@Transactional
 public class RestController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
@@ -153,7 +153,7 @@ public class RestController {
         return groupMono;
     }
 
-    @RequestMapping(value = "/changeGroup/{groupName}", method = RequestMethod.POST)
+    @RequestMapping(value = "/changeGroup/{groupName}", method = RequestMethod.GET)
     @ResponseBody
     @Transactional
     public Group changeGroup(

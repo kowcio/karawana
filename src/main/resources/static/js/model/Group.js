@@ -51,7 +51,6 @@ Group.prototype.updateMyLocation = function () {
                 // L.marker([users[i].locations[0].lat, users[i].locations[0].lng]).addTo(window.map);
                 var latlngs = [];//  = new Array(10);
                 for (var j = 0; j < users[i].locations.length; j++) {
-                    var items = [  users[i].locations[j].lat  ,   users[i].locations[j].lng  ];
                     items = [users[i].locations[j].lat, users[i].locations[j].lng];
                     latlngs.push(items);
                     // console.log(j + ":" + latlngs[j]);
@@ -126,6 +125,7 @@ Group.prototype.getGroupLocation = function () {
 
 
 Group.prototype.changeGroup = function () {
+    console.log("Changing group");
     var groupName = $("#groupName").text();
     console.log("GettingGroupName " + groupName)
     $.ajax({
