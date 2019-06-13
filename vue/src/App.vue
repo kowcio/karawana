@@ -15,7 +15,7 @@
 <script>
 
 import Top from './components/HelloWorld.vue'
-import Map from './components/Group.vue'
+import Map from './components/Map.vue'
 import Group from './components/Group.vue'
 
 
