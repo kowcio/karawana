@@ -8,14 +8,15 @@
     <img alt="Vue logo" src="./assets/logo.png">
     <Top msg="Welcome to Your Vue.js App"/>
     <Map></Map>
+    <Group />
   </div>
 </template>
 
 <script>
 
 import Top from './components/HelloWorld.vue'
-import Map from './components/Map.vue'
-import Log from './components/Log.vue'
+import Map from './components/Group.vue'
+import Group from './components/Group.vue'
 
 
 
@@ -23,7 +24,8 @@ export default {
   name: 'app',
   components: {
     Top,
-    Map
+    Map,
+    Group
 
   }
 }
