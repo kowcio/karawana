@@ -1,34 +1,38 @@
 <template>
     <div class="group" id="group">
-
-
+        Groups component :
+        <h1>{{getResponse}}</h1>
         <h1>{{getUserInfo}}</h1>
-
     </div>
 </template>
 
 <script>
-
-    import axios from "axios";
+    // import Vue from 'vue'
+    import store from "./vuex/UserDataStore.js"
+    // Vue.use(store, {store})
 
     export default {
-        name: 'GroupInfo',
+        components: {}, store,
+        name: 'Group',
         props: {
             log: String,
-            userId:Number,
-            groupId:Number,
-            response:Object
+            userId: Number,
+            groupId: Number,
+            response: Object
         },
-        methods:{
-            // savePosition:{}
+        methods: {
+            // loadUserData:{            }
         },
-        mounted(){//mounted:{
-            this.response=axios.get("http://127.0.0.1:8080/");
+        mounted() {//mounted:{
 
         },
-        computed:{
-            getUserInfo:function(){
-                return "user:" + this.userId +", group:"+this.groupId+", session:"+this.sessionId+",resp"+this.response;
+        computed: {
+            getUserInfo: function () {
+                return "user:" + this.userId + ", group:" + this.groupId + ", session:" + this.sessionId + " ,resp:" + this.response;
+            },
+            getResponse: function () {
+                console.log("Getting a get.");
+                store.getters.getGroupInfo;
             }
         }
 
@@ -39,7 +43,7 @@
 <style scoped>
 
     .log {
-        Margin-bottom:40px;
-        position:fixed;
+        Margin-bottom: 40px;
+        position: fixed;
     }
 </style>

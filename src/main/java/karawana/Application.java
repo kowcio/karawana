@@ -19,7 +19,24 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.reactive.CorsUtils;
+import org.springframework.web.cors.reactive.CorsWebFilter;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+import org.springframework.web.reactive.config.CorsRegistry;
+import org.springframework.web.reactive.config.WebFluxConfigurer;
+import org.springframework.web.server.ServerWebExchange;
+import org.springframework.web.server.WebFilter;
+import org.springframework.web.server.WebFilterChain;
+import reactor.core.publisher.Mono;
+
+import java.util.Arrays;
 
 @SpringBootApplication
 @Configuration
@@ -27,7 +44,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 //@EnableAutoConfiguration
 @EnableJpaRepositories(basePackages = {"karawana"})
 @PropertySource({"classpath:application.properties", "classpath:hibernate.properties", "classpath:application.yml"})
-public class Application extends SpringBootServletInitializer {
+public class Application extends SpringBootServletInitializer implements WebFluxConfigurer {
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -38,18 +55,23 @@ public class Application extends SpringBootServletInitializer {
         return application.sources(Application.class);
     }
 
-
-    @Bean
-    org.h2.tools.Server h2Server() {
-        Server server = new Server();
-        try {
-            server.runTool("-tcp");
-            server.runTool("-tcpAllowOthers");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return server;
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedMethods("*");
     }
+
+//    @Bean
+//    org.h2.tools.Server h2Server() {
+//        Server server = new Server();
+//        try {
+//            server.runTool("-tcp");
+//            server.runTool("-tcpAllowOthers");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return server;
+//    }
 
 
 }

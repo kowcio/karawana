@@ -44,6 +44,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @Transactional
+
 public class MainController {
 
     public static final String GROUP_ID = "groupId";
