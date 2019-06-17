@@ -1,8 +1,7 @@
 <template>
     <div class="group" id="group">
-        Groups component :
-        <h1>{{getResponse}}</h1>
-        <h1>{{getUserInfo}}</h1>
+        Group component :
+        <h4>{{getResponse}}</h4>
     </div>
 </template>
 
@@ -18,20 +17,24 @@
             log: String,
             userId: Number,
             groupId: Number,
-            response: Object
+            groupName:String,
+            group: Object
         },
         methods: {
             // loadUserData:{            }
         },
         mounted() {//mounted:{
             this.$store.dispatch('getGroupInfo');
-            this.$store.getters.getGroupInfo();
-
+            // this.group = this.$store.getters.get2();
 
         },
         computed: {
             getUserInfo: function () {
-                return "user:" + this.userId + ", group:" + this.groupId + ", session:" + this.sessionId + " ,resp:" + this.response;
+                return "groupId:" + this.$store.getters.get2.id +
+                    "groupName:" +  this.$store.getters.get2.groupName +
+                    "users:" +      this.$store.getters.get2.users +
+                    "user:" +       this.$store.getters.get2.userName +
+                    "user:" +       this.$store.getters.get2.groupName
             },
             getResponse: function () {
                 // return store.state;

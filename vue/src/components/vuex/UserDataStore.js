@@ -24,7 +24,7 @@ export default new Vuex.Store({
                 method: 'GET',
                 headers: {'Access-Control-Allow-Origin': '*'}
             }).then(response => {
-                commit("changeGroup", {groupData : response.data});
+                commit("changeGroup", response.data ); //{groupData : response.data});
                 return true;
         }, (err) => {
                 console.log(err);
