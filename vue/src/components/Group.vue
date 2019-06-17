@@ -9,7 +9,7 @@
 <script>
     // import Vue from 'vue'
     import store from "./vuex/UserDataStore.js"
-    // Vue.use(store, {store})
+    // Vue.use(store, {store}) //store
 
     export default {
         components: {}, store,
@@ -24,6 +24,9 @@
             // loadUserData:{            }
         },
         mounted() {//mounted:{
+            this.$store.dispatch('getGroupInfo');
+            this.$store.getters.getGroupInfo();
+
 
         },
         computed: {
@@ -31,8 +34,9 @@
                 return "user:" + this.userId + ", group:" + this.groupId + ", session:" + this.sessionId + " ,resp:" + this.response;
             },
             getResponse: function () {
-                console.log("Getting a get.");
-                store.getters.getGroupInfo;
+                // return store.state;
+                return store.getters.get2;
+
             }
         }
 

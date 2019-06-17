@@ -17,7 +17,7 @@
 
     // import Vue from "vue"
     import Top from './components/HelloWorld.vue'
-    import Map from './components/Map.vue'
+    // import Map from './components/Map.vue'
     import Group from './components/Group.vue'
 
     // new Vue({el: '#app', store});
@@ -26,7 +26,7 @@
         name: 'app',
         components: {
             Top,
-            Map,
+            // Map,
             Group
 
         }
